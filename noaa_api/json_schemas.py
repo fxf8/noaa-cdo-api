@@ -1,4 +1,4 @@
-from typing import TypedDict, Literal
+from typing import NotRequired, TypedDict
 
 
 class ResultSetJSON(TypedDict):
@@ -10,6 +10,12 @@ class ResultSetJSON(TypedDict):
 # --- Full JSON Response Structure ---
 class MetadataJSON(TypedDict):
     resultset: ResultSetJSON
+
+
+# Rate limit json reponse
+class RateLimitJSON(TypedDict):
+    status: str
+    message: str
 
 
 # Endpoint '/datasets/{id}'
@@ -209,7 +215,7 @@ class DatapointJSON(TypedDict):
     date: str  # Date as "YYYY-MM-DDTHH:MM:SS"
     datatype: str
     station: str
-    attributes: str
+    attributes: NotRequired[str]
     value: float | int
 
 
@@ -220,4 +226,3 @@ class DataJSON(TypedDict):
 
     metadata: MetadataJSON
     results: list[DatapointJSON]
-
