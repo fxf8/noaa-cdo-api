@@ -1,5 +1,42 @@
 from typing import NotRequired, TypedDict
 
+"""
+JSON Schema Definitions for NOAA API Responses
+==============================================
+
+This module defines `TypedDict` structures that represent the JSON responses from the NOAA NCEI API v2. The schemas ensure type safety and provide clear documentation on the expected structure of API responses.
+
+Each class corresponds to a specific API endpoint, describing the structure of the JSON data returned by that endpoint.
+
+Schemas:
+--------
+- `ResultSetJSON`: Metadata about pagination (offset, count, limit).
+- `MetadataJSON`: Encapsulates `ResultSetJSON`, included in most responses.
+- `RateLimitJSON`: Response for rate-limiting errors.
+- `DatasetIDJSON`: Response schema for `/datasets/{id}`.
+- `DatasetsJSON`: Response schema for `/datasets`.
+- `DatacategoryIDJSON`: Response schema for `/datacategories/{id}`.
+- `DatacategoriesJSON`: Response schema for `/datacategories`.
+- `DatatypeIDJSON`: Response schema for `/datatypes/{id}`.
+- `DatatypesJSON`: Response schema for `/datatypes`.
+- `LocationcategoryIDJSON`: Response schema for `/locationcategories/{id}`.
+- `LocationcategoriesJSON`: Response schema for `/locationcategories`.
+- `LocationIDJSON`: Response schema for `/locations/{id}`.
+- `LocationsJSON`: Response schema for `/locations`.
+- `StationIDJSON`: Response schema for `/stations/{id}`.
+- `StationsJSON`: Response schema for `/stations`.
+- `DatapointJSON`: Individual data point response from `data?datasetid=...`.
+- `DataJSON`: Response schema for `data?datasetid=...`.
+
+Notes:
+------
+- Some fields, such as dates, follow a specific format (`YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SS`).
+- Certain fields are `NotRequired`, meaning they may not appear in all responses.
+- Data coverage fields (`datacoverage`) are expressed as a float or integer.
+
+These schemas facilitate type checking and autocompletion in IDEs while working with the NOAA API responses.
+"""  # noqa: E501
+
 
 class ResultSetJSON(TypedDict):
     """
