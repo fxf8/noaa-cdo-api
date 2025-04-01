@@ -18,13 +18,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
-    "debugpy>=1.8.13",
-    "mypy>=1.15.0",
-    "pytest-asyncio>=0.26.0",
-    "pytest>=8.3.5",
-    "ruff>=0.11.2",
-]
+dev = ["mypy>=1.15.0", "ruff>=0.11.2"]
 
 [tool.ruff]
 extend-exclude = ["tests/", "**/*.pyi"]
