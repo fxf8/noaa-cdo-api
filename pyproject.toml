@@ -1,16 +1,47 @@
+[build-system]
+requires = ["setuptools >= 78.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "noaa-api"
 version = "0.1.0"
-description = "Add your description here"
+description = "A NOAA NCEI API wrapper for weather data"
 readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "FuexFollets", email = "fuex9follets@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "aiohttp>=3.11.14",
-    "aiolimiter>=1.2.1",
-    "requests>=2.32.3",
+ "aiolimiter>=1.2.1",
+ "requests>=2.32.3",
+ "setuptools>=78.1.0",
 ]
 
 [dependency-groups]
 dev = [
     "debugpy>=1.8.13",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
+    "ruff>=0.11.2",
 ]
+
+[tool.ruff]
+extend-exclude = ["tests/", "**/*.pyi"]
+
+[tool.ruff.lint]
+select = [
+    "F",   # pyflakes
+    "E",   # pycodestyle
+    "W",   # pycodestyle
+    "UP",  # pyupgrade
+    "I",   # Sort imports
+    "N",   # pep8-naming
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "C4",  # flake8-comprehensions
+    "PIE", # flake8-pie
+    "Q",   # flake8-quotes
+]
+
+[tool.setuptools]
+packages = ["noaa_api"]
