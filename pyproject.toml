@@ -12,9 +12,9 @@ authors = [{ name = "FuexFollets", email = "fuex9follets@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "aiohttp>=3.11.14",
- "aiolimiter>=1.2.1",
- "requests>=2.32.3",
- "setuptools>=78.1.0",
+    "aiolimiter>=1.2.1",
+    "requests>=2.32.3",
+    "setuptools>=78.1.0",
 ]
 
 [dependency-groups]

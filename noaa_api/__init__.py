@@ -1,7 +1,7 @@
 import importlib.metadata
 
-import json_schemas
-import parameter_schemas
+import noaa_api.json_schemas as json_schemas
+import noaa_api.parameter_schemas as parameter_schemas
 
 from .noaa import NOAAClient
 
