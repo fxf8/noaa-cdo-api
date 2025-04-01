@@ -45,6 +45,13 @@ class NOAAClient:
     async def _make_request(
         self, url: str, parameters: parameter_schemas.AnyParameter | None = None
     ) -> aiohttp.ClientResponse:
+        if (
+            parameters is not None
+            and "limit" in parameters
+            and parameters["limit"] > 1000
+        ):
+            raise ValueError("Parameter 'limit' must be less than or equal to 1000")
+
         async with self.seconds_request_limiter, self.daily_request_limiter:
             async with self.aiohttp_session.get(
                 url, params=cast(Mapping[str, str], parameters)
@@ -55,13 +62,38 @@ class NOAAClient:
     async def get_datasets(
         self,
         id: str | None = None,
-        parameters: parameter_schemas.DatasetsParameters | None = None,
+        *,
+        datatypeid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        startdate: str = "",  # YYYY-MM-DD
+        enddate: str = "",  # YYYY-MM-DD
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
     ) -> json_schemas.DatasetsJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
             f"{self.ENDPOINT}/datasets"
             if id is None
             else f"{self.ENDPOINT}/datasets/{id}",
-            parameters=parameters,
+            parameters={
+                "datatypeid": "&".join(datatypeid)
+                if isinstance(datatypeid, list)
+                else datatypeid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+            },
         )
 
         return cast(
@@ -72,13 +104,38 @@ class NOAAClient:
     async def get_data_categories(
         self,
         id: str | None = None,
-        parameters: parameter_schemas.DatacategoriesParameters | None = None,
+        *,
+        datasetid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        startdate: str = "",  # YYYY-MM-DD
+        enddate: str = "",  # YYYY-MM-DD
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
     ) -> json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
             f"{self.ENDPOINT}/datacategories"
             if id is None
             else f"{self.ENDPOINT}/datacategories/{id}",
-            parameters=parameters,
+            parameters={
+                "datasetid": "&".join(datasetid)
+                if isinstance(datasetid, list)
+                else datasetid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+            },
         )
 
         return cast(
@@ -89,13 +146,38 @@ class NOAAClient:
     async def get_datatypes(
         self,
         id: str | None = None,
-        parameters: parameter_schemas.DatatypesParameters | None = None,
+        *,
+        datasetid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        startdate: str = "",  # YYYY-MM-DD
+        enddate: str = "",  # YYYY-MM-DD
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
     ) -> json_schemas.DatatypesJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
             f"{self.ENDPOINT}/datatypes"
             if id is None
             else f"{self.ENDPOINT}/datatypes/{id}",
-            parameters=parameters,
+            parameters={
+                "datasetid": "&".join(datasetid)
+                if isinstance(datasetid, list)
+                else datasetid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+            },
         )
 
         return cast(
@@ -106,13 +188,38 @@ class NOAAClient:
     async def get_location_categories(
         self,
         id: str | None = None,
-        parameters: parameter_schemas.LocationcategoriesParameters | None = None,
+        *,
+        datasetid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        startdate: str = "",  # YYYY-MM-DD
+        enddate: str = "",  # YYYY-MM-DD
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
     ) -> json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
             f"{self.ENDPOINT}/locationcategories"
             if id is None
             else f"{self.ENDPOINT}/locationcategories/{id}",
-            parameters=parameters,
+            parameters={
+                "datasetid": "&".join(datasetid)
+                if isinstance(datasetid, list)
+                else datasetid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+            },
         )
 
         return cast(
@@ -123,13 +230,38 @@ class NOAAClient:
     async def get_locations(
         self,
         id: str | None = None,
-        parameters: parameter_schemas.LocationsParameters | None = None,
+        *,
+        datasetid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        startdate: str = "",  # YYYY-MM-DD
+        enddate: str = "",  # YYYY-MM-DD
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
     ) -> json_schemas.LocationsJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
             f"{self.ENDPOINT}/locations"
             if id is None
             else f"{self.ENDPOINT}/locations/{id}",
-            parameters=parameters,
+            parameters={
+                "datasetid": "&".join(datasetid)
+                if isinstance(datasetid, list)
+                else datasetid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+            },
         )
 
         return cast(
@@ -140,13 +272,38 @@ class NOAAClient:
     async def get_stations(
         self,
         id: str | None = None,
-        parameters: parameter_schemas.StationsParameters | None = None,
+        *,
+        datasetid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        startdate: str = "",  # YYYY-MM-DD
+        enddate: str = "",  # YYYY-MM-DD
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
     ) -> json_schemas.StationsJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
             f"{self.ENDPOINT}/stations"
             if id is None
             else f"{self.ENDPOINT}/stations/{id}",
-            parameters=parameters,
+            parameters={
+                "datasetid": "&".join(datasetid)
+                if isinstance(datasetid, list)
+                else datasetid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+            },
         )
 
         return cast(
@@ -156,12 +313,42 @@ class NOAAClient:
 
     async def get_data(
         self,
-        id: str | None = None,
-        parameters: parameter_schemas.DataParameters | None = None,
+        datasetid: str,
+        startdate: str,  # YYYY-MM-DD
+        enddate: str,  # YYYY-MM-DD
+        *,
+        datatypeid: str | list[str] = "",
+        locationid: str | list[str] = "",
+        stationid: str | list[str] = "",
+        units: parameter_schemas.Units = "",
+        sortfield: parameter_schemas.Sortfield = "id",
+        sortorder: parameter_schemas.Sortorder = "asc",
+        limit: int = 25,
+        offset: int = 0,
+        includemetadata: bool = True,
     ) -> json_schemas.DataJSON | json_schemas.RateLimitJSON:
         client_response: aiohttp.ClientResponse = await self._make_request(
-            f"{self.ENDPOINT}/data" if id is None else f"{self.ENDPOINT}/data/{id}",
-            parameters=parameters,
+            f"{self.ENDPOINT}/data",
+            parameters={
+                "datasetid": datasetid,
+                "startdate": startdate,
+                "enddate": enddate,
+                "datatypeid": "&".join(datatypeid)
+                if isinstance(datatypeid, list)
+                else datatypeid,
+                "locationid": "&".join(locationid)
+                if isinstance(locationid, list)
+                else locationid,
+                "stationid": "&".join(stationid)
+                if isinstance(stationid, list)
+                else stationid,
+                "units": units,
+                "sortfield": sortfield,
+                "sortorder": sortorder,
+                "limit": limit,
+                "offset": offset,
+                "includemetadata": includemetadata,
+            },
         )
 
         return cast(
