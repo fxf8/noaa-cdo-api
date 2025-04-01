@@ -312,7 +312,6 @@ source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
     { name = "aiolimiter" },
-    { name = "mypy" },
     { name = "requests" },
     { name = "setuptools" },
 ]
@@ -320,6 +319,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "debugpy" },
+    { name = "mypy" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
@@ -329,7 +329,6 @@ dev = [
 requires-dist = [
     { name = "aiohttp", specifier = ">=3.11.14" },
     { name = "aiolimiter", specifier = ">=1.2.1" },
-    { name = "mypy", specifier = ">=1.15.0" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "setuptools", specifier = ">=78.1.0" },
 ]
@@ -337,6 +336,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "debugpy", specifier = ">=1.8.13" },
+    { name = "mypy", specifier = ">=1.15.0" },
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-asyncio", specifier = ">=0.26.0" },
     { name = "ruff", specifier = ">=0.11.2" },
