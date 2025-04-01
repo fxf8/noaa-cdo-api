@@ -93,3 +93,14 @@ class DataParameters(TypedDict):
     includemetadata: NotRequired[
         bool
     ]  # Default is True, set to False to exclude metadata calculation
+
+
+AnyParameter = (
+    DatasetsParameters
+    | DatacategoriesParameters
+    | DatatypesParameters
+    | LocationcategoriesParameters
+    | LocationsParameters
+    | StationsParameters
+    | DataParameters
+)
