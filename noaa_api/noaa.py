@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 from typing import ClassVar, cast
+
 import aiohttp
 import aiolimiter
 
@@ -52,12 +53,15 @@ class NOAAClient:
         ):
             raise ValueError("Parameter 'limit' must be less than or equal to 1000")
 
-        async with self.seconds_request_limiter, self.daily_request_limiter:
-            async with self.aiohttp_session.get(
+        async with (
+            self.seconds_request_limiter,
+            self.daily_request_limiter,
+            self.aiohttp_session.get(
                 url, params=cast(Mapping[str, str], parameters)
-            ) as response:
-                response.raise_for_status()
-                return response
+            ) as response,
+        ):
+            response.raise_for_status()
+            return response
 
     async def get_datasets(
         self,

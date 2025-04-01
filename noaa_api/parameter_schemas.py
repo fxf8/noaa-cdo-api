@@ -1,5 +1,4 @@
-from typing import TypedDict, Required, Literal
-
+from typing import Literal, Required, TypedDict
 
 Sortfield = Literal["id", "name", "mindate", "maxdate", "datacoverage", ""]
 Sortorder = Literal["asc", "desc"]
