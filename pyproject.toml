@@ -21,9 +21,9 @@ dependencies = [
 dev = [
     "dotenv>=0.9.9",
     "ipython>=9.0.2",
- "mypy>=1.15.0",
- "pdoc>=15.0.1",
- "ruff>=0.11.2",
+    "mypy>=1.15.0",
+    "pdoc>=15.0.1",
+    "ruff>=0.11.2",
 ]
 
 [tool.ruff]
@@ -45,4 +45,4 @@ select = [
 ]
 
 [tool.setuptools]
-packages = ["noaa_api"]
+packages = ["noaa_api", "manual_tests"]
