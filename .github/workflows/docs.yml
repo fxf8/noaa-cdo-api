@@ -38,7 +38,7 @@ jobs:
 
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: pdoc -o docs/
+      - run: uv run pdoc noaa_api -o docs/
 
       - uses: actions/upload-pages-artifact@v3
         with:

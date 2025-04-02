@@ -247,29 +247,47 @@
                     <h1 class="modulename">
 <a href="./../noaa_api.html">noaa_api</a><wbr>.json_responses    </h1>
 
-                
+                        <div class="docstring"><p>This module defines JSON response schemas for various NOAA API endpoints (as opposed to all schemas in <code><a href="json_schemas.html">noaa_api.json_schemas</a></code>).</p>
+
+<p>Each schema represents a structured format returned by the NOAA API, allowing for type validation and easier integration when handling API responses. These schemas are derived from <code><a href="json_schemas.html">noaa_api.json_schemas</a></code> and provide standardized representations of datasets, locations, stations, and other NOAA data.</p>
+
+<p>Available Schemas:</p>
+
+<ul>
+<li>RateLimitJSON: Response format for API rate limits.</li>
+<li>DatasetIDJSON, DatasetsJSON: Schema for NOAA datasets.</li>
+<li>DatacategoryIDJSON, DatacategoriesJSON: Schema for data categories.</li>
+<li>DatatypeIDJSON, DatatypesJSON: Schema for data types.</li>
+<li>LocationcategoryIDJSON, LocationcategoriesJSON: Schema for location categories.</li>
+<li>LocationIDJSON, LocationsJSON: Schema for locations.</li>
+<li>StationIDJSON, StationsJSON: Schema for weather stations.</li>
+</ul>
+
+<p>These schemas ensure structured API responses for reliable data handling.</p>
+</div>
+
                         <input id="mod-json_responses-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-json_responses-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">noaa_api.json_schemas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">json_schemas</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">This module defines JSON response schemas for various NOAA API endpoints (as opposed to all schemas in `noaa_api.json_schemas`).</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">This module defines JSON response schemas for various NOAA API endpoints (as opposed to all schemas in `noaa_api.json_schemas`).</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="sd">Each schema represents a structured format returned by the NOAA API, allowing for type validation and easier integration when handling API responses. These schemas are derived from `noaa_api.json_schemas` and provide standardized representations of datasets, locations, stations, and other NOAA data.</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">Each schema represents a structured format returned by the NOAA API, allowing for type validation and easier integration when handling API responses. These schemas are derived from `noaa_api.json_schemas` and provide standardized representations of datasets, locations, stations, and other NOAA data.</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">Available Schemas:</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">- RateLimitJSON: Response format for API rate limits.</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">- DatasetIDJSON, DatasetsJSON: Schema for NOAA datasets.</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">- DatacategoryIDJSON, DatacategoriesJSON: Schema for data categories.</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">- DatatypeIDJSON, DatatypesJSON: Schema for data types.</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">- LocationcategoryIDJSON, LocationcategoriesJSON: Schema for location categories.</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">- LocationIDJSON, LocationsJSON: Schema for locations.</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">- StationIDJSON, StationsJSON: Schema for weather stations.</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">These schemas ensure structured API responses for reliable data handling.</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">Available Schemas:</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd"> - RateLimitJSON: Response format for API rate limits.</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd"> - DatasetIDJSON, DatasetsJSON: Schema for NOAA datasets.</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd"> - DatacategoryIDJSON, DatacategoriesJSON: Schema for data categories.</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd"> - DatatypeIDJSON, DatatypesJSON: Schema for data types.</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd"> - LocationcategoryIDJSON, LocationcategoriesJSON: Schema for location categories.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd"> - LocationIDJSON, LocationsJSON: Schema for locations.</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd"> - StationIDJSON, StationsJSON: Schema for weather stations.</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">These schemas ensure structured API responses for reliable data handling.</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">noaa_api.json_schemas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">json_schemas</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
 </span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="n">RateLimitJSON</span> <span class="o">=</span> <span class="n">json_schemas</span><span class="o">.</span><span class="n">RateLimitJSON</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="n">DatasetIDJSON</span> <span class="o">=</span> <span class="n">json_schemas</span><span class="o">.</span><span class="n">DatasetIDJSON</span>
@@ -315,25 +333,24 @@
 
     </div>
     <a class="headerlink" href="#RateLimitJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="RateLimitJSON-70"><a href="#RateLimitJSON-70"><span class="linenos">70</span></a><span class="k">class</span><span class="w"> </span><span class="nc">RateLimitJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="RateLimitJSON-71"><a href="#RateLimitJSON-71"><span class="linenos">71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="RateLimitJSON-72"><a href="#RateLimitJSON-72"><span class="linenos">72</span></a><span class="sd">    Represents the JSON response structure for rate limit information.</span>
-</span><span id="RateLimitJSON-73"><a href="#RateLimitJSON-73"><span class="linenos">73</span></a>
-</span><span id="RateLimitJSON-74"><a href="#RateLimitJSON-74"><span class="linenos">74</span></a><span class="sd">    Attributes:</span>
-</span><span id="RateLimitJSON-75"><a href="#RateLimitJSON-75"><span class="linenos">75</span></a><span class="sd">        status (str): The status of the rate limit (e.g., &#39;error&#39;).</span>
-</span><span id="RateLimitJSON-76"><a href="#RateLimitJSON-76"><span class="linenos">76</span></a><span class="sd">        message (str): A descriptive message regarding the rate limit status.</span>
-</span><span id="RateLimitJSON-77"><a href="#RateLimitJSON-77"><span class="linenos">77</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="RateLimitJSON-78"><a href="#RateLimitJSON-78"><span class="linenos">78</span></a>
-</span><span id="RateLimitJSON-79"><a href="#RateLimitJSON-79"><span class="linenos">79</span></a>    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="RateLimitJSON-80"><a href="#RateLimitJSON-80"><span class="linenos">80</span></a>    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="RateLimitJSON-76"><a href="#RateLimitJSON-76"><span class="linenos">76</span></a><span class="k">class</span><span class="w"> </span><span class="nc">RateLimitJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="RateLimitJSON-77"><a href="#RateLimitJSON-77"><span class="linenos">77</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="RateLimitJSON-78"><a href="#RateLimitJSON-78"><span class="linenos">78</span></a><span class="sd">    Represents the JSON response structure for rate limit information.</span>
+</span><span id="RateLimitJSON-79"><a href="#RateLimitJSON-79"><span class="linenos">79</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="RateLimitJSON-80"><a href="#RateLimitJSON-80"><span class="linenos">80</span></a>
+</span><span id="RateLimitJSON-81"><a href="#RateLimitJSON-81"><span class="linenos">81</span></a>    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="RateLimitJSON-82"><a href="#RateLimitJSON-82"><span class="linenos">82</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="RateLimitJSON-83"><a href="#RateLimitJSON-83"><span class="linenos">83</span></a><span class="sd">    The status of the rate limit (e.g., &#39;error&#39;).</span>
+</span><span id="RateLimitJSON-84"><a href="#RateLimitJSON-84"><span class="linenos">84</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="RateLimitJSON-85"><a href="#RateLimitJSON-85"><span class="linenos">85</span></a>
+</span><span id="RateLimitJSON-86"><a href="#RateLimitJSON-86"><span class="linenos">86</span></a>    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="RateLimitJSON-87"><a href="#RateLimitJSON-87"><span class="linenos">87</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="RateLimitJSON-88"><a href="#RateLimitJSON-88"><span class="linenos">88</span></a><span class="sd">    A descriptive message regarding the rate limit status.</span>
+</span><span id="RateLimitJSON-89"><a href="#RateLimitJSON-89"><span class="linenos">89</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Represents the JSON response structure for rate limit information.</p>
-
-<p>Attributes:
-    status (str): The status of the rate limit (e.g., 'error').
-    message (str): A descriptive message regarding the rate limit status.</p>
 </div>
 
 
@@ -345,7 +362,9 @@
     </div>
     <a class="headerlink" href="#RateLimitJSON.status"></a>
     
-    
+            <div class="docstring"><p>The status of the rate limit (e.g., 'error').</p>
+</div>
+
 
                             </div>
                             <div id="RateLimitJSON.message" class="classattr">
@@ -356,7 +375,9 @@
     </div>
     <a class="headerlink" href="#RateLimitJSON.message"></a>
     
-    
+            <div class="docstring"><p>A descriptive message regarding the rate limit status.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -371,34 +392,41 @@
 
     </div>
     <a class="headerlink" href="#DatasetIDJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DatasetIDJSON-87"><a href="#DatasetIDJSON-87"><span class="linenos"> 87</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatasetIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="DatasetIDJSON-88"><a href="#DatasetIDJSON-88"><span class="linenos"> 88</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DatasetIDJSON-89"><a href="#DatasetIDJSON-89"><span class="linenos"> 89</span></a><span class="sd">    Endpoint &#39;/datasets/{id}&#39;</span>
-</span><span id="DatasetIDJSON-90"><a href="#DatasetIDJSON-90"><span class="linenos"> 90</span></a><span class="sd">    Represents the JSON response structure for a specific dataset identified by its ID.</span>
-</span><span id="DatasetIDJSON-91"><a href="#DatasetIDJSON-91"><span class="linenos"> 91</span></a>
-</span><span id="DatasetIDJSON-92"><a href="#DatasetIDJSON-92"><span class="linenos"> 92</span></a><span class="sd">    Attributes:</span>
-</span><span id="DatasetIDJSON-93"><a href="#DatasetIDJSON-93"><span class="linenos"> 93</span></a><span class="sd">        mindate (str): The earliest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="DatasetIDJSON-94"><a href="#DatasetIDJSON-94"><span class="linenos"> 94</span></a><span class="sd">        maxdate (str): The latest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="DatasetIDJSON-95"><a href="#DatasetIDJSON-95"><span class="linenos"> 95</span></a><span class="sd">        name (str): The name of the dataset. datacoverage (float | int): The proportion of data coverage, ranging from 0 to 1.</span>
-</span><span id="DatasetIDJSON-96"><a href="#DatasetIDJSON-96"><span class="linenos"> 96</span></a><span class="sd">        id (str): The unique identifier for the dataset.</span>
-</span><span id="DatasetIDJSON-97"><a href="#DatasetIDJSON-97"><span class="linenos"> 97</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="DatasetIDJSON-98"><a href="#DatasetIDJSON-98"><span class="linenos"> 98</span></a>
-</span><span id="DatasetIDJSON-99"><a href="#DatasetIDJSON-99"><span class="linenos"> 99</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="DatasetIDJSON-100"><a href="#DatasetIDJSON-100"><span class="linenos">100</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="DatasetIDJSON-101"><a href="#DatasetIDJSON-101"><span class="linenos">101</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="DatasetIDJSON-102"><a href="#DatasetIDJSON-102"><span class="linenos">102</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
-</span><span id="DatasetIDJSON-103"><a href="#DatasetIDJSON-103"><span class="linenos">103</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DatasetIDJSON-96"><a href="#DatasetIDJSON-96"><span class="linenos"> 96</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatasetIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="DatasetIDJSON-97"><a href="#DatasetIDJSON-97"><span class="linenos"> 97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-98"><a href="#DatasetIDJSON-98"><span class="linenos"> 98</span></a><span class="sd">    Endpoint &#39;/datasets/{id}&#39;</span>
+</span><span id="DatasetIDJSON-99"><a href="#DatasetIDJSON-99"><span class="linenos"> 99</span></a><span class="sd">    Represents the JSON response structure for a specific dataset identified by its ID.</span>
+</span><span id="DatasetIDJSON-100"><a href="#DatasetIDJSON-100"><span class="linenos">100</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="DatasetIDJSON-101"><a href="#DatasetIDJSON-101"><span class="linenos">101</span></a>
+</span><span id="DatasetIDJSON-102"><a href="#DatasetIDJSON-102"><span class="linenos">102</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="DatasetIDJSON-103"><a href="#DatasetIDJSON-103"><span class="linenos">103</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-104"><a href="#DatasetIDJSON-104"><span class="linenos">104</span></a><span class="sd">    The earliest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="DatasetIDJSON-105"><a href="#DatasetIDJSON-105"><span class="linenos">105</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-106"><a href="#DatasetIDJSON-106"><span class="linenos">106</span></a>
+</span><span id="DatasetIDJSON-107"><a href="#DatasetIDJSON-107"><span class="linenos">107</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="DatasetIDJSON-108"><a href="#DatasetIDJSON-108"><span class="linenos">108</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-109"><a href="#DatasetIDJSON-109"><span class="linenos">109</span></a><span class="sd">    The latest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="DatasetIDJSON-110"><a href="#DatasetIDJSON-110"><span class="linenos">110</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-111"><a href="#DatasetIDJSON-111"><span class="linenos">111</span></a>
+</span><span id="DatasetIDJSON-112"><a href="#DatasetIDJSON-112"><span class="linenos">112</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DatasetIDJSON-113"><a href="#DatasetIDJSON-113"><span class="linenos">113</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-114"><a href="#DatasetIDJSON-114"><span class="linenos">114</span></a><span class="sd">    The name of the dataset.</span>
+</span><span id="DatasetIDJSON-115"><a href="#DatasetIDJSON-115"><span class="linenos">115</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-116"><a href="#DatasetIDJSON-116"><span class="linenos">116</span></a>
+</span><span id="DatasetIDJSON-117"><a href="#DatasetIDJSON-117"><span class="linenos">117</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
+</span><span id="DatasetIDJSON-118"><a href="#DatasetIDJSON-118"><span class="linenos">118</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-119"><a href="#DatasetIDJSON-119"><span class="linenos">119</span></a><span class="sd">    The proportion of data coverage, ranging from 0 to 1.</span>
+</span><span id="DatasetIDJSON-120"><a href="#DatasetIDJSON-120"><span class="linenos">120</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-121"><a href="#DatasetIDJSON-121"><span class="linenos">121</span></a>
+</span><span id="DatasetIDJSON-122"><a href="#DatasetIDJSON-122"><span class="linenos">122</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DatasetIDJSON-123"><a href="#DatasetIDJSON-123"><span class="linenos">123</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetIDJSON-124"><a href="#DatasetIDJSON-124"><span class="linenos">124</span></a><span class="sd">    The unique identifier for the dataset.</span>
+</span><span id="DatasetIDJSON-125"><a href="#DatasetIDJSON-125"><span class="linenos">125</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/datasets/{id}'
 Represents the JSON response structure for a specific dataset identified by its ID.</p>
-
-<p>Attributes:
-    mindate (str): The earliest date for which data is available, formatted as 'YYYY-MM-DD'.
-    maxdate (str): The latest date for which data is available, formatted as 'YYYY-MM-DD'.
-    name (str): The name of the dataset. datacoverage (float | int): The proportion of data coverage, ranging from 0 to 1.
-    id (str): The unique identifier for the dataset.</p>
 </div>
 
 
@@ -410,7 +438,9 @@ Represents the JSON response structure for a specific dataset identified by its 
     </div>
     <a class="headerlink" href="#DatasetIDJSON.mindate"></a>
     
-    
+            <div class="docstring"><p>The earliest date for which data is available, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="DatasetIDJSON.maxdate" class="classattr">
@@ -421,7 +451,9 @@ Represents the JSON response structure for a specific dataset identified by its 
     </div>
     <a class="headerlink" href="#DatasetIDJSON.maxdate"></a>
     
-    
+            <div class="docstring"><p>The latest date for which data is available, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="DatasetIDJSON.name" class="classattr">
@@ -432,7 +464,9 @@ Represents the JSON response structure for a specific dataset identified by its 
     </div>
     <a class="headerlink" href="#DatasetIDJSON.name"></a>
     
-    
+            <div class="docstring"><p>The name of the dataset.</p>
+</div>
+
 
                             </div>
                             <div id="DatasetIDJSON.datacoverage" class="classattr">
@@ -443,7 +477,9 @@ Represents the JSON response structure for a specific dataset identified by its 
     </div>
     <a class="headerlink" href="#DatasetIDJSON.datacoverage"></a>
     
-    
+            <div class="docstring"><p>The proportion of data coverage, ranging from 0 to 1.</p>
+</div>
+
 
                             </div>
                             <div id="DatasetIDJSON.id" class="classattr">
@@ -454,7 +490,9 @@ Represents the JSON response structure for a specific dataset identified by its 
     </div>
     <a class="headerlink" href="#DatasetIDJSON.id"></a>
     
-    
+            <div class="docstring"><p>The unique identifier for the dataset.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -469,27 +507,26 @@ Represents the JSON response structure for a specific dataset identified by its 
 
     </div>
     <a class="headerlink" href="#DatasetsJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DatasetsJSON-131"><a href="#DatasetsJSON-131"><span class="linenos">131</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatasetsJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="DatasetsJSON-132"><a href="#DatasetsJSON-132"><span class="linenos">132</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DatasetsJSON-133"><a href="#DatasetsJSON-133"><span class="linenos">133</span></a><span class="sd">    Endpoint &#39;/datasets&#39;</span>
-</span><span id="DatasetsJSON-134"><a href="#DatasetsJSON-134"><span class="linenos">134</span></a><span class="sd">    Represents the JSON response structure for the &#39;/datasets&#39; endpoint.</span>
-</span><span id="DatasetsJSON-135"><a href="#DatasetsJSON-135"><span class="linenos">135</span></a>
-</span><span id="DatasetsJSON-136"><a href="#DatasetsJSON-136"><span class="linenos">136</span></a><span class="sd">    Attributes:</span>
-</span><span id="DatasetsJSON-137"><a href="#DatasetsJSON-137"><span class="linenos">137</span></a><span class="sd">        metadata (MetadataJSON): Metadata information about the response.</span>
-</span><span id="DatasetsJSON-138"><a href="#DatasetsJSON-138"><span class="linenos">138</span></a><span class="sd">        results (list[DatasetJSON]): A list of datasets returned in the response.</span>
-</span><span id="DatasetsJSON-139"><a href="#DatasetsJSON-139"><span class="linenos">139</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="DatasetsJSON-140"><a href="#DatasetsJSON-140"><span class="linenos">140</span></a>
-</span><span id="DatasetsJSON-141"><a href="#DatasetsJSON-141"><span class="linenos">141</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
-</span><span id="DatasetsJSON-142"><a href="#DatasetsJSON-142"><span class="linenos">142</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DatasetJSON</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DatasetsJSON-169"><a href="#DatasetsJSON-169"><span class="linenos">169</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatasetsJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="DatasetsJSON-170"><a href="#DatasetsJSON-170"><span class="linenos">170</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetsJSON-171"><a href="#DatasetsJSON-171"><span class="linenos">171</span></a><span class="sd">    Endpoint &#39;/datasets&#39;</span>
+</span><span id="DatasetsJSON-172"><a href="#DatasetsJSON-172"><span class="linenos">172</span></a><span class="sd">    Represents the JSON response structure for the &#39;/datasets&#39; endpoint.</span>
+</span><span id="DatasetsJSON-173"><a href="#DatasetsJSON-173"><span class="linenos">173</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="DatasetsJSON-174"><a href="#DatasetsJSON-174"><span class="linenos">174</span></a>
+</span><span id="DatasetsJSON-175"><a href="#DatasetsJSON-175"><span class="linenos">175</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
+</span><span id="DatasetsJSON-176"><a href="#DatasetsJSON-176"><span class="linenos">176</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetsJSON-177"><a href="#DatasetsJSON-177"><span class="linenos">177</span></a><span class="sd">    Metadata information about the response.</span>
+</span><span id="DatasetsJSON-178"><a href="#DatasetsJSON-178"><span class="linenos">178</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatasetsJSON-179"><a href="#DatasetsJSON-179"><span class="linenos">179</span></a>
+</span><span id="DatasetsJSON-180"><a href="#DatasetsJSON-180"><span class="linenos">180</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DatasetJSON</span><span class="p">]</span>
+</span><span id="DatasetsJSON-181"><a href="#DatasetsJSON-181"><span class="linenos">181</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatasetsJSON-182"><a href="#DatasetsJSON-182"><span class="linenos">182</span></a><span class="sd">    A list of datasets returned in the response.</span>
+</span><span id="DatasetsJSON-183"><a href="#DatasetsJSON-183"><span class="linenos">183</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/datasets'
 Represents the JSON response structure for the '/datasets' endpoint.</p>
-
-<p>Attributes:
-    metadata (MetadataJSON): Metadata information about the response.
-    results (list[DatasetJSON]): A list of datasets returned in the response.</p>
 </div>
 
 
@@ -501,7 +538,9 @@ Represents the JSON response structure for the '/datasets' endpoint.</p>
     </div>
     <a class="headerlink" href="#DatasetsJSON.metadata"></a>
     
-    
+            <div class="docstring"><p>Metadata information about the response.</p>
+</div>
+
 
                             </div>
                             <div id="DatasetsJSON.results" class="classattr">
@@ -512,7 +551,9 @@ Represents the JSON response structure for the '/datasets' endpoint.</p>
     </div>
     <a class="headerlink" href="#DatasetsJSON.results"></a>
     
-    
+            <div class="docstring"><p>A list of datasets returned in the response.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -527,27 +568,26 @@ Represents the JSON response structure for the '/datasets' endpoint.</p>
 
     </div>
     <a class="headerlink" href="#DatacategoryIDJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DatacategoryIDJSON-148"><a href="#DatacategoryIDJSON-148"><span class="linenos">148</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatacategoryIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="DatacategoryIDJSON-149"><a href="#DatacategoryIDJSON-149"><span class="linenos">149</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DatacategoryIDJSON-150"><a href="#DatacategoryIDJSON-150"><span class="linenos">150</span></a><span class="sd">    Endpoint &#39;/datacategories/{id}&#39;</span>
-</span><span id="DatacategoryIDJSON-151"><a href="#DatacategoryIDJSON-151"><span class="linenos">151</span></a><span class="sd">    Represents the JSON response structure for a specific data category identified by its ID.</span>
-</span><span id="DatacategoryIDJSON-152"><a href="#DatacategoryIDJSON-152"><span class="linenos">152</span></a>
-</span><span id="DatacategoryIDJSON-153"><a href="#DatacategoryIDJSON-153"><span class="linenos">153</span></a><span class="sd">    Attributes:</span>
-</span><span id="DatacategoryIDJSON-154"><a href="#DatacategoryIDJSON-154"><span class="linenos">154</span></a><span class="sd">        name (str): The name of the data category.</span>
-</span><span id="DatacategoryIDJSON-155"><a href="#DatacategoryIDJSON-155"><span class="linenos">155</span></a><span class="sd">        id (str): The unique identifier for the data category.</span>
-</span><span id="DatacategoryIDJSON-156"><a href="#DatacategoryIDJSON-156"><span class="linenos">156</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="DatacategoryIDJSON-157"><a href="#DatacategoryIDJSON-157"><span class="linenos">157</span></a>
-</span><span id="DatacategoryIDJSON-158"><a href="#DatacategoryIDJSON-158"><span class="linenos">158</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="DatacategoryIDJSON-159"><a href="#DatacategoryIDJSON-159"><span class="linenos">159</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DatacategoryIDJSON-189"><a href="#DatacategoryIDJSON-189"><span class="linenos">189</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatacategoryIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="DatacategoryIDJSON-190"><a href="#DatacategoryIDJSON-190"><span class="linenos">190</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatacategoryIDJSON-191"><a href="#DatacategoryIDJSON-191"><span class="linenos">191</span></a><span class="sd">    Endpoint &#39;/datacategories/{id}&#39;</span>
+</span><span id="DatacategoryIDJSON-192"><a href="#DatacategoryIDJSON-192"><span class="linenos">192</span></a><span class="sd">    Represents the JSON response structure for a specific data category identified by its ID.</span>
+</span><span id="DatacategoryIDJSON-193"><a href="#DatacategoryIDJSON-193"><span class="linenos">193</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="DatacategoryIDJSON-194"><a href="#DatacategoryIDJSON-194"><span class="linenos">194</span></a>
+</span><span id="DatacategoryIDJSON-195"><a href="#DatacategoryIDJSON-195"><span class="linenos">195</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DatacategoryIDJSON-196"><a href="#DatacategoryIDJSON-196"><span class="linenos">196</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatacategoryIDJSON-197"><a href="#DatacategoryIDJSON-197"><span class="linenos">197</span></a><span class="sd">    The name of the data category.</span>
+</span><span id="DatacategoryIDJSON-198"><a href="#DatacategoryIDJSON-198"><span class="linenos">198</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatacategoryIDJSON-199"><a href="#DatacategoryIDJSON-199"><span class="linenos">199</span></a>
+</span><span id="DatacategoryIDJSON-200"><a href="#DatacategoryIDJSON-200"><span class="linenos">200</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DatacategoryIDJSON-201"><a href="#DatacategoryIDJSON-201"><span class="linenos">201</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatacategoryIDJSON-202"><a href="#DatacategoryIDJSON-202"><span class="linenos">202</span></a><span class="sd">    The unique identifier for the data category.</span>
+</span><span id="DatacategoryIDJSON-203"><a href="#DatacategoryIDJSON-203"><span class="linenos">203</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/datacategories/{id}'
 Represents the JSON response structure for a specific data category identified by its ID.</p>
-
-<p>Attributes:
-    name (str): The name of the data category.
-    id (str): The unique identifier for the data category.</p>
 </div>
 
 
@@ -559,7 +599,9 @@ Represents the JSON response structure for a specific data category identified b
     </div>
     <a class="headerlink" href="#DatacategoryIDJSON.name"></a>
     
-    
+            <div class="docstring"><p>The name of the data category.</p>
+</div>
+
 
                             </div>
                             <div id="DatacategoryIDJSON.id" class="classattr">
@@ -570,7 +612,9 @@ Represents the JSON response structure for a specific data category identified b
     </div>
     <a class="headerlink" href="#DatacategoryIDJSON.id"></a>
     
-    
+            <div class="docstring"><p>The unique identifier for the data category.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -585,27 +629,26 @@ Represents the JSON response structure for a specific data category identified b
 
     </div>
     <a class="headerlink" href="#DatacategoriesJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DatacategoriesJSON-165"><a href="#DatacategoriesJSON-165"><span class="linenos">165</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatacategoriesJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="DatacategoriesJSON-166"><a href="#DatacategoriesJSON-166"><span class="linenos">166</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DatacategoriesJSON-167"><a href="#DatacategoriesJSON-167"><span class="linenos">167</span></a><span class="sd">    Endpoint &#39;/datacategories&#39;</span>
-</span><span id="DatacategoriesJSON-168"><a href="#DatacategoriesJSON-168"><span class="linenos">168</span></a><span class="sd">    Represents the JSON response structure for the &#39;/datacategories&#39; endpoint.</span>
-</span><span id="DatacategoriesJSON-169"><a href="#DatacategoriesJSON-169"><span class="linenos">169</span></a>
-</span><span id="DatacategoriesJSON-170"><a href="#DatacategoriesJSON-170"><span class="linenos">170</span></a><span class="sd">    Attributes:</span>
-</span><span id="DatacategoriesJSON-171"><a href="#DatacategoriesJSON-171"><span class="linenos">171</span></a><span class="sd">        metadata (MetadataJSON): Metadata information about the response.</span>
-</span><span id="DatacategoriesJSON-172"><a href="#DatacategoriesJSON-172"><span class="linenos">172</span></a><span class="sd">        results (list[DatacategoryIDJSON]): A list of data categories returned in the response.</span>
-</span><span id="DatacategoriesJSON-173"><a href="#DatacategoriesJSON-173"><span class="linenos">173</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="DatacategoriesJSON-174"><a href="#DatacategoriesJSON-174"><span class="linenos">174</span></a>
-</span><span id="DatacategoriesJSON-175"><a href="#DatacategoriesJSON-175"><span class="linenos">175</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
-</span><span id="DatacategoriesJSON-176"><a href="#DatacategoriesJSON-176"><span class="linenos">176</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DatacategoryIDJSON</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DatacategoriesJSON-209"><a href="#DatacategoriesJSON-209"><span class="linenos">209</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatacategoriesJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="DatacategoriesJSON-210"><a href="#DatacategoriesJSON-210"><span class="linenos">210</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatacategoriesJSON-211"><a href="#DatacategoriesJSON-211"><span class="linenos">211</span></a><span class="sd">    Endpoint &#39;/datacategories&#39;</span>
+</span><span id="DatacategoriesJSON-212"><a href="#DatacategoriesJSON-212"><span class="linenos">212</span></a><span class="sd">    Represents the JSON response structure for the &#39;/datacategories&#39; endpoint.</span>
+</span><span id="DatacategoriesJSON-213"><a href="#DatacategoriesJSON-213"><span class="linenos">213</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="DatacategoriesJSON-214"><a href="#DatacategoriesJSON-214"><span class="linenos">214</span></a>
+</span><span id="DatacategoriesJSON-215"><a href="#DatacategoriesJSON-215"><span class="linenos">215</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
+</span><span id="DatacategoriesJSON-216"><a href="#DatacategoriesJSON-216"><span class="linenos">216</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatacategoriesJSON-217"><a href="#DatacategoriesJSON-217"><span class="linenos">217</span></a><span class="sd">    Metadata information about the response.</span>
+</span><span id="DatacategoriesJSON-218"><a href="#DatacategoriesJSON-218"><span class="linenos">218</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatacategoriesJSON-219"><a href="#DatacategoriesJSON-219"><span class="linenos">219</span></a>
+</span><span id="DatacategoriesJSON-220"><a href="#DatacategoriesJSON-220"><span class="linenos">220</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DatacategoryIDJSON</span><span class="p">]</span>
+</span><span id="DatacategoriesJSON-221"><a href="#DatacategoriesJSON-221"><span class="linenos">221</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatacategoriesJSON-222"><a href="#DatacategoriesJSON-222"><span class="linenos">222</span></a><span class="sd">    A list of data categories returned in the response.</span>
+</span><span id="DatacategoriesJSON-223"><a href="#DatacategoriesJSON-223"><span class="linenos">223</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/datacategories'
 Represents the JSON response structure for the '/datacategories' endpoint.</p>
-
-<p>Attributes:
-    metadata (MetadataJSON): Metadata information about the response.
-    results (list[DatacategoryIDJSON]): A list of data categories returned in the response.</p>
 </div>
 
 
@@ -617,7 +660,9 @@ Represents the JSON response structure for the '/datacategories' endpoint.</p>
     </div>
     <a class="headerlink" href="#DatacategoriesJSON.metadata"></a>
     
-    
+            <div class="docstring"><p>Metadata information about the response.</p>
+</div>
+
 
                             </div>
                             <div id="DatacategoriesJSON.results" class="classattr">
@@ -628,7 +673,9 @@ Represents the JSON response structure for the '/datacategories' endpoint.</p>
     </div>
     <a class="headerlink" href="#DatacategoriesJSON.results"></a>
     
-    
+            <div class="docstring"><p>A list of data categories returned in the response.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -643,33 +690,36 @@ Represents the JSON response structure for the '/datacategories' endpoint.</p>
 
     </div>
     <a class="headerlink" href="#DatatypeIDJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DatatypeIDJSON-182"><a href="#DatatypeIDJSON-182"><span class="linenos">182</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatatypeIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="DatatypeIDJSON-183"><a href="#DatatypeIDJSON-183"><span class="linenos">183</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DatatypeIDJSON-184"><a href="#DatatypeIDJSON-184"><span class="linenos">184</span></a><span class="sd">    Endpoint &#39;/datatypes/{id}&#39;</span>
-</span><span id="DatatypeIDJSON-185"><a href="#DatatypeIDJSON-185"><span class="linenos">185</span></a><span class="sd">    Represents the JSON response structure for a specific data type identified by its ID.</span>
-</span><span id="DatatypeIDJSON-186"><a href="#DatatypeIDJSON-186"><span class="linenos">186</span></a>
-</span><span id="DatatypeIDJSON-187"><a href="#DatatypeIDJSON-187"><span class="linenos">187</span></a><span class="sd">    Attributes:</span>
-</span><span id="DatatypeIDJSON-188"><a href="#DatatypeIDJSON-188"><span class="linenos">188</span></a><span class="sd">        mindate (str): The earliest date for which the data type is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="DatatypeIDJSON-189"><a href="#DatatypeIDJSON-189"><span class="linenos">189</span></a><span class="sd">        maxdate (str): The latest date for which the data type is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="DatatypeIDJSON-190"><a href="#DatatypeIDJSON-190"><span class="linenos">190</span></a><span class="sd">        datacoverage (float | int): The proportion of data coverage for the data type.</span>
-</span><span id="DatatypeIDJSON-191"><a href="#DatatypeIDJSON-191"><span class="linenos">191</span></a><span class="sd">        id (str): The unique identifier for the data type.</span>
-</span><span id="DatatypeIDJSON-192"><a href="#DatatypeIDJSON-192"><span class="linenos">192</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="DatatypeIDJSON-193"><a href="#DatatypeIDJSON-193"><span class="linenos">193</span></a>
-</span><span id="DatatypeIDJSON-194"><a href="#DatatypeIDJSON-194"><span class="linenos">194</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="DatatypeIDJSON-195"><a href="#DatatypeIDJSON-195"><span class="linenos">195</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="DatatypeIDJSON-196"><a href="#DatatypeIDJSON-196"><span class="linenos">196</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
-</span><span id="DatatypeIDJSON-197"><a href="#DatatypeIDJSON-197"><span class="linenos">197</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DatatypeIDJSON-229"><a href="#DatatypeIDJSON-229"><span class="linenos">229</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatatypeIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="DatatypeIDJSON-230"><a href="#DatatypeIDJSON-230"><span class="linenos">230</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-231"><a href="#DatatypeIDJSON-231"><span class="linenos">231</span></a><span class="sd">    Endpoint &#39;/datatypes/{id}&#39;</span>
+</span><span id="DatatypeIDJSON-232"><a href="#DatatypeIDJSON-232"><span class="linenos">232</span></a><span class="sd">    Represents the JSON response structure for a specific data type identified by its ID.</span>
+</span><span id="DatatypeIDJSON-233"><a href="#DatatypeIDJSON-233"><span class="linenos">233</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="DatatypeIDJSON-234"><a href="#DatatypeIDJSON-234"><span class="linenos">234</span></a>
+</span><span id="DatatypeIDJSON-235"><a href="#DatatypeIDJSON-235"><span class="linenos">235</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="DatatypeIDJSON-236"><a href="#DatatypeIDJSON-236"><span class="linenos">236</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-237"><a href="#DatatypeIDJSON-237"><span class="linenos">237</span></a><span class="sd">    The earliest date for which the data type is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="DatatypeIDJSON-238"><a href="#DatatypeIDJSON-238"><span class="linenos">238</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-239"><a href="#DatatypeIDJSON-239"><span class="linenos">239</span></a>
+</span><span id="DatatypeIDJSON-240"><a href="#DatatypeIDJSON-240"><span class="linenos">240</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="DatatypeIDJSON-241"><a href="#DatatypeIDJSON-241"><span class="linenos">241</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-242"><a href="#DatatypeIDJSON-242"><span class="linenos">242</span></a><span class="sd">    The latest date for which the data type is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="DatatypeIDJSON-243"><a href="#DatatypeIDJSON-243"><span class="linenos">243</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-244"><a href="#DatatypeIDJSON-244"><span class="linenos">244</span></a>
+</span><span id="DatatypeIDJSON-245"><a href="#DatatypeIDJSON-245"><span class="linenos">245</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
+</span><span id="DatatypeIDJSON-246"><a href="#DatatypeIDJSON-246"><span class="linenos">246</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-247"><a href="#DatatypeIDJSON-247"><span class="linenos">247</span></a><span class="sd">    The proportion of data coverage for the data type.</span>
+</span><span id="DatatypeIDJSON-248"><a href="#DatatypeIDJSON-248"><span class="linenos">248</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-249"><a href="#DatatypeIDJSON-249"><span class="linenos">249</span></a>
+</span><span id="DatatypeIDJSON-250"><a href="#DatatypeIDJSON-250"><span class="linenos">250</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DatatypeIDJSON-251"><a href="#DatatypeIDJSON-251"><span class="linenos">251</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypeIDJSON-252"><a href="#DatatypeIDJSON-252"><span class="linenos">252</span></a><span class="sd">    The unique identifier for the data type.</span>
+</span><span id="DatatypeIDJSON-253"><a href="#DatatypeIDJSON-253"><span class="linenos">253</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/datatypes/{id}'
 Represents the JSON response structure for a specific data type identified by its ID.</p>
-
-<p>Attributes:
-    mindate (str): The earliest date for which the data type is available, formatted as 'YYYY-MM-DD'.
-    maxdate (str): The latest date for which the data type is available, formatted as 'YYYY-MM-DD'.
-    datacoverage (float | int): The proportion of data coverage for the data type.
-    id (str): The unique identifier for the data type.</p>
 </div>
 
 
@@ -681,7 +731,9 @@ Represents the JSON response structure for a specific data type identified by it
     </div>
     <a class="headerlink" href="#DatatypeIDJSON.mindate"></a>
     
-    
+            <div class="docstring"><p>The earliest date for which the data type is available, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="DatatypeIDJSON.maxdate" class="classattr">
@@ -692,7 +744,9 @@ Represents the JSON response structure for a specific data type identified by it
     </div>
     <a class="headerlink" href="#DatatypeIDJSON.maxdate"></a>
     
-    
+            <div class="docstring"><p>The latest date for which the data type is available, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="DatatypeIDJSON.datacoverage" class="classattr">
@@ -703,7 +757,9 @@ Represents the JSON response structure for a specific data type identified by it
     </div>
     <a class="headerlink" href="#DatatypeIDJSON.datacoverage"></a>
     
-    
+            <div class="docstring"><p>The proportion of data coverage for the data type.</p>
+</div>
+
 
                             </div>
                             <div id="DatatypeIDJSON.id" class="classattr">
@@ -714,7 +770,9 @@ Represents the JSON response structure for a specific data type identified by it
     </div>
     <a class="headerlink" href="#DatatypeIDJSON.id"></a>
     
-    
+            <div class="docstring"><p>The unique identifier for the data type.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -729,27 +787,26 @@ Represents the JSON response structure for a specific data type identified by it
 
     </div>
     <a class="headerlink" href="#DatatypesJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DatatypesJSON-223"><a href="#DatatypesJSON-223"><span class="linenos">223</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatatypesJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="DatatypesJSON-224"><a href="#DatatypesJSON-224"><span class="linenos">224</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DatatypesJSON-225"><a href="#DatatypesJSON-225"><span class="linenos">225</span></a><span class="sd">    Endpoint &#39;/datatypes&#39;</span>
-</span><span id="DatatypesJSON-226"><a href="#DatatypesJSON-226"><span class="linenos">226</span></a><span class="sd">    Represents the JSON response structure for the &#39;/datatypes&#39; endpoint.</span>
-</span><span id="DatatypesJSON-227"><a href="#DatatypesJSON-227"><span class="linenos">227</span></a>
-</span><span id="DatatypesJSON-228"><a href="#DatatypesJSON-228"><span class="linenos">228</span></a><span class="sd">    Attributes:</span>
-</span><span id="DatatypesJSON-229"><a href="#DatatypesJSON-229"><span class="linenos">229</span></a><span class="sd">        metadata (MetadataJSON): Metadata information about the response.</span>
-</span><span id="DatatypesJSON-230"><a href="#DatatypesJSON-230"><span class="linenos">230</span></a><span class="sd">        results (list[DatatypeJSON]): A list of data types returned in the response.</span>
-</span><span id="DatatypesJSON-231"><a href="#DatatypesJSON-231"><span class="linenos">231</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="DatatypesJSON-232"><a href="#DatatypesJSON-232"><span class="linenos">232</span></a>
-</span><span id="DatatypesJSON-233"><a href="#DatatypesJSON-233"><span class="linenos">233</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
-</span><span id="DatatypesJSON-234"><a href="#DatatypesJSON-234"><span class="linenos">234</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DatatypeJSON</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DatatypesJSON-291"><a href="#DatatypesJSON-291"><span class="linenos">291</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DatatypesJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="DatatypesJSON-292"><a href="#DatatypesJSON-292"><span class="linenos">292</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypesJSON-293"><a href="#DatatypesJSON-293"><span class="linenos">293</span></a><span class="sd">    Endpoint &#39;/datatypes&#39;</span>
+</span><span id="DatatypesJSON-294"><a href="#DatatypesJSON-294"><span class="linenos">294</span></a><span class="sd">    Represents the JSON response structure for the &#39;/datatypes&#39; endpoint.</span>
+</span><span id="DatatypesJSON-295"><a href="#DatatypesJSON-295"><span class="linenos">295</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="DatatypesJSON-296"><a href="#DatatypesJSON-296"><span class="linenos">296</span></a>
+</span><span id="DatatypesJSON-297"><a href="#DatatypesJSON-297"><span class="linenos">297</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
+</span><span id="DatatypesJSON-298"><a href="#DatatypesJSON-298"><span class="linenos">298</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypesJSON-299"><a href="#DatatypesJSON-299"><span class="linenos">299</span></a><span class="sd">    Metadata information about the response.</span>
+</span><span id="DatatypesJSON-300"><a href="#DatatypesJSON-300"><span class="linenos">300</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DatatypesJSON-301"><a href="#DatatypesJSON-301"><span class="linenos">301</span></a>
+</span><span id="DatatypesJSON-302"><a href="#DatatypesJSON-302"><span class="linenos">302</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DatatypeJSON</span><span class="p">]</span>
+</span><span id="DatatypesJSON-303"><a href="#DatatypesJSON-303"><span class="linenos">303</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DatatypesJSON-304"><a href="#DatatypesJSON-304"><span class="linenos">304</span></a><span class="sd">    A list of data types returned in the response.</span>
+</span><span id="DatatypesJSON-305"><a href="#DatatypesJSON-305"><span class="linenos">305</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/datatypes'
 Represents the JSON response structure for the '/datatypes' endpoint.</p>
-
-<p>Attributes:
-    metadata (MetadataJSON): Metadata information about the response.
-    results (list[DatatypeJSON]): A list of data types returned in the response.</p>
 </div>
 
 
@@ -761,7 +818,9 @@ Represents the JSON response structure for the '/datatypes' endpoint.</p>
     </div>
     <a class="headerlink" href="#DatatypesJSON.metadata"></a>
     
-    
+            <div class="docstring"><p>Metadata information about the response.</p>
+</div>
+
 
                             </div>
                             <div id="DatatypesJSON.results" class="classattr">
@@ -772,7 +831,9 @@ Represents the JSON response structure for the '/datatypes' endpoint.</p>
     </div>
     <a class="headerlink" href="#DatatypesJSON.results"></a>
     
-    
+            <div class="docstring"><p>A list of data types returned in the response.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -787,27 +848,26 @@ Represents the JSON response structure for the '/datatypes' endpoint.</p>
 
     </div>
     <a class="headerlink" href="#LocationcategoryIDJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationcategoryIDJSON-240"><a href="#LocationcategoryIDJSON-240"><span class="linenos">240</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationcategoryIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="LocationcategoryIDJSON-241"><a href="#LocationcategoryIDJSON-241"><span class="linenos">241</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LocationcategoryIDJSON-242"><a href="#LocationcategoryIDJSON-242"><span class="linenos">242</span></a><span class="sd">    Endpoint &#39;/locationcategories/{id}&#39;</span>
-</span><span id="LocationcategoryIDJSON-243"><a href="#LocationcategoryIDJSON-243"><span class="linenos">243</span></a><span class="sd">    Represents the JSON response structure for a specific location category identified by its ID.</span>
-</span><span id="LocationcategoryIDJSON-244"><a href="#LocationcategoryIDJSON-244"><span class="linenos">244</span></a>
-</span><span id="LocationcategoryIDJSON-245"><a href="#LocationcategoryIDJSON-245"><span class="linenos">245</span></a><span class="sd">    Attributes:</span>
-</span><span id="LocationcategoryIDJSON-246"><a href="#LocationcategoryIDJSON-246"><span class="linenos">246</span></a><span class="sd">        name (str): The name of the location category.</span>
-</span><span id="LocationcategoryIDJSON-247"><a href="#LocationcategoryIDJSON-247"><span class="linenos">247</span></a><span class="sd">        id (str): The unique identifier for the location category.</span>
-</span><span id="LocationcategoryIDJSON-248"><a href="#LocationcategoryIDJSON-248"><span class="linenos">248</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="LocationcategoryIDJSON-249"><a href="#LocationcategoryIDJSON-249"><span class="linenos">249</span></a>
-</span><span id="LocationcategoryIDJSON-250"><a href="#LocationcategoryIDJSON-250"><span class="linenos">250</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="LocationcategoryIDJSON-251"><a href="#LocationcategoryIDJSON-251"><span class="linenos">251</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationcategoryIDJSON-311"><a href="#LocationcategoryIDJSON-311"><span class="linenos">311</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationcategoryIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="LocationcategoryIDJSON-312"><a href="#LocationcategoryIDJSON-312"><span class="linenos">312</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationcategoryIDJSON-313"><a href="#LocationcategoryIDJSON-313"><span class="linenos">313</span></a><span class="sd">    Endpoint &#39;/locationcategories/{id}&#39;</span>
+</span><span id="LocationcategoryIDJSON-314"><a href="#LocationcategoryIDJSON-314"><span class="linenos">314</span></a><span class="sd">    Represents the JSON response structure for a specific location category identified by its ID.</span>
+</span><span id="LocationcategoryIDJSON-315"><a href="#LocationcategoryIDJSON-315"><span class="linenos">315</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="LocationcategoryIDJSON-316"><a href="#LocationcategoryIDJSON-316"><span class="linenos">316</span></a>
+</span><span id="LocationcategoryIDJSON-317"><a href="#LocationcategoryIDJSON-317"><span class="linenos">317</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="LocationcategoryIDJSON-318"><a href="#LocationcategoryIDJSON-318"><span class="linenos">318</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationcategoryIDJSON-319"><a href="#LocationcategoryIDJSON-319"><span class="linenos">319</span></a><span class="sd">    The name of the location category.</span>
+</span><span id="LocationcategoryIDJSON-320"><a href="#LocationcategoryIDJSON-320"><span class="linenos">320</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LocationcategoryIDJSON-321"><a href="#LocationcategoryIDJSON-321"><span class="linenos">321</span></a>
+</span><span id="LocationcategoryIDJSON-322"><a href="#LocationcategoryIDJSON-322"><span class="linenos">322</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="LocationcategoryIDJSON-323"><a href="#LocationcategoryIDJSON-323"><span class="linenos">323</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationcategoryIDJSON-324"><a href="#LocationcategoryIDJSON-324"><span class="linenos">324</span></a><span class="sd">    The unique identifier for the location category.</span>
+</span><span id="LocationcategoryIDJSON-325"><a href="#LocationcategoryIDJSON-325"><span class="linenos">325</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/locationcategories/{id}'
 Represents the JSON response structure for a specific location category identified by its ID.</p>
-
-<p>Attributes:
-    name (str): The name of the location category.
-    id (str): The unique identifier for the location category.</p>
 </div>
 
 
@@ -819,7 +879,9 @@ Represents the JSON response structure for a specific location category identifi
     </div>
     <a class="headerlink" href="#LocationcategoryIDJSON.name"></a>
     
-    
+            <div class="docstring"><p>The name of the location category.</p>
+</div>
+
 
                             </div>
                             <div id="LocationcategoryIDJSON.id" class="classattr">
@@ -830,7 +892,9 @@ Represents the JSON response structure for a specific location category identifi
     </div>
     <a class="headerlink" href="#LocationcategoryIDJSON.id"></a>
     
-    
+            <div class="docstring"><p>The unique identifier for the location category.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -845,27 +909,26 @@ Represents the JSON response structure for a specific location category identifi
 
     </div>
     <a class="headerlink" href="#LocationcategoriesJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationcategoriesJSON-257"><a href="#LocationcategoriesJSON-257"><span class="linenos">257</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationcategoriesJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="LocationcategoriesJSON-258"><a href="#LocationcategoriesJSON-258"><span class="linenos">258</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LocationcategoriesJSON-259"><a href="#LocationcategoriesJSON-259"><span class="linenos">259</span></a><span class="sd">    Endpoint &#39;/locationcategories&#39;</span>
-</span><span id="LocationcategoriesJSON-260"><a href="#LocationcategoriesJSON-260"><span class="linenos">260</span></a><span class="sd">    Represents the JSON response structure for the &#39;/locationcategories&#39; endpoint.</span>
-</span><span id="LocationcategoriesJSON-261"><a href="#LocationcategoriesJSON-261"><span class="linenos">261</span></a>
-</span><span id="LocationcategoriesJSON-262"><a href="#LocationcategoriesJSON-262"><span class="linenos">262</span></a><span class="sd">    Attributes:</span>
-</span><span id="LocationcategoriesJSON-263"><a href="#LocationcategoriesJSON-263"><span class="linenos">263</span></a><span class="sd">        metadata (MetadataJSON): Metadata information about the response.</span>
-</span><span id="LocationcategoriesJSON-264"><a href="#LocationcategoriesJSON-264"><span class="linenos">264</span></a><span class="sd">        results (list[LocationcategoryIDJSON]): A list of location categories returned in the response.</span>
-</span><span id="LocationcategoriesJSON-265"><a href="#LocationcategoriesJSON-265"><span class="linenos">265</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="LocationcategoriesJSON-266"><a href="#LocationcategoriesJSON-266"><span class="linenos">266</span></a>
-</span><span id="LocationcategoriesJSON-267"><a href="#LocationcategoriesJSON-267"><span class="linenos">267</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
-</span><span id="LocationcategoriesJSON-268"><a href="#LocationcategoriesJSON-268"><span class="linenos">268</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LocationcategoryIDJSON</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationcategoriesJSON-331"><a href="#LocationcategoriesJSON-331"><span class="linenos">331</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationcategoriesJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="LocationcategoriesJSON-332"><a href="#LocationcategoriesJSON-332"><span class="linenos">332</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationcategoriesJSON-333"><a href="#LocationcategoriesJSON-333"><span class="linenos">333</span></a><span class="sd">    Endpoint &#39;/locationcategories&#39;</span>
+</span><span id="LocationcategoriesJSON-334"><a href="#LocationcategoriesJSON-334"><span class="linenos">334</span></a><span class="sd">    Represents the JSON response structure for the &#39;/locationcategories&#39; endpoint.</span>
+</span><span id="LocationcategoriesJSON-335"><a href="#LocationcategoriesJSON-335"><span class="linenos">335</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="LocationcategoriesJSON-336"><a href="#LocationcategoriesJSON-336"><span class="linenos">336</span></a>
+</span><span id="LocationcategoriesJSON-337"><a href="#LocationcategoriesJSON-337"><span class="linenos">337</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
+</span><span id="LocationcategoriesJSON-338"><a href="#LocationcategoriesJSON-338"><span class="linenos">338</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationcategoriesJSON-339"><a href="#LocationcategoriesJSON-339"><span class="linenos">339</span></a><span class="sd">    Metadata information about the response.</span>
+</span><span id="LocationcategoriesJSON-340"><a href="#LocationcategoriesJSON-340"><span class="linenos">340</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LocationcategoriesJSON-341"><a href="#LocationcategoriesJSON-341"><span class="linenos">341</span></a>
+</span><span id="LocationcategoriesJSON-342"><a href="#LocationcategoriesJSON-342"><span class="linenos">342</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LocationcategoryIDJSON</span><span class="p">]</span>
+</span><span id="LocationcategoriesJSON-343"><a href="#LocationcategoriesJSON-343"><span class="linenos">343</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationcategoriesJSON-344"><a href="#LocationcategoriesJSON-344"><span class="linenos">344</span></a><span class="sd">    A list of location categories returned in the response.</span>
+</span><span id="LocationcategoriesJSON-345"><a href="#LocationcategoriesJSON-345"><span class="linenos">345</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/locationcategories'
 Represents the JSON response structure for the '/locationcategories' endpoint.</p>
-
-<p>Attributes:
-    metadata (MetadataJSON): Metadata information about the response.
-    results (list[LocationcategoryIDJSON]): A list of location categories returned in the response.</p>
 </div>
 
 
@@ -877,7 +940,9 @@ Represents the JSON response structure for the '/locationcategories' endpoint.</
     </div>
     <a class="headerlink" href="#LocationcategoriesJSON.metadata"></a>
     
-    
+            <div class="docstring"><p>Metadata information about the response.</p>
+</div>
+
 
                             </div>
                             <div id="LocationcategoriesJSON.results" class="classattr">
@@ -888,7 +953,9 @@ Represents the JSON response structure for the '/locationcategories' endpoint.</
     </div>
     <a class="headerlink" href="#LocationcategoriesJSON.results"></a>
     
-    
+            <div class="docstring"><p>A list of location categories returned in the response.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -903,36 +970,41 @@ Represents the JSON response structure for the '/locationcategories' endpoint.</
 
     </div>
     <a class="headerlink" href="#LocationIDJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationIDJSON-274"><a href="#LocationIDJSON-274"><span class="linenos">274</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="LocationIDJSON-275"><a href="#LocationIDJSON-275"><span class="linenos">275</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LocationIDJSON-276"><a href="#LocationIDJSON-276"><span class="linenos">276</span></a><span class="sd">    Endpoint &#39;/locations/{id}&#39;</span>
-</span><span id="LocationIDJSON-277"><a href="#LocationIDJSON-277"><span class="linenos">277</span></a><span class="sd">    Represents the JSON response structure for a specific location identified by its ID.</span>
-</span><span id="LocationIDJSON-278"><a href="#LocationIDJSON-278"><span class="linenos">278</span></a>
-</span><span id="LocationIDJSON-279"><a href="#LocationIDJSON-279"><span class="linenos">279</span></a><span class="sd">    Attributes:</span>
-</span><span id="LocationIDJSON-280"><a href="#LocationIDJSON-280"><span class="linenos">280</span></a><span class="sd">        mindate (str): The earliest date for which data is available for the location, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="LocationIDJSON-281"><a href="#LocationIDJSON-281"><span class="linenos">281</span></a><span class="sd">        maxdate (str): The latest date for which data is available for the location, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="LocationIDJSON-282"><a href="#LocationIDJSON-282"><span class="linenos">282</span></a><span class="sd">        name (str): The name of the location.</span>
-</span><span id="LocationIDJSON-283"><a href="#LocationIDJSON-283"><span class="linenos">283</span></a><span class="sd">        datacoverage (float | int): The proportion of data coverage for the location.</span>
-</span><span id="LocationIDJSON-284"><a href="#LocationIDJSON-284"><span class="linenos">284</span></a><span class="sd">        id (str): The unique identifier for the location.</span>
-</span><span id="LocationIDJSON-285"><a href="#LocationIDJSON-285"><span class="linenos">285</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="LocationIDJSON-286"><a href="#LocationIDJSON-286"><span class="linenos">286</span></a>
-</span><span id="LocationIDJSON-287"><a href="#LocationIDJSON-287"><span class="linenos">287</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="LocationIDJSON-288"><a href="#LocationIDJSON-288"><span class="linenos">288</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="LocationIDJSON-289"><a href="#LocationIDJSON-289"><span class="linenos">289</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="LocationIDJSON-290"><a href="#LocationIDJSON-290"><span class="linenos">290</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
-</span><span id="LocationIDJSON-291"><a href="#LocationIDJSON-291"><span class="linenos">291</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationIDJSON-351"><a href="#LocationIDJSON-351"><span class="linenos">351</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="LocationIDJSON-352"><a href="#LocationIDJSON-352"><span class="linenos">352</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-353"><a href="#LocationIDJSON-353"><span class="linenos">353</span></a><span class="sd">    Endpoint &#39;/locations/{id}&#39;</span>
+</span><span id="LocationIDJSON-354"><a href="#LocationIDJSON-354"><span class="linenos">354</span></a><span class="sd">    Represents the JSON response structure for a specific location identified by its ID.</span>
+</span><span id="LocationIDJSON-355"><a href="#LocationIDJSON-355"><span class="linenos">355</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="LocationIDJSON-356"><a href="#LocationIDJSON-356"><span class="linenos">356</span></a>
+</span><span id="LocationIDJSON-357"><a href="#LocationIDJSON-357"><span class="linenos">357</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="LocationIDJSON-358"><a href="#LocationIDJSON-358"><span class="linenos">358</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-359"><a href="#LocationIDJSON-359"><span class="linenos">359</span></a><span class="sd">    The earliest date for which data is available for the location, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="LocationIDJSON-360"><a href="#LocationIDJSON-360"><span class="linenos">360</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="LocationIDJSON-361"><a href="#LocationIDJSON-361"><span class="linenos">361</span></a>
+</span><span id="LocationIDJSON-362"><a href="#LocationIDJSON-362"><span class="linenos">362</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="LocationIDJSON-363"><a href="#LocationIDJSON-363"><span class="linenos">363</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-364"><a href="#LocationIDJSON-364"><span class="linenos">364</span></a><span class="sd">    The latest date for which data is available for the location, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="LocationIDJSON-365"><a href="#LocationIDJSON-365"><span class="linenos">365</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="LocationIDJSON-366"><a href="#LocationIDJSON-366"><span class="linenos">366</span></a>
+</span><span id="LocationIDJSON-367"><a href="#LocationIDJSON-367"><span class="linenos">367</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="LocationIDJSON-368"><a href="#LocationIDJSON-368"><span class="linenos">368</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-369"><a href="#LocationIDJSON-369"><span class="linenos">369</span></a><span class="sd">    The name of the location.</span>
+</span><span id="LocationIDJSON-370"><a href="#LocationIDJSON-370"><span class="linenos">370</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-371"><a href="#LocationIDJSON-371"><span class="linenos">371</span></a>
+</span><span id="LocationIDJSON-372"><a href="#LocationIDJSON-372"><span class="linenos">372</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
+</span><span id="LocationIDJSON-373"><a href="#LocationIDJSON-373"><span class="linenos">373</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-374"><a href="#LocationIDJSON-374"><span class="linenos">374</span></a><span class="sd">    The proportion of data coverage for the location.</span>
+</span><span id="LocationIDJSON-375"><a href="#LocationIDJSON-375"><span class="linenos">375</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-376"><a href="#LocationIDJSON-376"><span class="linenos">376</span></a>
+</span><span id="LocationIDJSON-377"><a href="#LocationIDJSON-377"><span class="linenos">377</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="LocationIDJSON-378"><a href="#LocationIDJSON-378"><span class="linenos">378</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationIDJSON-379"><a href="#LocationIDJSON-379"><span class="linenos">379</span></a><span class="sd">    The unique identifier for the location.</span>
+</span><span id="LocationIDJSON-380"><a href="#LocationIDJSON-380"><span class="linenos">380</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/locations/{id}'
 Represents the JSON response structure for a specific location identified by its ID.</p>
-
-<p>Attributes:
-    mindate (str): The earliest date for which data is available for the location, formatted as 'YYYY-MM-DD'.
-    maxdate (str): The latest date for which data is available for the location, formatted as 'YYYY-MM-DD'.
-    name (str): The name of the location.
-    datacoverage (float | int): The proportion of data coverage for the location.
-    id (str): The unique identifier for the location.</p>
 </div>
 
 
@@ -944,7 +1016,9 @@ Represents the JSON response structure for a specific location identified by its
     </div>
     <a class="headerlink" href="#LocationIDJSON.mindate"></a>
     
-    
+            <div class="docstring"><p>The earliest date for which data is available for the location, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="LocationIDJSON.maxdate" class="classattr">
@@ -955,7 +1029,9 @@ Represents the JSON response structure for a specific location identified by its
     </div>
     <a class="headerlink" href="#LocationIDJSON.maxdate"></a>
     
-    
+            <div class="docstring"><p>The latest date for which data is available for the location, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="LocationIDJSON.name" class="classattr">
@@ -966,7 +1042,9 @@ Represents the JSON response structure for a specific location identified by its
     </div>
     <a class="headerlink" href="#LocationIDJSON.name"></a>
     
-    
+            <div class="docstring"><p>The name of the location.</p>
+</div>
+
 
                             </div>
                             <div id="LocationIDJSON.datacoverage" class="classattr">
@@ -977,7 +1055,9 @@ Represents the JSON response structure for a specific location identified by its
     </div>
     <a class="headerlink" href="#LocationIDJSON.datacoverage"></a>
     
-    
+            <div class="docstring"><p>The proportion of data coverage for the location.</p>
+</div>
+
 
                             </div>
                             <div id="LocationIDJSON.id" class="classattr">
@@ -988,7 +1068,9 @@ Represents the JSON response structure for a specific location identified by its
     </div>
     <a class="headerlink" href="#LocationIDJSON.id"></a>
     
-    
+            <div class="docstring"><p>The unique identifier for the location.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -1003,27 +1085,26 @@ Represents the JSON response structure for a specific location identified by its
 
     </div>
     <a class="headerlink" href="#LocationsJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationsJSON-297"><a href="#LocationsJSON-297"><span class="linenos">297</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationsJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="LocationsJSON-298"><a href="#LocationsJSON-298"><span class="linenos">298</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="LocationsJSON-299"><a href="#LocationsJSON-299"><span class="linenos">299</span></a><span class="sd">    Endpoint &#39;/locations&#39;</span>
-</span><span id="LocationsJSON-300"><a href="#LocationsJSON-300"><span class="linenos">300</span></a><span class="sd">    Represents the JSON response structure for the &#39;/locations&#39; endpoint.</span>
-</span><span id="LocationsJSON-301"><a href="#LocationsJSON-301"><span class="linenos">301</span></a>
-</span><span id="LocationsJSON-302"><a href="#LocationsJSON-302"><span class="linenos">302</span></a><span class="sd">    Attributes:</span>
-</span><span id="LocationsJSON-303"><a href="#LocationsJSON-303"><span class="linenos">303</span></a><span class="sd">        metadata (MetadataJSON): Metadata information about the response, including pagination details.</span>
-</span><span id="LocationsJSON-304"><a href="#LocationsJSON-304"><span class="linenos">304</span></a><span class="sd">        results (list[LocationIDJSON]): A list of location records returned by the query.</span>
-</span><span id="LocationsJSON-305"><a href="#LocationsJSON-305"><span class="linenos">305</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="LocationsJSON-306"><a href="#LocationsJSON-306"><span class="linenos">306</span></a>
-</span><span id="LocationsJSON-307"><a href="#LocationsJSON-307"><span class="linenos">307</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
-</span><span id="LocationsJSON-308"><a href="#LocationsJSON-308"><span class="linenos">308</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LocationIDJSON</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LocationsJSON-386"><a href="#LocationsJSON-386"><span class="linenos">386</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LocationsJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="LocationsJSON-387"><a href="#LocationsJSON-387"><span class="linenos">387</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationsJSON-388"><a href="#LocationsJSON-388"><span class="linenos">388</span></a><span class="sd">    Endpoint &#39;/locations&#39;</span>
+</span><span id="LocationsJSON-389"><a href="#LocationsJSON-389"><span class="linenos">389</span></a><span class="sd">    Represents the JSON response structure for the &#39;/locations&#39; endpoint.</span>
+</span><span id="LocationsJSON-390"><a href="#LocationsJSON-390"><span class="linenos">390</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="LocationsJSON-391"><a href="#LocationsJSON-391"><span class="linenos">391</span></a>
+</span><span id="LocationsJSON-392"><a href="#LocationsJSON-392"><span class="linenos">392</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
+</span><span id="LocationsJSON-393"><a href="#LocationsJSON-393"><span class="linenos">393</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationsJSON-394"><a href="#LocationsJSON-394"><span class="linenos">394</span></a><span class="sd">    Metadata information about the response, including pagination details.</span>
+</span><span id="LocationsJSON-395"><a href="#LocationsJSON-395"><span class="linenos">395</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="LocationsJSON-396"><a href="#LocationsJSON-396"><span class="linenos">396</span></a>
+</span><span id="LocationsJSON-397"><a href="#LocationsJSON-397"><span class="linenos">397</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LocationIDJSON</span><span class="p">]</span>
+</span><span id="LocationsJSON-398"><a href="#LocationsJSON-398"><span class="linenos">398</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="LocationsJSON-399"><a href="#LocationsJSON-399"><span class="linenos">399</span></a><span class="sd">    A list of location records returned by the query.</span>
+</span><span id="LocationsJSON-400"><a href="#LocationsJSON-400"><span class="linenos">400</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/locations'
 Represents the JSON response structure for the '/locations' endpoint.</p>
-
-<p>Attributes:
-    metadata (MetadataJSON): Metadata information about the response, including pagination details.
-    results (list[LocationIDJSON]): A list of location records returned by the query.</p>
 </div>
 
 
@@ -1035,7 +1116,9 @@ Represents the JSON response structure for the '/locations' endpoint.</p>
     </div>
     <a class="headerlink" href="#LocationsJSON.metadata"></a>
     
-    
+            <div class="docstring"><p>Metadata information about the response, including pagination details.</p>
+</div>
+
 
                             </div>
                             <div id="LocationsJSON.results" class="classattr">
@@ -1046,7 +1129,9 @@ Represents the JSON response structure for the '/locations' endpoint.</p>
     </div>
     <a class="headerlink" href="#LocationsJSON.results"></a>
     
-    
+            <div class="docstring"><p>A list of location records returned by the query.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -1061,48 +1146,61 @@ Represents the JSON response structure for the '/locations' endpoint.</p>
 
     </div>
     <a class="headerlink" href="#StationIDJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="StationIDJSON-314"><a href="#StationIDJSON-314"><span class="linenos">314</span></a><span class="k">class</span><span class="w"> </span><span class="nc">StationIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="StationIDJSON-315"><a href="#StationIDJSON-315"><span class="linenos">315</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="StationIDJSON-316"><a href="#StationIDJSON-316"><span class="linenos">316</span></a><span class="sd">    Endpoint &#39;/stations/{id}&#39;</span>
-</span><span id="StationIDJSON-317"><a href="#StationIDJSON-317"><span class="linenos">317</span></a><span class="sd">    Represents the JSON response structure for a specific station identified by its ID from the &#39;/stations/{id}&#39; endpoint.</span>
-</span><span id="StationIDJSON-318"><a href="#StationIDJSON-318"><span class="linenos">318</span></a>
-</span><span id="StationIDJSON-319"><a href="#StationIDJSON-319"><span class="linenos">319</span></a><span class="sd">    Attributes:</span>
-</span><span id="StationIDJSON-320"><a href="#StationIDJSON-320"><span class="linenos">320</span></a><span class="sd">        elevation (float): The elevation of the station in meters.</span>
-</span><span id="StationIDJSON-321"><a href="#StationIDJSON-321"><span class="linenos">321</span></a><span class="sd">        mindate (str): The earliest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="StationIDJSON-322"><a href="#StationIDJSON-322"><span class="linenos">322</span></a><span class="sd">        maxdate (str): The latest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
-</span><span id="StationIDJSON-323"><a href="#StationIDJSON-323"><span class="linenos">323</span></a><span class="sd">        latitude (float): The latitude coordinate of the station.</span>
-</span><span id="StationIDJSON-324"><a href="#StationIDJSON-324"><span class="linenos">324</span></a><span class="sd">        name (str): The name of the station.</span>
-</span><span id="StationIDJSON-325"><a href="#StationIDJSON-325"><span class="linenos">325</span></a><span class="sd">        datacoverage (float | int): The proportion of data coverage, ranging from 0 to 1.</span>
-</span><span id="StationIDJSON-326"><a href="#StationIDJSON-326"><span class="linenos">326</span></a><span class="sd">        id (str): The unique identifier for the station.</span>
-</span><span id="StationIDJSON-327"><a href="#StationIDJSON-327"><span class="linenos">327</span></a><span class="sd">        elevationUnit (str): The unit of measurement for elevation (e.g., &#39;METERS&#39;).</span>
-</span><span id="StationIDJSON-328"><a href="#StationIDJSON-328"><span class="linenos">328</span></a><span class="sd">        longitude (float): The longitude coordinate of the station.</span>
-</span><span id="StationIDJSON-329"><a href="#StationIDJSON-329"><span class="linenos">329</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="StationIDJSON-330"><a href="#StationIDJSON-330"><span class="linenos">330</span></a>
-</span><span id="StationIDJSON-331"><a href="#StationIDJSON-331"><span class="linenos">331</span></a>    <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="StationIDJSON-332"><a href="#StationIDJSON-332"><span class="linenos">332</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="StationIDJSON-333"><a href="#StationIDJSON-333"><span class="linenos">333</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
-</span><span id="StationIDJSON-334"><a href="#StationIDJSON-334"><span class="linenos">334</span></a>    <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="StationIDJSON-335"><a href="#StationIDJSON-335"><span class="linenos">335</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="StationIDJSON-336"><a href="#StationIDJSON-336"><span class="linenos">336</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
-</span><span id="StationIDJSON-337"><a href="#StationIDJSON-337"><span class="linenos">337</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="StationIDJSON-338"><a href="#StationIDJSON-338"><span class="linenos">338</span></a>    <span class="n">elevationUnit</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="StationIDJSON-339"><a href="#StationIDJSON-339"><span class="linenos">339</span></a>    <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="StationIDJSON-406"><a href="#StationIDJSON-406"><span class="linenos">406</span></a><span class="k">class</span><span class="w"> </span><span class="nc">StationIDJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="StationIDJSON-407"><a href="#StationIDJSON-407"><span class="linenos">407</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-408"><a href="#StationIDJSON-408"><span class="linenos">408</span></a><span class="sd">    Endpoint &#39;/stations/{id}&#39;</span>
+</span><span id="StationIDJSON-409"><a href="#StationIDJSON-409"><span class="linenos">409</span></a><span class="sd">    Represents the JSON response structure for a specific station identified by its ID from the &#39;/stations/{id}&#39; endpoint.</span>
+</span><span id="StationIDJSON-410"><a href="#StationIDJSON-410"><span class="linenos">410</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="StationIDJSON-411"><a href="#StationIDJSON-411"><span class="linenos">411</span></a>
+</span><span id="StationIDJSON-412"><a href="#StationIDJSON-412"><span class="linenos">412</span></a>    <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="StationIDJSON-413"><a href="#StationIDJSON-413"><span class="linenos">413</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-414"><a href="#StationIDJSON-414"><span class="linenos">414</span></a><span class="sd">    The elevation of the station in meters.</span>
+</span><span id="StationIDJSON-415"><a href="#StationIDJSON-415"><span class="linenos">415</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-416"><a href="#StationIDJSON-416"><span class="linenos">416</span></a>
+</span><span id="StationIDJSON-417"><a href="#StationIDJSON-417"><span class="linenos">417</span></a>    <span class="n">mindate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="StationIDJSON-418"><a href="#StationIDJSON-418"><span class="linenos">418</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-419"><a href="#StationIDJSON-419"><span class="linenos">419</span></a><span class="sd">    The earliest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="StationIDJSON-420"><a href="#StationIDJSON-420"><span class="linenos">420</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-421"><a href="#StationIDJSON-421"><span class="linenos">421</span></a>
+</span><span id="StationIDJSON-422"><a href="#StationIDJSON-422"><span class="linenos">422</span></a>    <span class="n">maxdate</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Date as &quot;YYYY-MM-DD&quot;</span>
+</span><span id="StationIDJSON-423"><a href="#StationIDJSON-423"><span class="linenos">423</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-424"><a href="#StationIDJSON-424"><span class="linenos">424</span></a><span class="sd">    The latest date for which data is available, formatted as &#39;YYYY-MM-DD&#39;.</span>
+</span><span id="StationIDJSON-425"><a href="#StationIDJSON-425"><span class="linenos">425</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-426"><a href="#StationIDJSON-426"><span class="linenos">426</span></a>
+</span><span id="StationIDJSON-427"><a href="#StationIDJSON-427"><span class="linenos">427</span></a>    <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="StationIDJSON-428"><a href="#StationIDJSON-428"><span class="linenos">428</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-429"><a href="#StationIDJSON-429"><span class="linenos">429</span></a><span class="sd">    The latitude coordinate of the station.</span>
+</span><span id="StationIDJSON-430"><a href="#StationIDJSON-430"><span class="linenos">430</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-431"><a href="#StationIDJSON-431"><span class="linenos">431</span></a>
+</span><span id="StationIDJSON-432"><a href="#StationIDJSON-432"><span class="linenos">432</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="StationIDJSON-433"><a href="#StationIDJSON-433"><span class="linenos">433</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-434"><a href="#StationIDJSON-434"><span class="linenos">434</span></a><span class="sd">    The name of the station.</span>
+</span><span id="StationIDJSON-435"><a href="#StationIDJSON-435"><span class="linenos">435</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-436"><a href="#StationIDJSON-436"><span class="linenos">436</span></a>
+</span><span id="StationIDJSON-437"><a href="#StationIDJSON-437"><span class="linenos">437</span></a>    <span class="n">datacoverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span>
+</span><span id="StationIDJSON-438"><a href="#StationIDJSON-438"><span class="linenos">438</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-439"><a href="#StationIDJSON-439"><span class="linenos">439</span></a><span class="sd">    The proportion of data coverage, ranging from 0 to 1.</span>
+</span><span id="StationIDJSON-440"><a href="#StationIDJSON-440"><span class="linenos">440</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-441"><a href="#StationIDJSON-441"><span class="linenos">441</span></a>
+</span><span id="StationIDJSON-442"><a href="#StationIDJSON-442"><span class="linenos">442</span></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="StationIDJSON-443"><a href="#StationIDJSON-443"><span class="linenos">443</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-444"><a href="#StationIDJSON-444"><span class="linenos">444</span></a><span class="sd">    The unique identifier for the station.</span>
+</span><span id="StationIDJSON-445"><a href="#StationIDJSON-445"><span class="linenos">445</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-446"><a href="#StationIDJSON-446"><span class="linenos">446</span></a>
+</span><span id="StationIDJSON-447"><a href="#StationIDJSON-447"><span class="linenos">447</span></a>    <span class="n">elevationUnit</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="StationIDJSON-448"><a href="#StationIDJSON-448"><span class="linenos">448</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-449"><a href="#StationIDJSON-449"><span class="linenos">449</span></a><span class="sd">    The unit of measurement for elevation (e.g., &#39;METERS&#39;).</span>
+</span><span id="StationIDJSON-450"><a href="#StationIDJSON-450"><span class="linenos">450</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-451"><a href="#StationIDJSON-451"><span class="linenos">451</span></a>
+</span><span id="StationIDJSON-452"><a href="#StationIDJSON-452"><span class="linenos">452</span></a>    <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="StationIDJSON-453"><a href="#StationIDJSON-453"><span class="linenos">453</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationIDJSON-454"><a href="#StationIDJSON-454"><span class="linenos">454</span></a><span class="sd">    The longitude coordinate of the station.</span>
+</span><span id="StationIDJSON-455"><a href="#StationIDJSON-455"><span class="linenos">455</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/stations/{id}'
 Represents the JSON response structure for a specific station identified by its ID from the '/stations/{id}' endpoint.</p>
-
-<p>Attributes:
-    elevation (float): The elevation of the station in meters.
-    mindate (str): The earliest date for which data is available, formatted as 'YYYY-MM-DD'.
-    maxdate (str): The latest date for which data is available, formatted as 'YYYY-MM-DD'.
-    latitude (float): The latitude coordinate of the station.
-    name (str): The name of the station.
-    datacoverage (float | int): The proportion of data coverage, ranging from 0 to 1.
-    id (str): The unique identifier for the station.
-    elevationUnit (str): The unit of measurement for elevation (e.g., 'METERS').
-    longitude (float): The longitude coordinate of the station.</p>
 </div>
 
 
@@ -1114,7 +1212,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.elevation"></a>
     
-    
+            <div class="docstring"><p>The elevation of the station in meters.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.mindate" class="classattr">
@@ -1125,7 +1225,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.mindate"></a>
     
-    
+            <div class="docstring"><p>The earliest date for which data is available, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.maxdate" class="classattr">
@@ -1136,7 +1238,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.maxdate"></a>
     
-    
+            <div class="docstring"><p>The latest date for which data is available, formatted as 'YYYY-MM-DD'.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.latitude" class="classattr">
@@ -1147,7 +1251,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.latitude"></a>
     
-    
+            <div class="docstring"><p>The latitude coordinate of the station.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.name" class="classattr">
@@ -1158,7 +1264,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.name"></a>
     
-    
+            <div class="docstring"><p>The name of the station.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.datacoverage" class="classattr">
@@ -1169,7 +1277,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.datacoverage"></a>
     
-    
+            <div class="docstring"><p>The proportion of data coverage, ranging from 0 to 1.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.id" class="classattr">
@@ -1180,7 +1290,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.id"></a>
     
-    
+            <div class="docstring"><p>The unique identifier for the station.</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.elevationUnit" class="classattr">
@@ -1191,7 +1303,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.elevationUnit"></a>
     
-    
+            <div class="docstring"><p>The unit of measurement for elevation (e.g., 'METERS').</p>
+</div>
+
 
                             </div>
                             <div id="StationIDJSON.longitude" class="classattr">
@@ -1202,7 +1316,9 @@ Represents the JSON response structure for a specific station identified by its 
     </div>
     <a class="headerlink" href="#StationIDJSON.longitude"></a>
     
-    
+            <div class="docstring"><p>The longitude coordinate of the station.</p>
+</div>
+
 
                             </div>
                 </section>
@@ -1217,27 +1333,26 @@ Represents the JSON response structure for a specific station identified by its 
 
     </div>
     <a class="headerlink" href="#StationsJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="StationsJSON-345"><a href="#StationsJSON-345"><span class="linenos">345</span></a><span class="k">class</span><span class="w"> </span><span class="nc">StationsJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-</span><span id="StationsJSON-346"><a href="#StationsJSON-346"><span class="linenos">346</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="StationsJSON-347"><a href="#StationsJSON-347"><span class="linenos">347</span></a><span class="sd">    Endpoint &#39;/stations&#39;</span>
-</span><span id="StationsJSON-348"><a href="#StationsJSON-348"><span class="linenos">348</span></a><span class="sd">    Represents the JSON response structure for the &#39;/stations&#39; endpoint.</span>
-</span><span id="StationsJSON-349"><a href="#StationsJSON-349"><span class="linenos">349</span></a>
-</span><span id="StationsJSON-350"><a href="#StationsJSON-350"><span class="linenos">350</span></a><span class="sd">    Attributes:</span>
-</span><span id="StationsJSON-351"><a href="#StationsJSON-351"><span class="linenos">351</span></a><span class="sd">        metadata (MetadataJSON): Metadata information about the response, including pagination details.</span>
-</span><span id="StationsJSON-352"><a href="#StationsJSON-352"><span class="linenos">352</span></a><span class="sd">        results (list[StationIDJSON]): A list of station records returned by the query.</span>
-</span><span id="StationsJSON-353"><a href="#StationsJSON-353"><span class="linenos">353</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="StationsJSON-354"><a href="#StationsJSON-354"><span class="linenos">354</span></a>
-</span><span id="StationsJSON-355"><a href="#StationsJSON-355"><span class="linenos">355</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
-</span><span id="StationsJSON-356"><a href="#StationsJSON-356"><span class="linenos">356</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StationIDJSON</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="StationsJSON-461"><a href="#StationsJSON-461"><span class="linenos">461</span></a><span class="k">class</span><span class="w"> </span><span class="nc">StationsJSON</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="StationsJSON-462"><a href="#StationsJSON-462"><span class="linenos">462</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationsJSON-463"><a href="#StationsJSON-463"><span class="linenos">463</span></a><span class="sd">    Endpoint &#39;/stations&#39;</span>
+</span><span id="StationsJSON-464"><a href="#StationsJSON-464"><span class="linenos">464</span></a><span class="sd">    Represents the JSON response structure for the &#39;/stations&#39; endpoint.</span>
+</span><span id="StationsJSON-465"><a href="#StationsJSON-465"><span class="linenos">465</span></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="StationsJSON-466"><a href="#StationsJSON-466"><span class="linenos">466</span></a>
+</span><span id="StationsJSON-467"><a href="#StationsJSON-467"><span class="linenos">467</span></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n">MetadataJSON</span>
+</span><span id="StationsJSON-468"><a href="#StationsJSON-468"><span class="linenos">468</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationsJSON-469"><a href="#StationsJSON-469"><span class="linenos">469</span></a><span class="sd">    Metadata information about the response, including pagination details.</span>
+</span><span id="StationsJSON-470"><a href="#StationsJSON-470"><span class="linenos">470</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="StationsJSON-471"><a href="#StationsJSON-471"><span class="linenos">471</span></a>
+</span><span id="StationsJSON-472"><a href="#StationsJSON-472"><span class="linenos">472</span></a>    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StationIDJSON</span><span class="p">]</span>
+</span><span id="StationsJSON-473"><a href="#StationsJSON-473"><span class="linenos">473</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="StationsJSON-474"><a href="#StationsJSON-474"><span class="linenos">474</span></a><span class="sd">    A list of station records returned by the query.</span>
+</span><span id="StationsJSON-475"><a href="#StationsJSON-475"><span class="linenos">475</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Endpoint '/stations'
 Represents the JSON response structure for the '/stations' endpoint.</p>
-
-<p>Attributes:
-    metadata (MetadataJSON): Metadata information about the response, including pagination details.
-    results (list[StationIDJSON]): A list of station records returned by the query.</p>
 </div>
 
 
@@ -1249,7 +1364,9 @@ Represents the JSON response structure for the '/stations' endpoint.</p>
     </div>
     <a class="headerlink" href="#StationsJSON.metadata"></a>
     
-    
+            <div class="docstring"><p>Metadata information about the response, including pagination details.</p>
+</div>
+
 
                             </div>
                             <div id="StationsJSON.results" class="classattr">
@@ -1260,7 +1377,9 @@ Represents the JSON response structure for the '/stations' endpoint.</p>
     </div>
     <a class="headerlink" href="#StationsJSON.results"></a>
     
-    
+            <div class="docstring"><p>A list of station records returned by the query.</p>
+</div>
+
 
                             </div>
                 </section>
