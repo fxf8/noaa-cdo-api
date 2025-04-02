@@ -19,6 +19,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "debugpy>=1.8.13",
     "dotenv>=0.9.9",
     "ipython>=9.0.2",
     "mypy>=1.15.0",
