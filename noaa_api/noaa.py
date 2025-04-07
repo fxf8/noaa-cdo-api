@@ -54,8 +54,6 @@ class NOAAClient:
         "token",
         "tcp_connector",
         "aiohttp_session",
-        "seconds_request_limiter",
-        "daily_request_limiter",
         "tcp_connector_limit",
         "keepalive_timeout",
         "is_client_provided",
@@ -74,16 +72,6 @@ class NOAAClient:
     aiohttp_session: aiohttp.ClientSession | None
     """
     Aiohttp session for making HTTP requests. (Lazily initialized)
-    """
-
-    seconds_request_limiter: aiolimiter.AsyncLimiter
-    """
-    Limiter for requests per second (5 req/sec).
-    """
-
-    daily_request_limiter: aiolimiter.AsyncLimiter
-    """
-    Limiter for requests per day (10,000 req/day).
     """
 
     tcp_connector_limit: int
@@ -128,16 +116,6 @@ class NOAAClient:
         self.keepalive_timeout = keepalive_timeout
         self.tcp_connector = None
         self.aiohttp_session = None
-        self.seconds_request_limiter = aiolimiter.AsyncLimiter(
-            5,  # 5 requests per second
-            1,  # 1 second
-        )
-
-        self.daily_request_limiter = aiolimiter.AsyncLimiter(
-            10_000,  # 10_000 requests per day
-            60 * 60 * 24,  # 1 day
-        )
-
         self.is_client_provided = False
 
     def _find_token_location(self) -> TokenLocation:
@@ -178,7 +156,13 @@ class NOAAClient:
          - TokenLocation: The location of the token.
         """  # noqa: E501
 
-        if self.is_client_provided:
+        if self.tcp_connector is not None and self.tcp_connector._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
+            self.tcp_connector = None
+
+        if self.aiohttp_session is not None and self.aiohttp_session._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
+            self.aiohttp_session = None
+
+        if self.is_client_provided and self.aiohttp_session is None:
             return self._find_token_location()
 
         if self.tcp_connector is None:
@@ -219,11 +203,11 @@ class NOAAClient:
          - token_parameter (str | None, optional): Token parameter which take precedence over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
         Returns:
-         - aiohttp.ClientResponse: The HTTP response object.
+         - Any: The HTTP response json.
 
         Raises:
          - ValueError: If 'limit' parameter exceeds 1000.
-         - aiohttp.ClientResponseError: If the request fails. (status code 400)
+         - aiohttp.ClientResponseError: If the request fails.
          - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
@@ -241,10 +225,20 @@ class NOAAClient:
                 "Neither client with token in header nor `token` attribute is provided"
             )
 
+        seconds_request_limiter = aiolimiter.AsyncLimiter(
+            5,  # 5 requests per second
+            1,  # 1 second
+        )
+
+        daily_request_limiter = aiolimiter.AsyncLimiter(
+            10_000,  # 10_000 requests per day
+            60 * 60 * 24,  # 1 day
+        )
+
         if token_parameter is not None:
             async with (
-                self.seconds_request_limiter,
-                self.daily_request_limiter,
+                seconds_request_limiter,
+                daily_request_limiter,
                 cast(
                     aiohttp.ClientSession, self.aiohttp_session
                 ).get(  # Client was already ensured
@@ -261,8 +255,8 @@ class NOAAClient:
             or TokenLocation.InClientSessionHeaders
         ):
             async with (
-                self.seconds_request_limiter,
-                self.daily_request_limiter,
+                seconds_request_limiter,
+                daily_request_limiter,
                 cast(
                     aiohttp.ClientSession, self.aiohttp_session
                 ).get(  # Client was already ensured
@@ -274,8 +268,8 @@ class NOAAClient:
 
         if token_location == TokenLocation.InAttribute:
             async with (
-                self.seconds_request_limiter,
-                self.daily_request_limiter,
+                seconds_request_limiter,
+                daily_request_limiter,
                 cast(
                     aiohttp.ClientSession, self.aiohttp_session
                 ).get(  # Client was already ensured
@@ -899,10 +893,17 @@ class NOAAClient:
 
         This method should be called when the client is no longer needed to properly
         release resources associated with the HTTP session.
-        """
+
+        Note: This method works both in an async context and outside of an async context.
+        """  # noqa: E501
 
         if isinstance(self.aiohttp_session, aiohttp.ClientSession):
-            _ = asyncio.run(self.aiohttp_session.close())
+            try:
+                loop = asyncio.get_event_loop()
+                _ = loop.create_task(self.aiohttp_session.close())
+
+            except RuntimeError:
+                asyncio.run(self.aiohttp_session.close())
 
     def __del__(self):
         """
