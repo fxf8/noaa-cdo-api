@@ -223,8 +223,8 @@ class NOAAClient:
 
         Raises:
          - ValueError: If 'limit' parameter exceeds 1000.
-         - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If neither client with token in header nor `token` attribute is provided.
+         - aiohttp.ClientResponseError: If the request fails. (status code 400)
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         token_location: TokenLocation = await self._ensure()
@@ -303,6 +303,7 @@ class NOAAClient:
 
         Raises:
          - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -345,6 +346,11 @@ class NOAAClient:
 
         Returns:
          - json_schemas.DatasetsJSON | json_schemas.RateLimitJSON: Dataset information or rate limit message.
+
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -387,6 +393,7 @@ class NOAAClient:
 
         Raises:
          - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -428,6 +435,12 @@ class NOAAClient:
 
         Returns:
          - json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON: Data category information or rate limit message.
+
+
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -469,6 +482,7 @@ class NOAAClient:
 
         Raises:
          - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -509,6 +523,11 @@ class NOAAClient:
 
         Returns:
          - json_schemas.DatatypesJSON | json_schemas.RateLimitJSON: Data type information or rate limit message.
+
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -550,6 +569,7 @@ class NOAAClient:
 
         Raises:
          - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -591,6 +611,11 @@ class NOAAClient:
 
         Returns:
          - json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON: Location category information or rate limit message.
+
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
         return cast(
             json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON,
@@ -631,6 +656,7 @@ class NOAAClient:
 
         Raises:
          - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -671,6 +697,11 @@ class NOAAClient:
 
         Returns:
          - json_schemas.LocationsJSON | json_schemas.RateLimitJSON: Location information or rate limit message.
+
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
         return cast(
             json_schemas.LocationsJSON | json_schemas.RateLimitJSON,
@@ -710,7 +741,7 @@ class NOAAClient:
          - json_schemas.StationsIDJSON: Parsed JSON response containing station information.
 
         Raises:
-         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -751,6 +782,11 @@ class NOAAClient:
 
         Returns:
          - json_schemas.StationsJSON | json_schemas.RateLimitJSON: Station information or rate limit message.
+
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
         return cast(
@@ -816,9 +852,15 @@ class NOAAClient:
         Returns:
          - json_schemas.DataJSON | json_schemas.RateLimitJSON: Climate data or rate limit message.
 
+        Raises:
+         - ValueError: If 'limit' parameter exceeds 1000.
+         - aiohttp.ClientResponseError: If the request fails.
+         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
+
         Notes:
          - Annual and monthly data will be limited to a 10-year range.
          - Other data will be limited to a 1-year range.
+         - Not following these guidelines will raise a `ClientResponseError`. The reason for this rather than raising an exception prior to the 'GET' reqest is because knowing whether a datatype is hourly, monthly, or annually (and therefore the allowed time domain) requires an additional request.
         """  # noqa: E501
 
         client_response: aiohttp.ClientResponse = await self._make_request(
