@@ -31,6 +31,25 @@ LocationsJSON = json_schemas.LocationsJSON
 StationIDJSON = json_schemas.StationIDJSON
 StationsJSON = json_schemas.StationsJSON
 
+AnyResponse = (
+    RateLimitJSON
+    | DatasetIDJSON
+    | DatasetsJSON
+    | DatacategoryIDJSON
+    | DatacategoriesJSON
+    | DatatypeIDJSON
+    | DatatypesJSON
+    | LocationcategoryIDJSON
+    | LocationcategoriesJSON
+    | LocationIDJSON
+    | LocationsJSON
+    | StationIDJSON
+    | StationsJSON
+)
+"""
+Union type representing any possible response schema from the NOAA API from documented endpoints.
+"""  # noqa: E501
+
 __all__ = [
     "RateLimitJSON",
     "DatasetIDJSON",
@@ -45,4 +64,5 @@ __all__ = [
     "LocationsJSON",
     "StationIDJSON",
     "StationsJSON",
+    "AnyResponse",
 ]
