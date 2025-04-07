@@ -1,0 +1,69 @@
+import asyncio
+import json
+import os
+from typing import cast
+
+import dotenv
+
+import manual_tests.log_setup as log_setup
+import noaa_api.json_responses as json_responses
+import noaa_api.noaa as noaa
+from manual_tests.validate_json import validate_test
+
+logger = log_setup.get_logger(__name__, "logs/locationcategories.log")
+
+LOCATIONCATEGORIES_RESPONSE_SAMPLE_PATH: str = (
+    "sample_responses/locationcategories/locationcategories.json"
+)
+LOCATIONCATEGORIES_ID_RESPONSE_SAMPLE_PATH: str = (
+    "sample_responses/locationcategories/locationcategories-id.json"
+)
+LOCATIONCATEGORIES_RATELIMIT_RESPONSE_SAMPLE_PATH: str = (
+    "sample_responses/locationcategories-rate-limit.json"
+)
+
+os.makedirs("sample_responses", exist_ok=True)
+os.makedirs("sample_responses/locationcategories", exist_ok=True)
+
+
+def pull_locationcategories(client: noaa.NOAAClient | None = None):
+    token = dotenv.dotenv_values().get("token", None)
+
+    if token is None:
+        logger.info("Token (key: `token`) not found in .env file. Skipping data pull")
+        return
+
+    logger.info("Token (key: `token`) found in .env file. Pulling data.")
+    client = noaa.NOAAClient(token=token) if client is None else client
+
+    response = cast(
+        json_responses.LocationcategoriesJSON,
+        asyncio.run(client.get_location_categories()),
+    )
+
+    with open(LOCATIONCATEGORIES_RESPONSE_SAMPLE_PATH, "w") as f:
+        json.dump(response, f, indent=4)
+
+    sample_id: str = next(iter(response["results"]))["id"]
+
+    response_id = asyncio.run(client.get_locationcategory_by_id(sample_id))
+
+    with open(LOCATIONCATEGORIES_ID_RESPONSE_SAMPLE_PATH, "w") as f:
+        json.dump(response_id, f, indent=4)
+
+    logger.info("Data pull complete.")
+
+    client.close()
+
+
+if __name__ == "__main__":
+    pull_locationcategories()
+    validate_test(
+        logger,
+        LOCATIONCATEGORIES_RESPONSE_SAMPLE_PATH,
+        LOCATIONCATEGORIES_ID_RESPONSE_SAMPLE_PATH,
+        LOCATIONCATEGORIES_RATELIMIT_RESPONSE_SAMPLE_PATH,
+        json_responses.LocationcategoriesJSON,
+        json_responses.LocationcategoryIDJSON,
+        json_responses.RateLimitJSON,
+    )
