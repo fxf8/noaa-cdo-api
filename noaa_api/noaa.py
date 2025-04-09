@@ -197,20 +197,6 @@ class NOAAClient:
          - TokenLocation: The location of the token.
         """  # noqa: E501
 
-        """
-        if self.seconds_request_limiter._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
-            self.seconds_request_limiter = aiolimiter.AsyncLimiter(
-                5,  # 5 requests per second
-                1,  # 1 second
-            )
-
-        if self.daily_request_limiter._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
-            self.daily_request_limiter = aiolimiter.AsyncLimiter(
-                10_000,  # 10_000 requests per day
-                60 * 60 * 24,  # 1 day
-            )
-        """
-
         if self.tcp_connector is not None and self.tcp_connector._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
             self.tcp_connector = None
 

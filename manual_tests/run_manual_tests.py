@@ -27,7 +27,7 @@ MANUAL_TESTS = [
 def create_test_panel(title: str, content: str, success: bool) -> Panel:
     """Create a fancy panel for test output."""
     style = Style(color="green" if success else "red")
-    title_style = Style(color="green" if success else "red", bold=True)
+    # title_style = Style(color="green" if success else "red", bold=True)
     return Panel(
         content,
         title=title,
@@ -116,7 +116,7 @@ async def run_tests():
     console.print("\n" + "=" * 50)
     summary_style = "green" if passed_tests == total_tests else "red"
     console.print(
-        f"\n[bold {summary_style}]Test Summary: {passed_tests}/{total_tests} tests passed[/bold {summary_style}]"
+        f"\n[bold {summary_style}]Test Summary: {passed_tests}/{total_tests} tests passed[/bold {summary_style}]"  # noqa: E501
     )
 
 
