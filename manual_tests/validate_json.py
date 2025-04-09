@@ -1,56 +1,91 @@
 # pyright: reportAny=false
 # pyright: reportExplicitAny=false
 
+import inspect
 import json
 import logging
 import os
-from typing import Any, Union, get_args, get_origin  # pyright: ignore[reportDeprecated]
+from collections.abc import Mapping, Sequence
+from types import UnionType
+from typing import Any, NotRequired, cast, get_args, get_origin
 
 
-def validate_typeddict(json_object: Any, schema: type) -> bool:
-    origin = get_origin(schema)
-    args = get_args(schema)
+def value_matches_type(data: Any, typeddict_class: type) -> bool:
+    """
+    Recursively validates that the given data conforms to the structure defined by the TypedDict class.
 
-    if origin is list:
-        if not isinstance(json_object, list):
+    Args:
+        data: The data to validate (typically parsed from JSON)
+        typeddict_class: A class that implements TypedDict
+
+    Returns:
+        bool: True if the data matches the TypedDict schema, False otherwise
+    """  # noqa: E501
+
+    type_origin: type | None = get_origin(typeddict_class)
+    type_args: tuple[type, ...] | None = get_args(typeddict_class)
+
+    if type_origin is UnionType:
+        return any(value_matches_type(data, type_arg) for type_arg in type_args)
+
+    if inspect.isclass(typeddict_class) and hasattr(typeddict_class, "__annotations__"):
+        if not isinstance(data, Mapping):
             return False
-        item_type = args[0]
-        return all(validate_typeddict(item, item_type) for item in json_object)  # pyright: ignore[reportUnknownVariableType]
 
-    elif origin is dict:
-        if not isinstance(json_object, dict):
-            return False
-        key_type, value_type = args
-        return all(
-            isinstance(k, key_type) and validate_typeddict(v, value_type)
-            for k, v in json_object.items()  # pyright: ignore[reportUnknownVariableType]
-        )
-
-    elif origin is Union:  # pyright: ignore[reportDeprecated]
-        return any(validate_typeddict(json_object, arg) for arg in args)
-
-    elif isinstance(json_object, dict) and hasattr(schema, "__annotations__"):
-        for key, value_type in schema.__annotations__.items():
-            if key not in json_object:
+        for key, value in cast(Mapping[str, object], data).items():
+            if key not in typeddict_class.__annotations__:
                 return False
-            if not validate_typeddict(json_object[key], value_type):
+
+            if not value_matches_type(value, typeddict_class.__annotations__[key]):
                 return False
+
         return True
 
-    else:
-        return isinstance(json_object, schema)
+    if (
+        isinstance(typeddict_class, Mapping)
+        or isinstance(type_origin, type)
+        and issubclass(type_origin, Mapping)
+    ):
+        if not issubclass(data, Mapping):
+            return False
 
+        if len(type_args) != 2:
+            return True
 
-def validate_json_file(file_path: str, schema: type) -> bool:
-    """Reads a JSON file and checks if it matches the given TypedDict schema."""
-    try:
-        with open(file_path, encoding="utf-8") as f:
-            data = json.load(f)
+        key_type, value_type = type_args
 
-        return validate_typeddict(data, schema)
+        for key, value in cast(Mapping[object, object], data).items():
+            if not value_matches_type(key, key_type):
+                return False
 
-    except (json.JSONDecodeError, FileNotFoundError):
-        return False
+            if not value_matches_type(value, value_type):
+                return False
+
+        return True
+
+    if (
+        isinstance(typeddict_class, Sequence)
+        or isinstance(type_origin, type)
+        and issubclass(type_origin, Sequence)
+    ):
+        if not isinstance(data, Sequence):
+            return False
+
+        if len(type_args) == 0:
+            return True
+
+        sequence_type = type_args[0]
+
+        return all(value_matches_type(item, sequence_type) for item in data)
+
+    if typeddict_class is NotRequired or type_origin is NotRequired:
+        if len(type_args) == 0:
+            return True
+
+        if len(type_args) == 1:
+            return value_matches_type(data, type_args[0])
+
+    return isinstance(data, typeddict_class)  # Neither Mapping, TypedDict, or Sequence
 
 
 def validate_test(
@@ -66,34 +101,40 @@ def validate_test(
 
     if os.path.exists(sample_path):
         logger.info(f"{sample_path} exists. Validating...")
+        with open(sample_path) as f:
+            json_response = json.load(f)
 
-        assert validate_json_file(sample_path, general_response_schema)
+        assert value_matches_type(json_response, general_response_schema)
 
         logger.info(f"{sample_path} is valid.")
 
     else:
         logger.info(f"{sample_path} does not exist. Skipping validation.")
 
-    if id_sample_path is not None:
+    if id_sample_path is not None and id_response_schema is not None:
         logger.info(f"Validating {id_sample_path}")
 
         if os.path.exists(id_sample_path):
             logger.info(f"{id_sample_path} exists. Validating...")
+            with open(id_sample_path) as f:
+                id_response = json.load(f)
 
-            assert validate_json_file(id_sample_path, id_response_schema)
+            assert value_matches_type(id_response, id_response_schema)
 
             logger.info(f"{id_sample_path} is valid.")
 
         else:
             logger.info(f"{id_sample_path} does not exist. Skipping validation.")
 
-    if ratelimit_path is not None:
+    if ratelimit_path is not None and ratelimit_response_schema is not None:
         logger.info(f"Validating {ratelimit_path}")
 
         if os.path.exists(ratelimit_path):
             logger.info(f"{ratelimit_path} exists. Validating...")
+            with open(ratelimit_path) as f:
+                ratelimit_response = json.load(f)
 
-            assert validate_json_file(ratelimit_path, ratelimit_response_schema)
+            assert value_matches_type(ratelimit_response, ratelimit_response_schema)
 
             logger.info(f"{ratelimit_path} is valid.")
 
