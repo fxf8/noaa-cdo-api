@@ -2,6 +2,8 @@
 # pyright: reportAny=false
 
 import asyncio
+import types
+import warnings
 from collections.abc import Mapping
 from enum import Enum
 from typing import Any, ClassVar, Self, cast
@@ -57,6 +59,9 @@ class NOAAClient:
         "tcp_connector_limit",
         "keepalive_timeout",
         "is_client_provided",
+        "_seconds_request_limiter",
+        "_daily_request_limiter",
+        "_most_recent_loop",
     )
 
     token: str | None
@@ -91,6 +96,18 @@ class NOAAClient:
     NOTE: If the token parameter is not set in the client headers, the `token` parameter will be used. If the `token` parameter is also none, a `MissingTokenError` will be raised.
     """  # noqa: E501
 
+    _seconds_request_limiter: aiolimiter.AsyncLimiter
+    """
+    Rate limiter for requests per second.
+    """
+
+    _daily_request_limiter: aiolimiter.AsyncLimiter
+    """
+    Rate limiter for requests per day.
+    """
+
+    _most_recent_loop: asyncio.AbstractEventLoop | None
+
     ENDPOINT: ClassVar[str] = "https://www.ncei.noaa.gov/cdo-web/api/v2"
     """
     Base URL for the NOAA CDO API v2.
@@ -117,6 +134,17 @@ class NOAAClient:
         self.tcp_connector = None
         self.aiohttp_session = None
         self.is_client_provided = False
+        self._seconds_request_limiter = aiolimiter.AsyncLimiter(
+            5,  # 5 requests per second
+            1,  # 1 second
+        )
+
+        self._daily_request_limiter = aiolimiter.AsyncLimiter(
+            10_000,  # 10_000 requests per day
+            60 * 60 * 24,  # 1 day
+        )
+
+        self._most_recent_loop = None
 
     def _find_token_location(self) -> TokenLocation:
         if self.aiohttp_session is None:
@@ -129,6 +157,19 @@ class NOAAClient:
             return TokenLocation.InClientSessionHeaders
 
         return TokenLocation.InAttributesAndClientSessionHeaders
+
+    async def __aenter__(self) -> Self:
+        _ = await self._ensure()
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: Exception | None,
+        traceback: types.TracebackType | None,
+    ) -> None:
+        if not self.is_client_provided:
+            self.close()
 
     async def provide_aiohttp_client_session(
         self, asyncio_client: aiohttp.ClientSession
@@ -155,6 +196,20 @@ class NOAAClient:
         Returns:
          - TokenLocation: The location of the token.
         """  # noqa: E501
+
+        """
+        if self.seconds_request_limiter._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
+            self.seconds_request_limiter = aiolimiter.AsyncLimiter(
+                5,  # 5 requests per second
+                1,  # 1 second
+            )
+
+        if self.daily_request_limiter._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
+            self.daily_request_limiter = aiolimiter.AsyncLimiter(
+                10_000,  # 10_000 requests per day
+                60 * 60 * 24,  # 1 day
+            )
+        """
 
         if self.tcp_connector is not None and self.tcp_connector._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
             self.tcp_connector = None
@@ -211,6 +266,28 @@ class NOAAClient:
          - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
         """  # noqa: E501
 
+        if self._most_recent_loop is None:
+            self._most_recent_loop = asyncio.get_running_loop()
+
+        elif self._most_recent_loop.is_closed():
+            warnings.warn(
+                "Preivous loop was closed. Please only make requests from the same loop in order to utilize client-side rate limiting and TCP Connection caching",  # noqa: E501
+                RuntimeWarning,
+                stacklevel=9,
+            )
+
+            self._seconds_request_limiter = aiolimiter.AsyncLimiter(
+                5,  # 5 requests per second
+                1,  # 1 second
+            )
+
+            self._daily_request_limiter = aiolimiter.AsyncLimiter(
+                10_000,  # 10_000 requests per day
+                60 * 60 * 24,  # 1 day
+            )
+
+            self._most_recent_loop = asyncio.get_running_loop()
+
         token_location: TokenLocation = await self._ensure()
 
         if (
@@ -225,20 +302,10 @@ class NOAAClient:
                 "Neither client with token in header nor `token` attribute is provided"
             )
 
-        seconds_request_limiter = aiolimiter.AsyncLimiter(
-            5,  # 5 requests per second
-            1,  # 1 second
-        )
-
-        daily_request_limiter = aiolimiter.AsyncLimiter(
-            10_000,  # 10_000 requests per day
-            60 * 60 * 24,  # 1 day
-        )
-
         if token_parameter is not None:
             async with (
-                seconds_request_limiter,
-                daily_request_limiter,
+                self._seconds_request_limiter,
+                self._daily_request_limiter,
                 cast(
                     aiohttp.ClientSession, self.aiohttp_session
                 ).get(  # Client was already ensured
@@ -255,12 +322,12 @@ class NOAAClient:
             or TokenLocation.InClientSessionHeaders
         ):
             async with (
-                seconds_request_limiter,
-                daily_request_limiter,
+                self._seconds_request_limiter,
+                self._daily_request_limiter,
                 cast(
                     aiohttp.ClientSession, self.aiohttp_session
                 ).get(  # Client was already ensured
-                    url, params=cast(Mapping[str, str], parameters)
+                    url, params=cast(Mapping[str, str | int], parameters)
                 ) as response,
             ):
                 response.raise_for_status()
@@ -268,8 +335,8 @@ class NOAAClient:
 
         if token_location == TokenLocation.InAttribute:
             async with (
-                seconds_request_limiter,
-                daily_request_limiter,
+                self._seconds_request_limiter,
+                self._daily_request_limiter,
                 cast(
                     aiohttp.ClientSession, self.aiohttp_session
                 ).get(  # Client was already ensured
@@ -286,6 +353,7 @@ class NOAAClient:
     ) -> json_schemas.DatasetIDJSON | json_schemas.RateLimitJSON:
         """
         Query information about a specific dataset by ID.
+        Endpoint: `/datasets/{id}`
 
         Args:
          - id (str): The ID of the dataset to retrieve.
@@ -314,8 +382,8 @@ class NOAAClient:
         datatypeid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "",  # YYYY-MM-DD
-        enddate: str = "",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",  # YYYY-MM-DD
+        enddate: str = "0001-01-01",  # YYYY-MM-DD
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -323,6 +391,7 @@ class NOAAClient:
     ) -> json_schemas.DatasetsJSON | json_schemas.RateLimitJSON:
         """
         Query information about available datasets.
+        Endpoint: `/datasets`
 
         Note: List parameters are automatically formatted as ampersand separated strings. Porviding a string or list of strings of amersand separaated values is also supported.
 
@@ -377,6 +446,7 @@ class NOAAClient:
     ) -> json_schemas.DatacategoryIDJSON | json_schemas.RateLimitJSON:
         """
         Query information about a specific data category by ID.
+        Endpoint: `/datacategories/{id}`
 
         Args:
          - id (str): The ID of the data category to retrieve.
@@ -404,8 +474,8 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "",  # YYYY-MM-DD
-        enddate: str = "",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",  # YYYY-MM-DD
+        enddate: str = "9999-01-01",  # YYYY-MM-DD
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -413,6 +483,7 @@ class NOAAClient:
     ) -> json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON:
         """
         Query information about data categories. Porviding a string or list of strings of amersand separaated values is also supported.
+        Endpoint: `/datacategories`
 
 
         Args:
@@ -467,6 +538,7 @@ class NOAAClient:
     ) -> json_schemas.DatatypeIDJSON | json_schemas.RateLimitJSON:
         """
         Query information about a specific data type by ID.
+        Endpoint: `/datatypes/{id}`
 
         Args:
          - id (str): The ID of the data type to retrieve.
@@ -493,8 +565,8 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "",  # YYYY-MM-DD
-        enddate: str = "",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",  # YYYY-MM-DD
+        enddate: str = "9999-01-01",  # YYYY-MM-DD
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -502,6 +574,7 @@ class NOAAClient:
     ) -> json_schemas.DatatypesJSON | json_schemas.RateLimitJSON:
         """
         Query information about data types. Porviding a string or list of strings of amersand separaated values is also supported.
+        Endpoint: `/datatypes`
 
 
         Args:
@@ -549,11 +622,12 @@ class NOAAClient:
             ),
         )
 
-    async def get_locationcategory_by_id(
+    async def get_location_category_by_id(
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.LocationcategoryIDJSON | json_schemas.RateLimitJSON:
         """
         Query information about a specific location category by ID.
+        Endpoint: `/locationcategories/{id}`
 
         Args:
          - id (str): The ID of the location category to retrieve.
@@ -581,8 +655,8 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "",  # YYYY-MM-DD
-        enddate: str = "",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",  # YYYY-MM-DD
+        enddate: str = "9999-01-01",  # YYYY-MM-DD
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -590,6 +664,7 @@ class NOAAClient:
     ) -> json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON:
         """
         Query information about location categories. Porviding a string or list of strings of amersand separaated values is also supported.
+        Endpoint: `/locationcategories`
 
 
         Args:
@@ -641,6 +716,7 @@ class NOAAClient:
     ) -> json_schemas.LocationIDJSON | json_schemas.RateLimitJSON:
         """
         Query information about a specific location by ID.
+        Endpoint: `/locations/{id}`
 
         Args:
          - id (str): The ID of the location to retrieve.
@@ -667,8 +743,8 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "",  # YYYY-MM-DD
-        enddate: str = "",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",  # YYYY-MM-DD
+        enddate: str = "9999-01-01",  # YYYY-MM-DD
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -676,6 +752,7 @@ class NOAAClient:
     ) -> json_schemas.LocationsJSON | json_schemas.RateLimitJSON:
         """
         Query information about locations. Porviding a string or list of strings of amersand separaated values is also supported.
+        Endpoint: `/locations`
 
 
         Args:
@@ -722,11 +799,12 @@ class NOAAClient:
             ),
         )
 
-    async def get_stations_by_id(
+    async def get_station_by_id(
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.StationIDJSON | json_schemas.RateLimitJSON:
         """
         Query information about a specific station by ID.
+        Endpoint: `/stations/{id}`
 
         Args:
          - id (str): The ID of the station to retrieve.
@@ -752,8 +830,8 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "",  # YYYY-MM-DD
-        enddate: str = "",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",  # YYYY-MM-DD
+        enddate: str = "9999-01-01",  # YYYY-MM-DD
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -761,6 +839,7 @@ class NOAAClient:
     ) -> json_schemas.StationsJSON | json_schemas.RateLimitJSON:
         """
         Query information about weather stations. Porviding a string or list of strings of amersand separaated values is also supported.
+        Endpoint: `/stations`
 
 
         Args:
@@ -819,7 +898,7 @@ class NOAAClient:
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
         units: parameter_schemas.Units = "",
-        sortfield: parameter_schemas.Sortfield = "id",
+        sortfield: parameter_schemas.DataSortField = "date",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
         offset: int = 0,
@@ -827,7 +906,7 @@ class NOAAClient:
     ) -> json_schemas.DataJSON | json_schemas.RateLimitJSON:
         """
         Query actual climate data based on specified parameters. Porviding a string or list of strings of amersand separaated values is also supported.
-
+        Endpoint: `/data?datasetid=YOUR_DATASETID`
 
         Args:
          - datasetid (str): Required. The dataset ID to query.
@@ -857,34 +936,32 @@ class NOAAClient:
          - Not following these guidelines will raise a `ClientResponseError`. The reason for this rather than raising an exception prior to the 'GET' reqest is because knowing whether a datatype is hourly, monthly, or annually (and therefore the allowed time domain) requires an additional request.
         """  # noqa: E501
 
-        client_response: aiohttp.ClientResponse = await self._make_request(
-            f"{self.ENDPOINT}/data",
-            parameters={
-                "datasetid": datasetid,
-                "startdate": startdate,
-                "enddate": enddate,
-                "datatypeid": "&".join(datatypeid)
-                if isinstance(datatypeid, list)
-                else datatypeid,
-                "locationid": "&".join(locationid)
-                if isinstance(locationid, list)
-                else locationid,
-                "stationid": "&".join(stationid)
-                if isinstance(stationid, list)
-                else stationid,
-                "units": units,
-                "sortfield": sortfield,
-                "sortorder": sortorder,
-                "limit": limit,
-                "offset": offset,
-                "includemetadata": includemetadata,
-            },
-            token_parameter=token_parameter,
-        )
-
         return cast(
             json_schemas.DataJSON | json_schemas.RateLimitJSON,
-            await client_response.json(),
+            await self._make_request(
+                f"{self.ENDPOINT}/data",
+                parameters={
+                    "datasetid": datasetid,
+                    "startdate": startdate,
+                    "enddate": enddate,
+                    "datatypeid": "&".join(datatypeid)
+                    if isinstance(datatypeid, list)
+                    else datatypeid,
+                    "locationid": "&".join(locationid)
+                    if isinstance(locationid, list)
+                    else locationid,
+                    "stationid": "&".join(stationid)
+                    if isinstance(stationid, list)
+                    else stationid,
+                    "units": units,
+                    "sortfield": sortfield,
+                    "sortorder": sortorder,
+                    "limit": limit,
+                    "offset": offset,
+                    "includemetadata": "true" if includemetadata else "false",
+                },
+                token_parameter=token_parameter,
+            ),
         )
 
     def close(self):

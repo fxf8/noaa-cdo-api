@@ -33,8 +33,9 @@ from typing import Literal, Required, TypedDict
 
 Sortfield = Literal["id", "name", "mindate", "maxdate", "datacoverage", ""]
 """
-Literal set of values for the api 'sortfield'
-"""
+Literal set of values for the api 'sortfield'. Only for DatasetsParameters, DatacategoriesParameters, DatatypesParameters, LocationcategoriesParameters, LocationsParameters, StationsParameters. **NOT for DataParameters**
+"""  # noqa: E501
+DataSortField = Literal["datatype", "date", "station"]
 
 Sortorder = Literal["asc", "desc"]
 """
@@ -404,7 +405,7 @@ class DataParameters(TypedDict, total=False):
     Unit conversion, either "standard" or "metric". Default is no conversion.
     """
 
-    sortfield: Sortfield
+    sortfield: DataSortField
     """
     Field to sort results by. Options are "id", "name", "mindate", "maxdate", "datacoverage".
     """  # noqa: E501
@@ -425,7 +426,7 @@ class DataParameters(TypedDict, total=False):
     """
 
     includemetadata: (
-        bool  # Default is True, set to False to exclude metadata calculation
+        str  # Default is True, set to False to exclude metadata calculation
     )
     """
     Whether to include metadata in the response. Default is True.

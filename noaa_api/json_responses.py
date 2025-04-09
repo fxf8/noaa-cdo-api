@@ -30,6 +30,7 @@ LocationIDJSON = json_schemas.LocationIDJSON
 LocationsJSON = json_schemas.LocationsJSON
 StationIDJSON = json_schemas.StationIDJSON
 StationsJSON = json_schemas.StationsJSON
+DataJSON = json_schemas.DataJSON
 
 AnyResponse = (
     RateLimitJSON

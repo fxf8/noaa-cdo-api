@@ -408,7 +408,7 @@ class StationIDJSON(TypedDict):
     Represents the JSON response structure for a specific station identified by its ID from the '/stations/{id}' endpoint.
     """  # noqa: E501
 
-    elevation: float
+    elevation: int | float
     """
     The elevation of the station in meters.
     """
@@ -423,7 +423,7 @@ class StationIDJSON(TypedDict):
     The latest date for which data is available, formatted as 'YYYY-MM-DD'.
     """
 
-    latitude: float
+    latitude: float | int
     """
     The latitude coordinate of the station.
     """
@@ -448,7 +448,7 @@ class StationIDJSON(TypedDict):
     The unit of measurement for elevation (e.g., 'METERS').
     """
 
-    longitude: float
+    longitude: float | int
     """
     The longitude coordinate of the station.
     """
