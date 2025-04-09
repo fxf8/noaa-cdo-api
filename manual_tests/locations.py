@@ -21,7 +21,8 @@ LOCATIONS_RATELIMIT_RESPONSE_SAMPLE_PATH: str = (
 os.makedirs("sample_responses", exist_ok=True)
 os.makedirs("sample_responses/locations", exist_ok=True)
 
-def pull_locations(client: noaa.NOAAClient | None = None):
+
+async def pull_locations(client: noaa.NOAAClient | None = None):
     token = dotenv.dotenv_values().get("token", None)
 
     if token is None:
@@ -31,24 +32,24 @@ def pull_locations(client: noaa.NOAAClient | None = None):
     logger.info("Token (key: `token`) found in .env file. Pulling data.")
     client = noaa.NOAAClient(token=token) if client is None else client
 
-    response = cast(json_responses.LocationsJSON, asyncio.run(client.get_locations()))
+    async with client:
+        response = cast(json_responses.LocationsJSON, await client.get_locations())
 
-    with open(LOCATIONS_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response, f, indent=4)
+        with open(LOCATIONS_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response, f, indent=4)
 
-    sample_id: str = next(iter(response["results"]))["id"]
+        sample_id: str = next(iter(response["results"]))["id"]
 
-    response_id = asyncio.run(client.get_location_by_id(sample_id))
+        response_id = await client.get_location_by_id(sample_id)
 
-    with open(LOCATIONS_ID_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response_id, f, indent=4)
+        with open(LOCATIONS_ID_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response_id, f, indent=4)
 
-    logger.info("Data pull complete.")
+        logger.info("Data pull complete.")
 
-    client.close()
 
 if __name__ == "__main__":
-    pull_locations()
+    asyncio.run(pull_locations())
     validate_test(
         logger,
         LOCATIONS_RESPONSE_SAMPLE_PATH,

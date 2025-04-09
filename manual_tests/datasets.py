@@ -22,37 +22,35 @@ os.makedirs("sample_responses", exist_ok=True)
 os.makedirs("sample_responses/datasets", exist_ok=True)
 
 
-def pull_datasets(client: noaa.NOAAClient | None = None):
+async def pull_datasets(client: noaa.NOAAClient | None = None):
     token = dotenv.dotenv_values().get("token", None)
 
     if token is None:
         logger.info("Token (key: `token`) not found in .env file. Skipping data pull")
-
         return
 
     logger.info("Token (key: `token`) found in .env file. Pulling data.")
     client = noaa.NOAAClient(token=token) if client is None else client
 
-    # Assume response is noaa.
-    response = cast(json_responses.DatasetsJSON, asyncio.run(client.get_datasets()))
+    async with client:
+        # Assume response is noaa.
+        response = cast(json_responses.DatasetsJSON, await client.get_datasets())
 
-    with open(DATASETS_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response, f, indent=4)
+        with open(DATASETS_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response, f, indent=4)
 
-    sample_id: str = next(iter(response["results"]))["id"]
+        sample_id: str = next(iter(response["results"]))["id"]
 
-    response_id = asyncio.run(client.get_dataset_by_id(sample_id))
+        response_id = await client.get_dataset_by_id(sample_id)
 
-    with open(DATASETS_ID_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response_id, f, indent=4)
+        with open(DATASETS_ID_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response_id, f, indent=4)
 
-    logger.info("Data pull complete.")
-
-    client.close()
+        logger.info("Data pull complete.")
 
 
 if __name__ == "__main__":
-    pull_datasets()
+    asyncio.run(pull_datasets())
     validate_test(
         logger,
         DATASETS_RESPONSE_SAMPLE_PATH,

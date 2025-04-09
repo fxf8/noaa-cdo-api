@@ -19,7 +19,7 @@ os.makedirs("sample_responses", exist_ok=True)
 os.makedirs("sample_responses/data", exist_ok=True)
 
 
-def pull_data(client: noaa.NOAAClient | None = None):
+async def pull_data(client: noaa.NOAAClient | None = None):
     token = dotenv.dotenv_values().get("token", None)
 
     if token is None:
@@ -29,30 +29,27 @@ def pull_data(client: noaa.NOAAClient | None = None):
     logger.info("Token (key: `token`) found in .env file. Pulling data.")
     client = noaa.NOAAClient(token=token) if client is None else client
 
-    # For data endpoint, we need some parameters to make a valid request
-    # Using some sample values that should work
-    response = cast(
-        json_responses.DataJSON,
-        asyncio.run(
-            client.get_data(
+    async with client:
+        # For data endpoint, we need some parameters to make a valid request
+        # Using some sample values that should work
+        response = cast(
+            json_responses.DataJSON,
+            await client.get_data(
                 datasetid="GHCND",
                 startdate="2024-01-01",
                 enddate="2024-01-02",
                 limit=10,
             )
-        ),
-    )
+        )
 
-    with open(DATA_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response, f, indent=4)
+        with open(DATA_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response, f, indent=4)
 
-    logger.info("Data pull complete.")
-
-    client.close()
+        logger.info("Data pull complete.")
 
 
 if __name__ == "__main__":
-    pull_data()
+    asyncio.run(pull_data())
     validate_test(
         logger,
         DATA_RESPONSE_SAMPLE_PATH,

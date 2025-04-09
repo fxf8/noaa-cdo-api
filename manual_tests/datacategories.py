@@ -26,7 +26,7 @@ os.makedirs("sample_responses", exist_ok=True)
 os.makedirs("sample_responses/datacategories", exist_ok=True)
 
 
-def pull_datacategories(client: noaa.NOAAClient | None = None):
+async def pull_datacategories(client: noaa.NOAAClient | None = None):
     token = dotenv.dotenv_values().get("token", None)
 
     if token is None:
@@ -36,27 +36,27 @@ def pull_datacategories(client: noaa.NOAAClient | None = None):
     logger.info("Token (key: `token`) found in .env file. Pulling data.")
     client = noaa.NOAAClient(token=token) if client is None else client
 
-    response = cast(
-        json_responses.DatacategoriesJSON, asyncio.run(client.get_datacategories())
-    )
+    async with client:
+        response = cast(
+            json_responses.DatacategoriesJSON,
+            await client.get_data_categories(),
+        )
 
-    with open(DATACATEGORIES_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response, f, indent=4)
+        with open(DATACATEGORIES_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response, f, indent=4)
 
-    sample_id: str = next(iter(response["results"]))["id"]
+        sample_id: str = next(iter(response["results"]))["id"]
 
-    response_id = asyncio.run(client.get_data_category_by_id(sample_id))
+        response_id = await client.get_data_category_by_id(sample_id)
 
-    with open(DATACATEGORIES_ID_RESPONSE_SAMPLE_PATH, "w") as f:
-        json.dump(response_id, f, indent=4)
+        with open(DATACATEGORIES_ID_RESPONSE_SAMPLE_PATH, "w") as f:
+            json.dump(response_id, f, indent=4)
 
-    logger.info("Data pull complete.")
-
-    client.close()
+        logger.info("Data pull complete.")
 
 
 if __name__ == "__main__":
-    pull_datacategories()
+    asyncio.run(pull_datacategories())
     validate_test(
         logger,
         DATACATEGORIES_RESPONSE_SAMPLE_PATH,

@@ -84,7 +84,9 @@ async def run_tests():
                     passed_tests += 1
                     logger.info(f"Test {test_file} completed successfully")
                 else:
-                    logger.error(f"Test {test_file} failed with return code {process.returncode}")
+                    logger.error(
+                        f"Test {test_file} failed with return code {process.returncode}"
+                    )
 
                 console.print(
                     create_test_panel(
