@@ -1,0 +1,81 @@
+{
+    "metadata": {
+        "resultset": {
+            "offset": 1,
+            "count": 209585,
+            "limit": 10
+        }
+    },
+    "results": [
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "TMAX",
+            "station": "GHCND:CA003053600",
+            "attributes": ",,C,",
+            "value": 50
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "TMIN",
+            "station": "GHCND:CA003053600",
+            "attributes": ",,C,",
+            "value": -50
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "PRCP",
+            "station": "GHCND:CA003053600",
+            "attributes": ",,C,",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "SNOW",
+            "station": "GHCND:CA003053600",
+            "attributes": ",,C,",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "SNWD",
+            "station": "GHCND:CA003053600",
+            "attributes": ",,C,",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "TAVG",
+            "station": "GHCND:CA003053600",
+            "attributes": ",,C,",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "PRCP",
+            "station": "GHCND:US1Hami4288",
+            "attributes": ",,N,0700",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "PRCP",
+            "station": "GHCND:US1NMLU0001",
+            "attributes": ",,N,0700",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "SNOW",
+            "station": "GHCND:US1NMLU0001",
+            "attributes": ",,N,0700",
+            "value": 0
+        },
+        {
+            "date": "2024-01-01T00:00:00",
+            "datatype": "PRCP",
+            "station": "GHCND:US1PABR0012",
+            "attributes": ",,N,0700",
+            "value": 8
+        }
+    ]
+}

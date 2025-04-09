@@ -1,0 +1,286 @@
+{
+    "metadata": {
+        "resultset": {
+            "offset": 1,
+            "count": 154084,
+            "limit": 25
+        }
+    },
+    "results": [
+        {
+            "elevation": 139,
+            "mindate": "1948-01-01",
+            "maxdate": "2014-01-01",
+            "latitude": 31.5702,
+            "name": "ABBEVILLE, AL US",
+            "datacoverage": 0.8813,
+            "id": "COOP:010008",
+            "elevationUnit": "METERS",
+            "longitude": -85.2482
+        },
+        {
+            "elevation": 239.6,
+            "mindate": "1938-01-01",
+            "maxdate": "2015-11-01",
+            "latitude": 34.21096,
+            "name": "ADDISON, AL US",
+            "datacoverage": 0.5059,
+            "id": "COOP:010063",
+            "elevationUnit": "METERS",
+            "longitude": -87.17838
+        },
+        {
+            "elevation": 302.1,
+            "mindate": "1940-05-01",
+            "maxdate": "1962-03-01",
+            "latitude": 34.41667,
+            "name": "ADDISON CENTRAL TOWER, AL US",
+            "datacoverage": 0.9658,
+            "id": "COOP:010071",
+            "elevationUnit": "METERS",
+            "longitude": -87.31667
+        },
+        {
+            "elevation": 172.5,
+            "mindate": "1995-04-01",
+            "maxdate": "2015-11-01",
+            "latitude": 33.17835,
+            "name": "ALABASTER SHELBY CO AIRPORT ASOS, AL US",
+            "datacoverage": 0.8064,
+            "id": "COOP:010116",
+            "elevationUnit": "METERS",
+            "longitude": -86.78178
+        },
+        {
+            "elevation": 183.8,
+            "mindate": "1949-01-01",
+            "maxdate": "1949-12-01",
+            "latitude": 34.6891,
+            "name": "BELLE MINA 2 N, AL US",
+            "datacoverage": 1,
+            "id": "COOP:010117",
+            "elevationUnit": "METERS",
+            "longitude": -86.8819
+        },
+        {
+            "elevation": 34.1,
+            "mindate": "1935-05-01",
+            "maxdate": "1936-11-01",
+            "latitude": 31.13333,
+            "name": "ALAGA, AL US",
+            "datacoverage": 0.2624,
+            "id": "COOP:010125",
+            "elevationUnit": "METERS",
+            "longitude": -85.06667
+        },
+        {
+            "elevation": 53.3,
+            "mindate": "1940-11-01",
+            "maxdate": "2014-12-01",
+            "latitude": 32.2322,
+            "name": "ALBERTA, AL US",
+            "datacoverage": 0.9888,
+            "id": "COOP:010140",
+            "elevationUnit": "METERS",
+            "longitude": -87.4104
+        },
+        {
+            "elevation": 348.1,
+            "mindate": "1931-01-01",
+            "maxdate": "1977-06-01",
+            "latitude": 34.23333,
+            "name": "ALBERTVILLE, AL US",
+            "datacoverage": 0.9535,
+            "id": "COOP:010148",
+            "elevationUnit": "METERS",
+            "longitude": -86.16667
+        },
+        {
+            "elevation": 201.2,
+            "mindate": "1969-10-01",
+            "maxdate": "2015-11-01",
+            "latitude": 32.935,
+            "name": "ALEXANDER CITY, AL US",
+            "datacoverage": 0.9946,
+            "id": "COOP:010160",
+            "elevationUnit": "METERS",
+            "longitude": -85.95556
+        },
+        {
+            "elevation": 200.9,
+            "mindate": "1942-11-01",
+            "maxdate": "1969-10-01",
+            "latitude": 32.98333,
+            "name": "ALEXANDER CITY 6 NE, AL US",
+            "datacoverage": 0.9629,
+            "id": "COOP:010163",
+            "elevationUnit": "METERS",
+            "longitude": -85.86667
+        },
+        {
+            "elevation": 59.4,
+            "mindate": "1940-01-01",
+            "maxdate": "2015-11-01",
+            "latitude": 33.1272,
+            "name": "ALICEVILLE, AL US",
+            "datacoverage": 0.9144,
+            "id": "COOP:010178",
+            "elevationUnit": "METERS",
+            "longitude": -88.155
+        },
+        {
+            "elevation": 48.2,
+            "mindate": "1980-05-01",
+            "maxdate": "2015-11-01",
+            "latitude": 33.21041,
+            "name": "BEVILL LOCK AND DAM, AL US",
+            "datacoverage": 0.9883,
+            "id": "COOP:010184",
+            "elevationUnit": "METERS",
+            "longitude": -88.28686
+        },
+        {
+            "elevation": 76.2,
+            "mindate": "1938-01-01",
+            "maxdate": "2015-11-01",
+            "latitude": 31.3071,
+            "name": "ANDALUSIA 3 W, AL US",
+            "datacoverage": 0.9744,
+            "id": "COOP:010252",
+            "elevationUnit": "METERS",
+            "longitude": -86.5226
+        },
+        {
+            "elevation": 231.6,
+            "mindate": "2004-07-01",
+            "maxdate": "2015-11-01",
+            "latitude": 34.96285,
+            "name": "LEXINGTON, AL US",
+            "datacoverage": 1,
+            "id": "COOP:010260",
+            "elevationUnit": "METERS",
+            "longitude": -87.37195
+        },
+        {
+            "elevation": 220.1,
+            "mindate": "1948-01-01",
+            "maxdate": "1949-03-01",
+            "latitude": 33.66667,
+            "name": "ANNISTON, AL US",
+            "datacoverage": 1,
+            "id": "COOP:010267",
+            "elevationUnit": "METERS",
+            "longitude": -85.83333
+        },
+        {
+            "elevation": 181.8,
+            "mindate": "1948-01-01",
+            "maxdate": "2015-11-01",
+            "latitude": 33.59043,
+            "name": "ANNISTON METROPOLITAN AIRPORT, AL US",
+            "datacoverage": 0.9816,
+            "id": "COOP:010272",
+            "elevationUnit": "METERS",
+            "longitude": -85.84788
+        },
+        {
+            "elevation": 227.1,
+            "mindate": "1938-01-01",
+            "maxdate": "1983-10-01",
+            "latitude": 34.06667,
+            "name": "ARLEY 1 S, AL US",
+            "datacoverage": 0.9691,
+            "id": "COOP:010338",
+            "elevationUnit": "METERS",
+            "longitude": -87.23333
+        },
+        {
+            "elevation": 311.5,
+            "mindate": "1948-01-01",
+            "maxdate": "2013-11-01",
+            "latitude": 33.2941,
+            "name": "ASHLAND, AL US",
+            "datacoverage": 0.8872,
+            "id": "COOP:010369",
+            "elevationUnit": "METERS",
+            "longitude": -85.7788
+        },
+        {
+            "elevation": 180.1,
+            "mindate": "1941-06-01",
+            "maxdate": "1973-06-01",
+            "latitude": 33.85,
+            "name": "ASHVILLE, AL US",
+            "datacoverage": 0.9429,
+            "id": "COOP:010377",
+            "elevationUnit": "METERS",
+            "longitude": -86.33333
+        },
+        {
+            "elevation": 210,
+            "mindate": "1948-01-01",
+            "maxdate": "2015-11-01",
+            "latitude": 34.7752,
+            "name": "ATHENS, AL US",
+            "datacoverage": 0.5632,
+            "id": "COOP:010390",
+            "elevationUnit": "METERS",
+            "longitude": -86.9508
+        },
+        {
+            "elevation": 219.5,
+            "mindate": "1955-10-01",
+            "maxdate": "1991-07-01",
+            "latitude": 34.8,
+            "name": "ATHENS 2, AL US",
+            "datacoverage": 0.9442,
+            "id": "COOP:010395",
+            "elevationUnit": "METERS",
+            "longitude": -86.98333
+        },
+        {
+            "elevation": 220.1,
+            "mindate": "1958-05-01",
+            "maxdate": "1958-06-01",
+            "latitude": 34.8,
+            "name": "ATHENS COURTHOUSE, AL US",
+            "datacoverage": 0.998,
+            "id": "COOP:010398",
+            "elevationUnit": "METERS",
+            "longitude": -86.96667
+        },
+        {
+            "elevation": 91.4,
+            "mindate": "1940-01-01",
+            "maxdate": "2015-11-01",
+            "latitude": 31.182,
+            "name": "ATMORE, AL US",
+            "datacoverage": 0.7103,
+            "id": "COOP:010402",
+            "elevationUnit": "METERS",
+            "longitude": -87.439
+        },
+        {
+            "elevation": 67.1,
+            "mindate": "1965-01-01",
+            "maxdate": "1982-10-01",
+            "latitude": 31.01667,
+            "name": "ATMORE, AL US",
+            "datacoverage": 0.967,
+            "id": "COOP:010407",
+            "elevationUnit": "METERS",
+            "longitude": -87.51667
+        },
+        {
+            "elevation": 223.1,
+            "mindate": "1931-01-01",
+            "maxdate": "1970-12-01",
+            "latitude": 32.6,
+            "name": "AUBURN, AL US",
+            "datacoverage": 0.9917,
+            "id": "COOP:010422",
+            "elevationUnit": "METERS",
+            "longitude": -85.5
+        }
+    ]
+}
