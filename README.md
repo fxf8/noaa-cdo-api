@@ -64,11 +64,12 @@ if __name__ == "__main__":
 ### Event Loop Management
 ```python
 # ❌ BAD: Creating multiple event loops
-loop1 = asyncio.new_event_loop()
 client1 = await NOAAClient(token="TOKEN1")
-loop2 = asyncio.new_event_loop()  # Don't do this!
+client2 = await NOAAClient(token="TOKEN2")
 
-# ✅ GOOD: Share the same event loop
+results = [*asyncio.run(client1.get_datasets(...)), *asyncio.run(client2.get_datasets(...))]
+
+# ✅ GOOD: Share the same event loop (note that rate limits apply **per token**)
 async with NOAAClient(token="TOKEN1") as client1, \
          NOAAClient(token="TOKEN2") as client2:
     await asyncio.gather(
@@ -79,36 +80,38 @@ async with NOAAClient(token="TOKEN1") as client1, \
 
 ### Resource Management
 ```python
-# ❌ BAD: Manual cleanup
+# ❌ Less ideal but functional: Manual cleanup
 client = NOAAClient(token="TOKEN")
 try:
     await client.get_datasets()
 finally:
-    client.close()  # Might miss resources
+    client.close()  # Might miss resources (note: close does not need to be awaited)
 
-# ✅ GOOD: Use async context manager
+# ✅ Better: Use async context manager
 async with NOAAClient(token="TOKEN") as client:
     await client.get_datasets()
 ```
 
 ### Rate Limiting
 ```python
-# ❌ BAD: Parallel requests with separate limiters
-async def parallel_bad():
+# ✅ Ideal
+async def paralell_with():
+    async with NOAAClient(token="TOKEN") as client:
+        tasks = [client.get_datasets() for _ in range(20)]
+        return await asyncio.gather(*tasks)  # Rate limits respected
+
+
+# Works too since returns are asynchronous
+async def paralell_separate():
     tasks = []
     for i in range(20):
         client = NOAAClient(token="TOKEN")  # Each has separate limiter
         tasks.append(client.get_datasets())
     return await asyncio.gather(*tasks)  # May exceed limits
 
-# ✅ GOOD: Share client for parallel requests
-async def parallel_good():
-    async with NOAAClient(token="TOKEN") as client:
-        tasks = [client.get_datasets() for _ in range(20)]
-        return await asyncio.gather(*tasks)  # Rate limits respected
 ```
 
-## Performance Tips
+## Tips
 
 1. **Connection Pooling**
    - Reuse the same client instance
