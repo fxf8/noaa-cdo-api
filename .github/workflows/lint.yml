@@ -1,0 +1,38 @@
+name: Lint & Type Check
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: '0.6.6'
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+
+      - name: Install dependencies
+        run: |
+            uv sync --dev --all-extras
+
+      - name: Run Ruff
+        run: |
+            source .venv/bin/activate
+            ruff check --output-format=github
+
+      - name: Run MyPy
+        run: |
+            source .venv/bin/activate
+            python -m mypy noaa_api --output json
+
