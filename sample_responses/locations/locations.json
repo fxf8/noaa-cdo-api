@@ -9,28 +9,28 @@
     "results": [
         {
             "mindate": "1983-01-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Abu Dhabi, AE",
             "datacoverage": 0.9971,
             "id": "CITY:AE000001"
         },
         {
             "mindate": "1944-03-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Ajman, AE",
             "datacoverage": 1,
             "id": "CITY:AE000002"
         },
         {
             "mindate": "1944-03-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Dubai, AE",
             "datacoverage": 1,
             "id": "CITY:AE000003"
         },
         {
             "mindate": "1944-03-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Sharjah, AE",
             "datacoverage": 1,
             "id": "CITY:AE000006"
@@ -51,105 +51,105 @@
         },
         {
             "mindate": "1877-04-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Algiers, AG",
             "datacoverage": 1,
             "id": "CITY:AG000001"
         },
         {
             "mindate": "1909-11-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Annaba, AG",
             "datacoverage": 1,
             "id": "CITY:AG000002"
         },
         {
             "mindate": "1973-04-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Batna, AG",
             "datacoverage": 1,
             "id": "CITY:AG000003"
         },
         {
             "mindate": "1957-01-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Bechar, AG",
             "datacoverage": 1,
             "id": "CITY:AG000004"
         },
         {
             "mindate": "1909-11-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Bejaia, AG",
             "datacoverage": 1,
             "id": "CITY:AG000005"
         },
         {
             "mindate": "1880-05-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Constantine, AG",
             "datacoverage": 1,
             "id": "CITY:AG000006"
         },
         {
             "mindate": "1995-10-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Guelma, AG",
             "datacoverage": 1,
             "id": "CITY:AG000007"
         },
         {
             "mindate": "1888-01-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Laghouat, AG",
             "datacoverage": 1,
             "id": "CITY:AG000008"
         },
         {
             "mindate": "1995-10-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Medea, AG",
             "datacoverage": 0.9881,
             "id": "CITY:AG000009"
         },
         {
             "mindate": "1976-04-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Mostaganem, AG",
             "datacoverage": 1,
             "id": "CITY:AG000010"
         },
         {
             "mindate": "1957-01-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Oran, AG",
             "datacoverage": 1,
             "id": "CITY:AG000011"
         },
         {
             "mindate": "1985-02-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Oum el Bouaghi, AG",
             "datacoverage": 1,
             "id": "CITY:AG000012"
         },
         {
             "mindate": "1981-01-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Saida, AG",
             "datacoverage": 1,
             "id": "CITY:AG000013"
         },
         {
             "mindate": "1995-10-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Sidi-Bel-Abbes, AG",
             "datacoverage": 0.9995,
             "id": "CITY:AG000014"
         },
         {
             "mindate": "1957-12-31",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Skikda, AG",
             "datacoverage": 1,
             "id": "CITY:AG000015"
@@ -163,7 +163,7 @@
         },
         {
             "mindate": "1981-01-01",
-            "maxdate": "2025-04-06",
+            "maxdate": "2025-04-07",
             "name": "Tlemcen, AG",
             "datacoverage": 1,
             "id": "CITY:AG000017"

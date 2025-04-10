@@ -1,8 +1,8 @@
 # NOAA Climate Data Online API Client
 
 [![GitHub Actions](https://github.com/FuexFollets/noaa-api/actions/workflows/lint.yml/badge.svg)](https://github.com/FuexFollets/noaa-api/actions)
-[![Python Version](https://img.shields.io/pypi/pyversions/noaa-api.svg)](https://pypi.org/project/noaa-api/)
-[![PyPI version](https://badge.fury.io/py/noaa-api.svg)](https://badge.fury.io/py/noaa-api)
+<!-- [![Python Version](https://img.shields.io/pypi/pyversions/noaa-api.svg)](https://pypi.org/project/noaa-api/) -->
+<!-- [![PyPI version](https://badge.fury.io/py/noaa-api.svg)](https://badge.fury.io/py/noaa-api) -->
 [![License](https://img.shields.io/github/license/FuexFollets/noaa-api.svg)](https://github.com/FuexFollets/noaa-api/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-pdoc-blue)](https://fuexfollets.github.io/noaa-api)
 [![Lint](https://img.shields.io/badge/docs-pdoc-blue)](https://fuexfollets.github.io/noaa-api)
@@ -159,15 +159,6 @@ params: parameter_schemas.StationsParameters = {
     "limit": 100
 }
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

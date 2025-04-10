@@ -554,7 +554,7 @@ class NOAAClient:
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
         startdate: str = "0001-01-01",
-        enddate: str = "0001-01-01",
+        enddate: str = "9999-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -578,7 +578,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
          - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
          - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
-         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "9999-01-01".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
          - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
          - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
@@ -665,7 +665,7 @@ class NOAAClient:
         stationid: str | list[str] = "",
         datacategoryid: str | list[str] = "",
         startdate: str = "0001-01-01",
-        enddate: str = "0001-01-01",
+        enddate: str = "9999-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -691,7 +691,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
          - <span style="color:#9B59B6">datacategoryid</span> (str | list[str], optional): Filter by data category ID(s). Defaults to "".
          - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
-         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "9999-01-01".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
          - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
          - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
@@ -782,7 +782,7 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         startdate: str = "0001-01-01",
-        enddate: str = "0001-01-01",
+        enddate: str = "9999-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -806,7 +806,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">datasetid</span> (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
          - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
          - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
-         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "9999-01-01".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
          - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
          - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
@@ -891,7 +891,7 @@ class NOAAClient:
         locationcategoryid: str | list[str] = "",
         datacategoryid: str | list[str] = "",
         startdate: str = "0001-01-01",
-        enddate: str = "0001-01-01",
+        enddate: str = "9999-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -916,7 +916,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">locationcategoryid</span> (str | list[str], optional): Filter by location category ID(s). Defaults to "".
          - <span style="color:#9B59B6">datacategoryid</span> (str | list[str], optional): Filter by data category ID(s). Defaults to "".
          - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
-         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "9999-01-01".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
          - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
          - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
@@ -1007,7 +1007,7 @@ class NOAAClient:
         datatypeid: str | list[str] = "",
         extent: str = "",
         startdate: str = "0001-01-01",
-        enddate: str = "0001-01-01",
+        enddate: str = "9999-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -1034,7 +1034,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">datatypeid</span> (str | list[str], optional): Filter by data type ID(s). Defaults to "".
          - <span style="color:#9B59B6">extent</span> (str, optional): Geospatial extent (bbox) filter in format "north,west,south,east". Defaults to "".
          - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
-         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "9999-01-01".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
          - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
          - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
@@ -1093,7 +1093,7 @@ class NOAAClient:
         datatypeid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        units: parameter_schemas.Units = "standard",
+        units: parameter_schemas.Units = "",
         sortfield: parameter_schemas.DataSortField = "date",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -1125,7 +1125,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">datatypeid</span> (str | list[str], optional): Filter by data type ID(s). Defaults to "".
          - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
          - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - <span style="color:#9B59B6">units</span> (parameter_schemas.Units, optional): Unit system for data values ("standard" or "metric"). Defaults to "standard".
+         - <span style="color:#9B59B6">units</span> (parameter_schemas.Units, optional): Unit system for data values ("standard", "metric", or ""). Defaults to "".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.DataSortfield, optional): Field to sort results by. Defaults to "date".
          - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
          - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
