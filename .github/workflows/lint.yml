@@ -34,5 +34,5 @@ jobs:
       - name: Run MyPy
         run: |
             source .venv/bin/activate
-            python -m mypy noaa_api --output json
+            python -m mypy noaa_cdo_api --output json
 
