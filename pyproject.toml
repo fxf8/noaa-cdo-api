@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "noaa-api"
-version = "0.1.0"
+version = "0.0.1"
 description = "A NOAA NCEI API wrapper for weather data"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICEN[CS]E"]
 authors = [{ name = "FuexFollets", email = "fuex9follets@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
@@ -17,6 +18,11 @@ dependencies = [
     "rich>=14.0.0",
     "setuptools>=78.1.0",
 ]
+
+[project.urls]
+Homepgae = "https://github.com/FuexFollets/noaa-api"
+Documentation = "https://fuexfollets.github.io/noaa-api/noaa_api.html"
+Issues = "https://github.com/FuexFollets/noaa-api/issues"
 
 [dependency-groups]
 dev = [
