@@ -19,7 +19,7 @@ Example Usage:
 -------------
 ```python
 import asyncio
-from noaa_api import NOAAClient
+from noaa_cdo_api import NOAAClient
 
 async def main():
     # Best Practice: Use async context manager for automatic resource cleanup
@@ -128,9 +128,9 @@ https://www.ncdc.noaa.gov/cdo-web/webservices/v2
 
 import importlib.metadata
 
-import noaa_api.json_responses as json_responses
-import noaa_api.json_schemas as json_schemas
-import noaa_api.parameter_schemas as parameter_schemas
+import noaa_cdo_api.json_responses as json_responses
+import noaa_cdo_api.json_schemas as json_schemas
+import noaa_cdo_api.parameter_schemas as parameter_schemas
 
 from .noaa import NOAAClient
 
@@ -143,4 +143,4 @@ __all__ = [
     "json_responses",
 ]
 
-__version__ = importlib.metadata.version("noaa-api")
+__version__ = importlib.metadata.version("noaa-cdo-api")

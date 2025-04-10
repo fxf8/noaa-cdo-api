@@ -54,4 +54,4 @@ select = [
 ]
 
 [tool.setuptools]
-packages = ["noaa_api", "manual_tests"]
+packages = ["noaa_cdo_api", "manual_tests"]

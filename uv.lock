@@ -637,7 +637,7 @@ wheels = [
 ]
 
 [[package]]
-name = "noaa-api"
+name = "noaa-cdo-api"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [

@@ -1,7 +1,7 @@
 """
-This module defines JSON response schemas for various NOAA API endpoints (as opposed to all schemas in `noaa_api.json_schemas`).
+This module defines JSON response schemas for various NOAA API endpoints (as opposed to all schemas in `noaa_cdo_api.json_schemas`).
 
-Each schema represents a structured format returned by the NOAA API, allowing for type validation and easier integration when handling API responses. These schemas are derived from `noaa_api.json_schemas` and provide standardized representations of datasets, locations, stations, and other NOAA data.
+Each schema represents a structured format returned by the NOAA API, allowing for type validation and easier integration when handling API responses. These schemas are derived from `noaa_cdo_api.json_schemas` and provide standardized representations of datasets, locations, stations, and other NOAA data.
 
 Available Schemas:
  - RateLimitJSON: Response format for API rate limits.
@@ -15,7 +15,7 @@ Available Schemas:
 These schemas ensure structured API responses for reliable data handling.
 """  # noqa: E501
 
-import noaa_api.json_schemas as json_schemas
+import noaa_cdo_api.json_schemas as json_schemas
 
 RateLimitJSON = json_schemas.RateLimitJSON
 DatasetIDJSON = json_schemas.DatasetIDJSON

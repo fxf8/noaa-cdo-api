@@ -6,8 +6,8 @@ from typing import cast
 import dotenv
 
 import manual_tests.log_setup as log_setup
-import noaa_api.json_responses as json_responses
-import noaa_api.noaa as noaa
+import noaa_cdo_api.json_responses as json_responses
+import noaa_cdo_api.noaa as noaa
 from manual_tests.validate_json import validate_test
 
 logger = log_setup.get_logger(__name__, "logs/locationcategories.log")

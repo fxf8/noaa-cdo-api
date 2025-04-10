@@ -11,8 +11,8 @@ from typing import Any, ClassVar, Self, cast
 import aiohttp
 import aiolimiter
 
-import noaa_api.json_schemas as json_schemas
-import noaa_api.parameter_schemas as parameter_schemas
+import noaa_cdo_api.json_schemas as json_schemas
+import noaa_cdo_api.parameter_schemas as parameter_schemas
 
 
 class MissingTokenError(Exception):
