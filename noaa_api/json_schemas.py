@@ -6,6 +6,51 @@ This module defines `TypedDict` structures that represent the JSON responses fro
 
 Each class corresponds to a specific API endpoint, describing the structure of the JSON data returned by that endpoint.
 
+Motivations:
+-----------
+1. **Type Safety**:
+   - Prevents runtime errors by catching type mismatches during development
+   - Enables IDE autocompletion and inline documentation
+   - Makes refactoring safer by identifying all affected code paths
+
+2. **Documentation as Code**:
+   - Schema definitions serve as both runtime type checking and API documentation
+   - Field descriptions are always in sync with the actual implementation
+   - New developers can understand the API structure by reading the type definitions
+
+3. **Error Prevention**:
+   - Catches common issues like missing required fields
+   - Validates data types before processing (e.g., numeric vs string fields)
+   - Helps prevent data processing errors due to unexpected field formats
+
+4. **API Evolution**:
+   - Tracks API changes through type definitions
+   - Makes breaking changes obvious through type checking
+   - Facilitates versioning and backward compatibility
+
+Implementation Notes:
+-------------------
+1. **Field Types**:
+   - Date fields use string type with format annotations (e.g., 'YYYY-MM-DD')
+   - Numeric fields accept both float and int for maximum compatibility
+   - Optional fields are marked with `NotRequired` to handle varying responses
+
+2. **Response Structure**:
+   - All list endpoints include `metadata` with pagination info
+   - Single-item endpoints (e.g., `/datasets/{id}`) return direct objects
+   - Rate limit responses have a distinct schema for error handling
+
+3. **Data Handling**:
+   - Some numeric fields (e.g., 'datacoverage') may be returned as strings
+   - Geographic coordinates are always numeric (float or int)
+   - Empty or null values should be handled appropriately in client code
+
+4. **Best Practices**:
+   - Always validate response structure against these schemas
+   - Handle optional fields defensively
+   - Consider caching metadata responses
+   - Check for rate limit responses before processing data
+
 Schemas:
 --------
  - `ResultSetJSON`: Metadata about pagination (offset, count, limit).
@@ -31,6 +76,9 @@ Notes:
  - Some fields, such as dates, follow a specific format (`YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SS`).
  - Certain fields are `NotRequired`, meaning they may not appear in all responses.
  - Data coverage fields (`datacoverage`) are expressed as a float or integer.
+ - Geographic coordinates (latitude, longitude) are always numeric but may be integer or float.
+ - Station elevation values include both the numeric value and unit of measurement.
+ - Data point values may include quality flags in the optional attributes field.
 
 These schemas facilitate type checking and autocompletion in IDEs while working with the NOAA API responses.
 """  # noqa: E501

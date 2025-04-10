@@ -6,6 +6,30 @@ This module defines `TypedDict` structures representing valid query parameters f
 
 Each class corresponds to a specific API endpoint, detailing the expected parameters and their types.
 
+Integration with aiohttp:
+----------------------
+These parameter schemas are specifically designed to be used with aiohttp's ClientSession.get method's
+`params` keyword argument. For example:
+
+```python
+async with aiohttp.ClientSession() as session:
+    params: parameter_schemas.DatasetsParameters = {
+        "datatypeid": "TMAX",
+        "startdate": "2020-01-01",
+        "limit": 100
+    }
+    async with session.get("https://api.example.com/datasets", params=params) as response:
+        data = await response.json()
+```
+
+The schemas ensure that the parameters match aiohttp's expectations for query string generation
+(see: https://docs.aiohttp.org/en/stable/client_reference.html#aiohttp.ClientSession.get).
+Key features:
+- Type safety for parameter values
+- Automatic conversion of parameters to proper URL encoding
+- Support for multi-value parameters using & separation
+- Validation of enum values (e.g., sortorder, units)
+
 Schemas:
 --------
  - `DatasetsParameters`: Parameters for querying `/datasets`.
@@ -26,7 +50,36 @@ Notes:
  - `includemetadata` is a boolean flag to include or exclude metadata from responses.
  - `extent` (in `StationsParameters`) defines a bounding box for geographic filtering.
 
-These schemas enable precise validation and auto-completion in Python IDEs when constructing NOAA API queries.
+Advanced Usage:
+-------------
+1. Multi-value Parameters:
+   ```python
+   params: parameter_schemas.StationsParameters = {
+       "stationid": "GHCND:USW00094728&GHCND:USC00042319",
+       # OR as a joined list
+       "stationid": "&".join(["GHCND:USW00094728", "GHCND:USC00042319"])
+   }
+   ```
+
+2. Geographic Filtering:
+   ```python
+   params: parameter_schemas.StationsParameters = {
+       "extent": "42.0,-90.0,40.0,-88.0",  # north,west,south,east
+       "datasetid": "GHCND"
+   }
+   ```
+
+3. Required Parameters:
+   ```python
+   params: parameter_schemas.DataParameters = {
+       "datasetid": "GHCND",  # Required
+       "startdate": "2020-01-01",  # Required
+       "enddate": "2020-12-31",  # Required
+       "units": "metric"  # Optional
+   }
+   ```
+
+These schemas facilitate type checking and autocompletion in IDEs while working with the NOAA API.
 """  # noqa: E501
 
 from typing import Literal, Required, TypedDict

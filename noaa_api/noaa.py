@@ -28,28 +28,45 @@ class TokenLocation(Enum):
 
 class NOAAClient:
     """
-    Asynchronous client for accessing the NOAA NCEI Climate Data Online (CDO) Web API v2.
+    <span style="color:#4E97D8; font-weight:bold">Asynchronous client for accessing the NOAA NCEI Climate Data Online (CDO) Web API v2.</span>
 
     This client handles API authentication, rate limiting, connection management, and
     provides methods to query all available NOAA CDO endpoints.
 
-    Methods:
+    <span style="color:#2ECC71; font-weight:bold">Methods:</span>
     --------
-     - get_datasets: Query information about available datasets.
-     - get_data_categories: Query information about data categories.
-     - get_datatypes: Query information about data types.
-     - get_location_categories: Query information about location categories.
-     - get_locations: Query information about locations.
-     - get_stations: Query information about weather stations.
-     - get_data: Query actual climate data based on specified parameters.
-     - close: Close the aiohttp session.
+     - <span style="color:#9B59B6">get_datasets</span>: Query information about available datasets.
+     - <span style="color:#9B59B6">get_data_categories</span>: Query information about data categories.
+     - <span style="color:#9B59B6">get_datatypes</span>: Query information about data types.
+     - <span style="color:#9B59B6">get_location_categories</span>: Query information about location categories.
+     - <span style="color:#9B59B6">get_locations</span>: Query information about locations.
+     - <span style="color:#9B59B6">get_stations</span>: Query information about weather stations.
+     - <span style="color:#9B59B6">get_data</span>: Query actual climate data based on specified parameters.
+     - <span style="color:#9B59B6">close</span>: Close the aiohttp session.
 
-    Notes:
+    <span style="color:#E67E22; font-weight:bold">Important Implementation Notes:</span>
+    ------
+     - <span style="color:#F1C40F">Event Loop Consistency</span>: Always make requests within the same event loop to
+       take advantage of client-side rate limiting and TCP connection pooling. Using different
+       event loops will reset rate limiters and require new connection establishment.
+
+     - <span style="color:#F1C40F">Rate Limiting</span>: The client automatically enforces NOAA's API rate limits
+       (5 req/sec, 10,000 req/day) through AsyncLimiter. This prevents API throttling or
+       blacklisting while optimizing throughput.
+
+     - <span style="color:#F1C40F">Connection Management</span>: Uses aiohttp's TCPConnector for connection pooling and
+       reuse, significantly improving performance for multiple requests by avoiding
+       the overhead of establishing new connections.
+
+     - <span style="color:#F1C40F">Context Manager Support</span>: The client can be used as an async context manager
+       (`async with NOAAClient(...) as client:`) to ensure proper resource cleanup.
+
+    <span style="color:#2ECC71; font-weight:bold">Usage Notes:</span>
     ------
      - All query methods are asynchronous and return parsed JSON responses.
-     - The client automatically enforces NOAA's API rate limits (5 req/sec, 10,000 req/day).
      - For ID-based queries, pass the ID as the first parameter.
      - For broader queries, use the keyword parameters to filter results.
+     - Always provide your NOAA API token (sign up at https://www.ncdc.noaa.gov/cdo-web/token)
     """  # noqa: E501
 
     __slots__: tuple[str, ...] = (
@@ -120,14 +137,20 @@ class NOAAClient:
         keepalive_timeout: int = 60,  # Seconds
     ):
         """
-        Initialize the NOAA API client.
+        <span style="color:#4E97D8; font-weight:bold">Initialize the NOAA API client.</span>
 
-        Args:
-         - token (str): The API token for authentication with NOAA API.
-         - tcp_connector_limit (int, optional): Maximum number of connections. Defaults to 10.
-         - keepalive_timeout (int, optional): Timeout for keeping connections alive in seconds. Defaults to 60.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token</span> (str): The API token for authentication with NOAA API.
+           Get a token at: https://www.ncdc.noaa.gov/cdo-web/token
+         - <span style="color:#9B59B6">tcp_connector_limit</span> (int, optional): Maximum number of connections.
+           Higher limits allow more concurrent requests but consume more resources. Defaults to 10.
+         - <span style="color:#9B59B6">keepalive_timeout</span> (int, optional): Timeout for keeping connections alive in seconds.
+           Higher values maintain connections longer, reducing overhead for frequent requests. Defaults to 60.
+
+        <span style="color:#2ECC71; font-weight:bold">Notes:</span>
+         - Using a higher connector limit is beneficial when making many parallel requests
+         - The keepalive timeout should be adjusted based on your request frequency pattern
         """  # noqa: E501
-
         self.token = token
         self.tcp_connector_limit = tcp_connector_limit
         self.keepalive_timeout = keepalive_timeout
@@ -175,15 +198,23 @@ class NOAAClient:
         self, asyncio_client: aiohttp.ClientSession
     ) -> Self:
         """
-        Provide an existing aiohttp session for the client.
+        <span style="color:#4E97D8; font-weight:bold">Provide an existing aiohttp session for the client.</span>
 
-        Args:
-         - asyncio_client (aiohttp.ClientSession): The existing aiohttp session.
+        <span style="color:#E67E22; font-weight:bold">Advanced Usage:</span>
+        This method allows integrating the NOAA client with an existing aiohttp session,
+        useful for applications that need to share connection pools or have complex
+        HTTP client requirements.
 
-        Returns:
-         - None
-        """
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">asyncio_client</span> (aiohttp.ClientSession): The existing aiohttp session.
 
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - Self: The client instance for method chaining
+
+        <span style="color:#E67E22; font-weight:bold">Important:</span>
+        When using a provided session, you are responsible for closing it properly.
+        The client will not close it even when using async context management.
+        """  # noqa: E501
         self.aiohttp_session = asyncio_client
         self.is_client_provided = True
 
@@ -191,12 +222,21 @@ class NOAAClient:
 
     async def _ensure(self) -> TokenLocation:
         """
-        Ensures that there exists necessary resources for making api requests.
+        <span style="color:#4E97D8; font-weight:bold">Ensures that necessary resources exist for making API requests.</span>
 
-        Returns:
-         - TokenLocation: The location of the token.
+        This method lazily initializes the TCP connector and aiohttp session when needed,
+        which allows for efficient resource management and supports integration with
+        existing sessions.
+
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - TokenLocation: The location of the token (Enum indicating where the token is stored)
+
+        <span style="color:#E67E22; font-weight:bold">Implementation Notes:</span>
+        This method handles the complex logic of determining where the authentication
+        token is stored and creating appropriate session headers. It rebuilds connections
+        if the event loop has changed, ensuring proper resource management across
+        different async contexts.
         """  # noqa: E501
-
         if self.tcp_connector is not None and self.tcp_connector._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
             self.tcp_connector = None
 
@@ -236,22 +276,47 @@ class NOAAClient:
         token_parameter: str | None = None,
     ) -> Any:
         """
-        Internal method to make a rate-limited API request.
+        <span style="color:#4E97D8; font-weight:bold">Internal method to make a rate-limited API request.</span>
 
-        Args:
-         - url (str): The API endpoint URL.
-         - parameters (parameter_schemas.AnyParameter | None, optional): Query parameters. Defaults to None.
-         - token_parameter (str | None, optional): Token parameter which take precedence over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided anywhere (client headers or attribute). Token parameter will **not** persist between calls.
+        This method is the core mechanism for all API interactions, handling:
+        - Event loop tracking and warning if changed
+        - Rate limiting (both per-second and daily limits)
+        - Token management and authentication
+        - Parameter validation
+        - HTTP request execution
 
-        Returns:
-         - Any: The HTTP response json.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">url</span> (str): The API endpoint URL.
+         - <span style="color:#9B59B6">parameters</span> (parameter_schemas.AnyParameter | None, optional): Query parameters. Defaults to None.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence over
+           the `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - Any: The HTTP response JSON.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
 
+        <span style="color:#E67E22; font-weight:bold">Important Implementation Notes:</span>
+        - <span style="color:#F1C40F">Event Loop Tracking</span>: Detects when requests are made from different event
+          loops and resets rate limiters. For optimal performance, always make requests from
+          the same event loop to maintain consistent rate limiting and connection pooling.
+
+        - <span style="color:#F1C40F">Rate Limiting</span>: Uses AsyncLimiter to enforce NOAA's API limits:
+          - 5 requests per second
+          - 10,000 requests per day
+          These limits prevent API throttling while maximizing throughput.
+
+        - <span style="color:#F1C40F">TCP Connection Reuse</span>: Maintains persistent connections to reduce
+          latency and overhead. When all requests are made in the same event loop, connections
+          are efficiently reused, significantly improving performance.
+
+        - <span style="color:#F1C40F">Token Management</span>: Flexibly handles API tokens from multiple sources,
+          with a clear precedence order: token_parameter > session headers > instance attribute.
+        """  # noqa: E501
         if self._most_recent_loop is None:
             self._most_recent_loop = asyncio.get_running_loop()
 
@@ -338,22 +403,31 @@ class NOAAClient:
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.DatasetIDJSON | json_schemas.RateLimitJSON:
         """
-        Query information about a specific dataset by ID.
-        Endpoint: `/datasets/{id}`
+        <span style="color:#4E97D8; font-weight:bold">Query information about a specific dataset by ID.</span>
+        <span style="color:#3498DB">Endpoint: `/datasets/{id}`</span>
 
-        Args:
-         - id (str): The ID of the dataset to retrieve.
-         - token_parameter (str | None, optional): Token parameter which take precedence over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided anywhere (client headers or attribute). Token parameter will **not** persist between calls.
+        Retrieves detailed information about a single dataset identified by its unique ID.
+        This endpoint provides comprehensive metadata about the dataset's structure, time range,
+        coverage, and other attributes.
 
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">id</span> (str): The ID of the dataset to retrieve.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Returns:
-         - json_schemas.DatasetIDJSON: Parsed JSON response containing dataset information.
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.DatasetIDJSON | json_schemas.RateLimitJSON: Parsed JSON response containing
+           dataset information or rate limit message.
 
-        Raises:
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
 
+        <span style="color:#E67E22; font-weight:bold">Performance Note:</span>
+        Individual ID lookups are generally faster than filtered queries against all datasets.
+        When you know the specific dataset ID, use this method for better performance.
+        """  # noqa: E501
         return cast(
             json_schemas.DatasetIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -376,32 +450,43 @@ class NOAAClient:
         offset: int = 0,
     ) -> json_schemas.DatasetsJSON | json_schemas.RateLimitJSON:
         """
-        Query information about available datasets.
-        Endpoint: `/datasets`
+        <span style="color:#4E97D8; font-weight:bold">Query information about available datasets.</span>
+        <span style="color:#3498DB">Endpoint: `/datasets`</span>
 
-        Note: List parameters are automatically formatted as ampersand separated strings. Porviding a string or list of strings of amersand separaated values is also supported.
+        Retrieves a list of datasets matching the specified filter criteria. This endpoint
+        allows comprehensive filtering to find datasets containing specific data types,
+        locations, date ranges, and more.
 
-        Args:
-         - token_parameter (str | None, optional): Token parameter which take precedence over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided anywhere (client headers or attribute). Token parameter will **not** persist between calls.
-         - datatypeid (str | list[str], optional): Filter by data type ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - startdate (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - enddate (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
 
-        Returns:
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datatypeid</span> (str | list[str], optional): Filter by data type ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
+         - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
+         - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
+
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
          - json_schemas.DatasetsJSON | json_schemas.RateLimitJSON: Dataset information or rate limit message.
 
-        Raises:
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If authentication is missing.
 
+        <span style="color:#E67E22; font-weight:bold">Performance Tips:</span>
+        - Use as many filter parameters as possible to reduce result size and improve response time
+        - For large result sets, use pagination (limit and offset) to retrieve data in manageable chunks
+        - Consider caching results for frequently accessed dataset information
+        """  # noqa: E501
         return cast(
             json_schemas.DatasetsJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -431,21 +516,29 @@ class NOAAClient:
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.DatacategoryIDJSON | json_schemas.RateLimitJSON:
         """
-        Query information about a specific data category by ID.
-        Endpoint: `/datacategories/{id}`
+        <span style="color:#4E97D8; font-weight:bold">Query information about a specific data category by ID.</span>
+        <span style="color:#3498DB">Endpoint: `/datacategories/{id}`</span>
 
-        Args:
-         - id (str): The ID of the data category to retrieve.
-         - token_parameter (str | None, optional): Token parameter which take precedence over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided anywhere (client headers or attribute). Token parameter will **not** persist between calls.
+        Retrieves detailed information about a single data category identified by its unique ID.
+        Data categories represent broad classifications of the types of data available.
 
-        Returns:
-         - json_schemas.DatacategoryIDJSON: Parsed JSON response containing data category information.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">id</span> (str): The ID of the data category to retrieve.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.DatacategoryIDJSON | json_schemas.RateLimitJSON: Parsed JSON response containing
+           data category information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
 
+        <span style="color:#E67E22; font-weight:bold">Note:</span>
+        Individual ID lookups are more efficient than querying all data categories when you know the specific ID.
+        """  # noqa: E501
         return cast(
             json_schemas.DatacategoryIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -460,40 +553,49 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "0001-01-01",  # YYYY-MM-DD
-        enddate: str = "9999-01-01",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",
+        enddate: str = "0001-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
         offset: int = 0,
     ) -> json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON:
         """
-        Query information about data categories. Porviding a string or list of strings of amersand separaated values is also supported.
-        Endpoint: `/datacategories`
+        <span style="color:#4E97D8; font-weight:bold">Query information about available data categories.</span>
+        <span style="color:#3498DB">Endpoint: `/datacategories`</span>
 
+        Retrieves a list of data categories matching the specified filter criteria. Data categories
+        are high-level classifications for the types of data available through the NOAA API.
 
-        Args:
-         - token_parameter (str | None, optional): Token parameter which take precedence over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided anywhere (client headers or attribute). Token parameter will **not** persist between calls.
-         - datasetid (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - startdate (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - enddate (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
 
-        Returns:
-         - json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON: Data category information or rate limit message.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datasetid</span> (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
+         - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
+         - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
 
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON: Data categories information or rate limit message.
 
-        Raises:
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If authentication is missing.
 
+        <span style="color:#E67E22; font-weight:bold">Usage Tip:</span>
+        Data categories are useful for exploratory navigation of the NOAA data. Use this endpoint to
+        discover broad categories before drilling down to specific data types within those categories.
+        """  # noqa: E501
         return cast(
             json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -523,20 +625,30 @@ class NOAAClient:
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.DatatypeIDJSON | json_schemas.RateLimitJSON:
         """
-        Query information about a specific data type by ID.
-        Endpoint: `/datatypes/{id}`
+        <span style="color:#4E97D8; font-weight:bold">Query information about a specific data type by ID.</span>
+        <span style="color:#3498DB">Endpoint: `/datatypes/{id}`</span>
 
-        Args:
-         - id (str): The ID of the data type to retrieve.
+        Retrieves detailed information about a single data type identified by its unique ID.
+        Data types represent specific measurements or observations available in the NOAA datasets.
 
-        Returns:
-         - json_schemas.DatatypeIDJSON: Parsed JSON response containing data type information.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">id</span> (str): The ID of the data type to retrieve.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.DatatypeIDJSON | json_schemas.RateLimitJSON: Parsed JSON response containing
+           data type information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
 
+        <span style="color:#E67E22; font-weight:bold">Data Type Details:</span>
+        Individual data type records include information about the measurement units, period,
+        and other important metadata that helps interpret the actual climate data.
+        """  # noqa: E501
         return cast(
             json_schemas.DatatypeIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -551,38 +663,53 @@ class NOAAClient:
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        startdate: str = "0001-01-01",  # YYYY-MM-DD
-        enddate: str = "9999-01-01",  # YYYY-MM-DD
+        datacategoryid: str | list[str] = "",
+        startdate: str = "0001-01-01",
+        enddate: str = "0001-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
         offset: int = 0,
     ) -> json_schemas.DatatypesJSON | json_schemas.RateLimitJSON:
         """
-        Query information about data types. Porviding a string or list of strings of amersand separaated values is also supported.
-        Endpoint: `/datatypes`
+        <span style="color:#4E97D8; font-weight:bold">Query information about available data types.</span>
+        <span style="color:#3498DB">Endpoint: `/datatypes`</span>
 
+        Retrieves a list of data types matching the specified filter criteria. Data types
+        represent specific climate measurements or observations available in the NOAA datasets,
+        such as temperature, precipitation, wind speed, etc.
 
-        Args:
-         - datasetid (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - startdate (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - enddate (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
 
-        Returns:
-         - json_schemas.DatatypesJSON | json_schemas.RateLimitJSON: Data type information or rate limit message.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datasetid</span> (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
+         - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
+         - <span style="color:#9B59B6">datacategoryid</span> (str | list[str], optional): Filter by data category ID(s). Defaults to "".
+         - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.DatatypesJSON | json_schemas.RateLimitJSON: Data types information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If authentication is missing.
 
+        <span style="color:#E67E22; font-weight:bold">Research Tip:</span>
+        When planning a climate data analysis project, first explore available data types to
+        determine which measurements are available for your region and time period of interest.
+        Use datacategoryid to narrow down to relevant measurement categories.
+        """  # noqa: E501
         return cast(
             json_schemas.DatatypesJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -597,6 +724,9 @@ class NOAAClient:
                     "stationid": "&".join(stationid)
                     if isinstance(stationid, list)
                     else stationid,
+                    "datacategoryid": "&".join(datacategoryid)
+                    if isinstance(datacategoryid, list)
+                    else datacategoryid,
                     "startdate": startdate,
                     "enddate": enddate,
                     "sortfield": sortfield,
@@ -612,20 +742,31 @@ class NOAAClient:
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.LocationcategoryIDJSON | json_schemas.RateLimitJSON:
         """
-        Query information about a specific location category by ID.
-        Endpoint: `/locationcategories/{id}`
+        <span style="color:#4E97D8; font-weight:bold">Query information about a specific location category by ID.</span>
+        <span style="color:#3498DB">Endpoint: `/locationcategories/{id}`</span>
 
-        Args:
-         - id (str): The ID of the location category to retrieve.
+        Retrieves detailed information about a single location category identified by its unique ID.
+        Location categories classify the types of locations available in the NOAA data (e.g., cities, counties, states).
 
-        Returns:
-         - json_schemas.LocationcategoryIDJSON: Parsed JSON response containing location category information.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">id</span> (str): The ID of the location category to retrieve.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.LocationcategoryIDJSON | json_schemas.RateLimitJSON: Parsed JSON response containing
+           location category information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
 
+        <span style="color:#E67E22; font-weight:bold">Usage Context:</span>
+        Location categories provide a way to understand the different geographical hierarchies
+        available in the NOAA climate data. This is particularly useful when designing
+        geospatial visualizations or analyses across different territorial divisions.
+        """  # noqa: E501
         return cast(
             json_schemas.LocationcategoryIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -640,37 +781,49 @@ class NOAAClient:
         token_parameter: str | None = None,
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
-        stationid: str | list[str] = "",
-        startdate: str = "0001-01-01",  # YYYY-MM-DD
-        enddate: str = "9999-01-01",  # YYYY-MM-DD
+        startdate: str = "0001-01-01",
+        enddate: str = "0001-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
         offset: int = 0,
     ) -> json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON:
         """
-        Query information about location categories. Porviding a string or list of strings of amersand separaated values is also supported.
-        Endpoint: `/locationcategories`
+        <span style="color:#4E97D8; font-weight:bold">Query information about available location categories.</span>
+        <span style="color:#3498DB">Endpoint: `/locationcategories`</span>
 
+        Retrieves a list of location categories matching the specified filter criteria. Location categories
+        classify the geographical hierarchies available in the NOAA climate data, such as cities, counties,
+        states, countries, or other territorial divisions.
 
-        Args:
-         - datasetid (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - startdate (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - enddate (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
 
-        Returns:
-         - json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON: Location category information or rate limit message.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datasetid</span> (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
+         - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON: Location categories information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
+         - MissingTokenError: If authentication is missing.
+
+        <span style="color:#E67E22; font-weight:bold">Geographical Analysis Tip:</span>
+        Location categories help organize spatial data into logical hierarchies. When designing
+        geographical analyses, first explore the available location categories to determine
+        the most appropriate spatial resolution for your research question.
         """  # noqa: E501
         return cast(
             json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON,
@@ -683,9 +836,6 @@ class NOAAClient:
                     "locationid": "&".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "stationid": "&".join(stationid)
-                    if isinstance(stationid, list)
-                    else stationid,
                     "startdate": startdate,
                     "enddate": enddate,
                     "sortfield": sortfield,
@@ -701,20 +851,31 @@ class NOAAClient:
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.LocationIDJSON | json_schemas.RateLimitJSON:
         """
-        Query information about a specific location by ID.
-        Endpoint: `/locations/{id}`
+        <span style="color:#4E97D8; font-weight:bold">Query information about a specific location by ID.</span>
+        <span style="color:#3498DB">Endpoint: `/locations/{id}`</span>
 
-        Args:
-         - id (str): The ID of the location to retrieve.
+        Retrieves detailed information about a single location identified by its unique ID.
+        Locations represent geographical areas where climate data is collected.
 
-        Returns:
-         - json_schemas.LocationIDJSON: Parsed JSON response containing location information.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">id</span> (str): The ID of the location to retrieve.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.LocationIDJSON | json_schemas.RateLimitJSON: Parsed JSON response containing
+           location information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
 
+        <span style="color:#E67E22; font-weight:bold">Location Details:</span>
+        Individual location records include important metadata such as coordinates, names,
+        and other geographical attributes that help interpret the climate data associated
+        with the location.
+        """  # noqa: E501
         return cast(
             json_schemas.LocationIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -727,38 +888,53 @@ class NOAAClient:
         *,
         token_parameter: str | None = None,
         datasetid: str | list[str] = "",
-        locationid: str | list[str] = "",
-        stationid: str | list[str] = "",
-        startdate: str = "0001-01-01",  # YYYY-MM-DD
-        enddate: str = "9999-01-01",  # YYYY-MM-DD
+        locationcategoryid: str | list[str] = "",
+        datacategoryid: str | list[str] = "",
+        startdate: str = "0001-01-01",
+        enddate: str = "0001-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
         offset: int = 0,
     ) -> json_schemas.LocationsJSON | json_schemas.RateLimitJSON:
         """
-        Query information about locations. Porviding a string or list of strings of amersand separaated values is also supported.
-        Endpoint: `/locations`
+        <span style="color:#4E97D8; font-weight:bold">Query information about available locations.</span>
+        <span style="color:#3498DB">Endpoint: `/locations`</span>
 
+        Retrieves a list of locations matching the specified filter criteria. Locations represent
+        geographical areas where climate data is collected, such as cities, counties, states,
+        countries, or other territorial divisions.
 
-        Args:
-         - datasetid (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - startdate (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - enddate (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
 
-        Returns:
-         - json_schemas.LocationsJSON | json_schemas.RateLimitJSON: Location information or rate limit message.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datasetid</span> (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationcategoryid</span> (str | list[str], optional): Filter by location category ID(s). Defaults to "".
+         - <span style="color:#9B59B6">datacategoryid</span> (str | list[str], optional): Filter by data category ID(s). Defaults to "".
+         - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.LocationsJSON | json_schemas.RateLimitJSON: Locations information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
+         - MissingTokenError: If authentication is missing.
+
+        <span style="color:#E67E22; font-weight:bold">Spatial Analysis Tip:</span>
+        When working with climate data across geographical regions, use the locationcategoryid
+        parameter to narrow down locations to a specific category (e.g., states, countries)
+        for more consistent analysis. Combine with datacategoryid to find locations where
+        specific types of measurements are available.
         """  # noqa: E501
         return cast(
             json_schemas.LocationsJSON | json_schemas.RateLimitJSON,
@@ -768,12 +944,12 @@ class NOAAClient:
                     "datasetid": "&".join(datasetid)
                     if isinstance(datasetid, list)
                     else datasetid,
-                    "locationid": "&".join(locationid)
-                    if isinstance(locationid, list)
-                    else locationid,
-                    "stationid": "&".join(stationid)
-                    if isinstance(stationid, list)
-                    else stationid,
+                    "locationcategoryid": "&".join(locationcategoryid)
+                    if isinstance(locationcategoryid, list)
+                    else locationcategoryid,
+                    "datacategoryid": "&".join(datacategoryid)
+                    if isinstance(datacategoryid, list)
+                    else datacategoryid,
                     "startdate": startdate,
                     "enddate": enddate,
                     "sortfield": sortfield,
@@ -789,19 +965,31 @@ class NOAAClient:
         self, id: str, token_parameter: str | None = None
     ) -> json_schemas.StationIDJSON | json_schemas.RateLimitJSON:
         """
-        Query information about a specific station by ID.
-        Endpoint: `/stations/{id}`
+        <span style="color:#4E97D8; font-weight:bold">Query information about a specific weather station by ID.</span>
+        <span style="color:#3498DB">Endpoint: `/stations/{id}`</span>
 
-        Args:
-         - id (str): The ID of the station to retrieve.
+        Retrieves detailed information about a single weather station identified by its unique ID.
+        Stations are physical locations where weather and climate data measurements are collected.
 
-        Returns:
-         - json_schemas.StationsIDJSON: Parsed JSON response containing station information.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">id</span> (str): The ID of the station to retrieve.
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None. Can be provided if `token` attribute is not provided
+           anywhere (client headers or attribute). Token parameter will **not** persist between calls.
 
-        Raises:
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.StationIDJSON | json_schemas.RateLimitJSON: Parsed JSON response containing
+           station information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
+         - aiohttp.ClientResponseError: If the request fails.
+         - MissingTokenError: If the client header `token`, attribute `token`, and parameter `token_parameter` are all not provided.
+
+        <span style="color:#E67E22; font-weight:bold">Data Precision:</span>
+        Weather stations provide the most accurate and localized climate data since they
+        represent exact measurement points. Station-level data is particularly valuable
+        for precise local analyses and ground-truthing other data sources.
         """  # noqa: E501
-
         return cast(
             json_schemas.StationIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -815,39 +1003,57 @@ class NOAAClient:
         token_parameter: str | None = None,
         datasetid: str | list[str] = "",
         locationid: str | list[str] = "",
-        stationid: str | list[str] = "",
-        startdate: str = "0001-01-01",  # YYYY-MM-DD
-        enddate: str = "9999-01-01",  # YYYY-MM-DD
+        datacategoryid: str | list[str] = "",
+        datatypeid: str | list[str] = "",
+        extent: str = "",
+        startdate: str = "0001-01-01",
+        enddate: str = "0001-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
         offset: int = 0,
     ) -> json_schemas.StationsJSON | json_schemas.RateLimitJSON:
         """
-        Query information about weather stations. Porviding a string or list of strings of amersand separaated values is also supported.
-        Endpoint: `/stations`
+        <span style="color:#4E97D8; font-weight:bold">Query information about available weather stations.</span>
+        <span style="color:#3498DB">Endpoint: `/stations`</span>
 
+        Retrieves a list of weather stations matching the specified filter criteria. Weather stations
+        are the physical locations where climate measurements are recorded, and typically provide
+        the most precise and localized data available.
 
-        Args:
-         - datasetid (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - startdate (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - enddate (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
 
-        Returns:
-         - json_schemas.StationsJSON | json_schemas.RateLimitJSON: Station information or rate limit message.
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datasetid</span> (str | list[str], optional): Filter by dataset ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
+         - <span style="color:#9B59B6">datacategoryid</span> (str | list[str], optional): Filter by data category ID(s). Defaults to "".
+         - <span style="color:#9B59B6">datatypeid</span> (str | list[str], optional): Filter by data type ID(s). Defaults to "".
+         - <span style="color:#9B59B6">extent</span> (str, optional): Geospatial extent (bbox) filter in format "north,west,south,east". Defaults to "".
+         - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
 
-        Raises:
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
+         - json_schemas.StationsJSON | json_schemas.RateLimitJSON: Stations information or rate limit message.
+
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
          - ValueError: If 'limit' parameter exceeds 1000.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
-        """  # noqa: E501
+         - MissingTokenError: If authentication is missing.
 
+        <span style="color:#E67E22; font-weight:bold">Geospatial Filtering:</span>
+        The stations endpoint is one of the few that supports the "extent" parameter for
+        geographical bounding box filtering. This is particularly useful for finding all
+        stations within a specific region defined by coordinates. For example:
+        "extent=42.0,-90.0,40.0,-88.0" would find stations within that rectangle.
+        """  # noqa: E501
         return cast(
             json_schemas.StationsJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -859,9 +1065,13 @@ class NOAAClient:
                     "locationid": "&".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "stationid": "&".join(stationid)
-                    if isinstance(stationid, list)
-                    else stationid,
+                    "datacategoryid": "&".join(datacategoryid)
+                    if isinstance(datacategoryid, list)
+                    else datacategoryid,
+                    "datatypeid": "&".join(datatypeid)
+                    if isinstance(datatypeid, list)
+                    else datatypeid,
+                    "extent": extent,
                     "startdate": startdate,
                     "enddate": enddate,
                     "sortfield": sortfield,
@@ -883,7 +1093,7 @@ class NOAAClient:
         datatypeid: str | list[str] = "",
         locationid: str | list[str] = "",
         stationid: str | list[str] = "",
-        units: parameter_schemas.Units = "",
+        units: parameter_schemas.Units = "standard",
         sortfield: parameter_schemas.DataSortField = "date",
         sortorder: parameter_schemas.Sortorder = "asc",
         limit: int = 25,
@@ -891,35 +1101,59 @@ class NOAAClient:
         includemetadata: bool = True,
     ) -> json_schemas.DataJSON | json_schemas.RateLimitJSON:
         """
-        Query actual climate data based on specified parameters. Porviding a string or list of strings of amersand separaated values is also supported.
-        Endpoint: `/data?datasetid=YOUR_DATASETID`
+        <span style="color:#4E97D8; font-weight:bold">Query actual climate data with various filtering options.</span>
+        <span style="color:#3498DB">Endpoint: `/data`</span>
 
-        Args:
-         - datasetid (str): Required. The dataset ID to query.
-         - startdate (str): Required. Beginning of date range in 'YYYY-MM-DD' format.
-         - enddate (str): Required. End of date range in 'YYYY-MM-DD' format.
-         - datatypeid (str | list[str], optional): Filter by data type ID(s). Defaults to "".
-         - locationid (str | list[str], optional): Filter by location ID(s). Defaults to "".
-         - stationid (str | list[str], optional): Filter by station ID(s). Defaults to "".
-         - units (parameter_schemas.Units, optional): Unit conversion ("standard" or "metric"). Defaults to "".
-         - sortfield (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
-         - sortorder (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
-         - limit (int, optional): Maximum number of results to return. Defaults to 25.
-         - offset (int, optional): Number of results to skip for pagination. Defaults to 0.
-         - includemetadata (bool, optional): Whether to include metadata in the response. Defaults to True.
+        This is the primary endpoint for retrieving actual climate measurements and observations.
+        Unlike the other endpoints which provide metadata, this endpoint returns the actual
+        climate data values matching your specified criteria.
 
-        Returns:
+        <span style="color:#E67E22; font-weight:bold">Required Parameters:</span>
+        Note that datasetid, startdate, and enddate are all required parameters for this endpoint.
+        This is different from other endpoints where all filter parameters are optional.
+
+        <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
+        List parameters are automatically formatted as ampersand-separated strings.
+        Providing a string or list of strings of ampersand-separated values is also supported.
+
+        <span style="color:#2ECC71; font-weight:bold">Args:</span>
+         - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
+           over `token` attribute. Defaults to None.
+         - <span style="color:#9B59B6">datasetid</span> (str): **Required**. The dataset ID to query data from.
+         - <span style="color:#9B59B6">startdate</span> (str): **Required**. Beginning of date range in 'YYYY-MM-DD' format.
+         - <span style="color:#9B59B6">enddate</span> (str): **Required**. End of date range in 'YYYY-MM-DD' format.
+         - <span style="color:#9B59B6">datatypeid</span> (str | list[str], optional): Filter by data type ID(s). Defaults to "".
+         - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
+         - <span style="color:#9B59B6">stationid</span> (str | list[str], optional): Filter by station ID(s). Defaults to "".
+         - <span style="color:#9B59B6">units</span> (parameter_schemas.Units, optional): Unit system for data values ("standard" or "metric"). Defaults to "standard".
+         - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.DataSortfield, optional): Field to sort results by. Defaults to "date".
+         - <span style="color:#9B59B6">sortorder</span> (parameter_schemas.Sortorder, optional): Direction of sort ("asc" or "desc"). Defaults to "asc".
+         - <span style="color:#9B59B6">limit</span> (int, optional): Maximum number of results to return. Defaults to 25.
+         - <span style="color:#9B59B6">offset</span> (int, optional): Number of results to skip for pagination. Defaults to 0.
+         - <span style="color:#9B59B6">includemetadata</span> (bool, optional): Whether to include metadata in the response. Defaults to True.
+
+        <span style="color:#2ECC71; font-weight:bold">Returns:</span>
          - json_schemas.DataJSON | json_schemas.RateLimitJSON: Climate data or rate limit message.
 
-        Raises:
-         - ValueError: If 'limit' parameter exceeds 1000.
+        <span style="color:#E74C3C; font-weight:bold">Raises:</span>
+         - ValueError: If 'limit' parameter exceeds 1000 or if required parameters are missing.
          - aiohttp.ClientResponseError: If the request fails.
-         - `MissingTokenError`: If the client header `token`, attribute `token`, or parameter `token_parameter` are all not provided.
+         - MissingTokenError: If authentication is missing.
 
-        Notes:
-         - Annual and monthly data will be limited to a 10-year range.
-         - Other data will be limited to a 1-year range.
-         - Not following these guidelines will raise a `ClientResponseError`. The reason for this rather than raising an exception prior to the 'GET' reqest is because knowing whether a datatype is hourly, monthly, or annually (and therefore the allowed time domain) requires an additional request.
+        <span style="color:#E67E22; font-weight:bold">Data Volume Considerations:</span>
+        Climate data queries can return large volumes of data, especially with broad date ranges
+        or multiple stations/locations. To manage data volume:
+
+        1. Use narrow date ranges when possible
+        2. Specify particular stations or locations instead of querying all
+        3. Filter to only the data types you need
+        4. Use pagination (limit and offset) for large result sets
+        5. Consider setting includemetadata=False if you don't need the metadata
+
+        <span style="color:#E67E22; font-weight:bold">Performance Note:</span>
+        This endpoint is often the most resource-intensive and may take longer to respond
+        than metadata endpoints. When developing applications, implement appropriate timeout
+        handling and consider caching frequently accessed data.
         """  # noqa: E501
 
         return cast(
@@ -950,14 +1184,25 @@ class NOAAClient:
             ),
         )
 
-    def close(self):
+    def close(self) -> None:
         """
-        Close the aiohttp session if it is open.
+        <span style="color:#4E97D8; font-weight:bold">Close the aiohttp session and TCP connector.</span>
 
-        This method should be called when the client is no longer needed to properly
-        release resources associated with the HTTP session.
+        This method properly cleans up resources used by the client. It should be called
+        when you're done using the client to ensure proper cleanup of network connections
+        and resources.
 
-        Note: This method works both in an async context and outside of an async context.
+        <span style="color:#E67E22; font-weight:bold">Resource Management:</span>
+        - Always call this method when you're finished with the client
+        - Alternatively, use the client as an async context manager with the `async with` statement,
+          which will automatically close resources on exit
+        - If you provided your own aiohttp session with `provide_aiohttp_client_session()`,
+          this method will not close that session
+
+        <span style="color:#E67E22; font-weight:bold">Implementation Note:</span>
+        This is a synchronous method that doesn't properly close the aiohttp session, which
+        should be closed using `await session.close()`. For proper async cleanup, use
+        the client as an async context manager instead.
         """  # noqa: E501
 
         if isinstance(self.aiohttp_session, aiohttp.ClientSession):
