@@ -3,13 +3,13 @@ requires = ["setuptools >= 78.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "noaa-api"
+name = "noaa-cdo-api"
 version = "0.0.1"
 description = "A NOAA NCEI API wrapper for weather data"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICEN[CS]E"]
-authors = [{ name = "FuexFollets", email = "fuex9follets@gmail.com" }]
+authors = [{ name = "fxf8", email = "fuex9follets@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "aiohttp>=3.11.14",
@@ -20,9 +20,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepgae = "https://github.com/FuexFollets/noaa-api"
-Documentation = "https://fuexfollets.github.io/noaa-api/noaa_api.html"
-Issues = "https://github.com/FuexFollets/noaa-api/issues"
+Homepgae = "https://github.com/fxf8/noaa-cdo-api"
+Documentation = "https://fxf8.github.io/noaa-cdo-api/noaa_api.html"
+Issues = "https://github.com/fxf8/noaa-cdo-api/issues"
 
 [dependency-groups]
 dev = [
@@ -32,6 +32,7 @@ dev = [
     "mypy>=1.15.0",
     "pdoc>=15.0.1",
     "ruff>=0.11.2",
+    "twine>=6.1.0",
 ]
 
 [tool.ruff]
