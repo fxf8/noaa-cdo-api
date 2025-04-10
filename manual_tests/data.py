@@ -39,7 +39,7 @@ async def pull_data(client: noaa.NOAAClient | None = None):
                 startdate="2024-01-01",
                 enddate="2024-01-02",
                 limit=10,
-            )
+            ),
         )
 
         with open(DATA_RESPONSE_SAMPLE_PATH, "w") as f:
