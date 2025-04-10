@@ -1,11 +1,12 @@
 # NOAA Climate Data Online API Client
 
-[![GitHub Actions](https://github.com/FuexFollets/noaa-api/actions/workflows/lint.yml/badge.svg)](https://github.com/FuexFollets/noaa-api/actions)
 <!-- [![Python Version](https://img.shields.io/pypi/pyversions/noaa-api.svg)](https://pypi.org/project/noaa-api/) -->
 <!-- [![PyPI version](https://badge.fury.io/py/noaa-api.svg)](https://badge.fury.io/py/noaa-api) -->
+[![GitHub Actions](https://github.com/FuexFollets/noaa-api/actions/workflows/lint.yml/badge.svg)](https://github.com/FuexFollets/noaa-api/actions)
 [![License](https://img.shields.io/github/license/FuexFollets/noaa-api.svg)](https://github.com/FuexFollets/noaa-api/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-pdoc-blue)](https://fuexfollets.github.io/noaa-api)
-[![Lint](https://img.shields.io/badge/docs-pdoc-blue)](https://fuexfollets.github.io/noaa-api)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 <!-- [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) -->
 
 An asynchronous Python client for the NOAA National Centers for Environmental Information (NCEI) Climate Data Online (CDO) Web Services API v2. Features automatic rate limiting, connection pooling, and comprehensive type safety.
@@ -18,7 +19,7 @@ An asynchronous Python client for the NOAA National Centers for Environmental In
 - 📝 **Type Safety**: Full type hints and runtime validation
 - 🎨 **Beautiful Documentation**: Color-formatted docstrings with pdoc
 - 🛡️ **Resource Management**: Proper async context management
-- 📊 **Complete Coverage**: All NOAA CDO v2 endpoints supported
+- 📊 **Complete Coverage**: All documented NOAA CDO v2 endpoints supported
 
 ## Installation
 
