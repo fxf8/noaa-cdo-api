@@ -31,7 +31,7 @@ pip install noaa-cdo-api
 
 ```python
 import asyncio
-from noaa_api import NOAAClient
+from noaa_cdo_api import NOAAClient
 
 async def main():
     # Best Practice: Use async context manager for automatic cleanup
@@ -155,7 +155,7 @@ The library provides comprehensive type checking through:
 
 Example with type checking:
 ```python
-from noaa_api import parameter_schemas
+from noaa_cdo_api import parameter_schemas
 
 params: parameter_schemas.StationsParameters = {
     "extent": "42.0,-90.0,40.0,-88.0",
