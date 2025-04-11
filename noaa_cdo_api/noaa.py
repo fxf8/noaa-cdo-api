@@ -20,10 +20,10 @@ class MissingTokenError(Exception):
 
 
 class TokenLocation(Enum):
-    Nowhere = 0
-    InClientSessionHeaders = 1
-    InAttribute = 2
-    InAttributesAndClientSessionHeaders = 3
+    NOWHERE = 0
+    IN_CLIENT_SESSION_HEADERS = 1
+    IN_ATTRIBUTE = 2
+    IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS = 3
 
 
 class NOAAClient:
@@ -172,14 +172,14 @@ class NOAAClient:
     def _find_token_location(self) -> TokenLocation:
         if self.aiohttp_session is None:
             if self.token is None:
-                return TokenLocation.Nowhere
+                return TokenLocation.NOWHERE
             else:
-                return TokenLocation.InAttribute
+                return TokenLocation.IN_ATTRIBUTE
 
         if "token" in self.aiohttp_session.headers and self.token is None:
-            return TokenLocation.InClientSessionHeaders
+            return TokenLocation.IN_CLIENT_SESSION_HEADERS
 
-        return TokenLocation.InAttributesAndClientSessionHeaders
+        return TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
 
     async def __aenter__(self) -> Self:
         _ = await self._ensure()
@@ -252,22 +252,22 @@ class NOAAClient:
             )
 
         if self.aiohttp_session is None:
-            if self._find_token_location() == TokenLocation.InAttribute:
+            if self._find_token_location() == TokenLocation.IN_ATTRIBUTE:
                 self.aiohttp_session = aiohttp.ClientSession(
                     headers={"token": cast(str, self.token)},
                     connector=self.tcp_connector,
                 )
 
-                return TokenLocation.InAttributesAndClientSessionHeaders
+                return TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
 
-            if self._find_token_location() == TokenLocation.Nowhere:
+            if self._find_token_location() == TokenLocation.NOWHERE:
                 self.aiohttp_session = aiohttp.ClientSession(
                     connector=self.tcp_connector
                 )
 
-                return TokenLocation.Nowhere
+                return TokenLocation.NOWHERE
 
-        return TokenLocation.InClientSessionHeaders
+        return TokenLocation.IN_CLIENT_SESSION_HEADERS
 
     async def _make_request(
         self,
@@ -348,7 +348,7 @@ class NOAAClient:
         ):
             raise ValueError("Parameter 'limit' must be less than or equal to 1000")
 
-        if token_location == TokenLocation.Nowhere and token_parameter is None:
+        if token_location == TokenLocation.NOWHERE and token_parameter is None:
             raise MissingTokenError(
                 "Neither client with token in header nor `token` attribute is provided"
             )
@@ -369,8 +369,8 @@ class NOAAClient:
                 return await response.json()
 
         if (
-            token_location == TokenLocation.InAttributesAndClientSessionHeaders
-            or TokenLocation.InClientSessionHeaders
+            token_location == TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
+            or TokenLocation.IN_CLIENT_SESSION_HEADERS
         ):
             async with (
                 self._seconds_request_limiter,
@@ -384,7 +384,7 @@ class NOAAClient:
                 response.raise_for_status()
                 return await response.json()
 
-        if token_location == TokenLocation.InAttribute:
+        if token_location == TokenLocation.IN_ATTRIBUTE:
             async with (
                 self._seconds_request_limiter,
                 self._daily_request_limiter,
