@@ -27,6 +27,10 @@ An asynchronous Python client for the NOAA National Centers for Environmental In
 pip install noaa-cdo-api
 ```
 
+## API Documentation
+
+Full API documentation with colored formatting is available at [https://fxf8.github.io/noaa-cdo-api/](https://fxf8.github.io/noaa-cdo-api/).
+
 ## Quick Start
 
 ```python
@@ -132,9 +136,6 @@ async def paralell_separate():
    - Cache frequently accessed metadata
    - Implement local caching for historical data
 
-## API Documentation
-
-Full API documentation with colored formatting is available at [https://fxf8.github.io/noaa-cdo-api](https://fuexfollets.github.io/noaa-cdo-api).
 
 ### Available Endpoints
 
