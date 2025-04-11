@@ -100,14 +100,14 @@ async with NOAAClient(token="TOKEN") as client:
 ### Rate Limiting
 ```python
 # ✅ Ideal
-async def paralell_with():
+async def parallel_with():
     async with NOAAClient(token="TOKEN") as client:
         tasks = [client.get_datasets() for _ in range(20)]
         return await asyncio.gather(*tasks)  # Rate limits respected
 
 
 # Works too since returns are asynchronous
-async def paralell_separate():
+async def parallel_separate():
     tasks = []
     for i in range(20):
         client = NOAAClient(token="TOKEN")  # Each has separate limiter
