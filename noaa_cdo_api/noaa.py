@@ -5,7 +5,7 @@ import asyncio
 import types
 import warnings
 from collections.abc import Mapping
-from enum import Enum
+from enum import Flag, auto
 from typing import Any, ClassVar, Self, cast
 
 import aiohttp
@@ -19,11 +19,11 @@ class MissingTokenError(Exception):
     pass
 
 
-class TokenLocation(Enum):
-    NOWHERE = 0
-    IN_CLIENT_SESSION_HEADERS = 1
-    IN_ATTRIBUTE = 2
-    IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS = 3
+class TokenLocation(Flag):
+    NOWHERE = auto()
+    IN_CLIENT_SESSION_HEADERS = auto()
+    IN_ATTRIBUTE = auto()
+    IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS = auto()
 
 
 class NOAAClient:
@@ -370,7 +370,7 @@ class NOAAClient:
 
         if (
             token_location is TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
-            or TokenLocation.IN_CLIENT_SESSION_HEADERS
+            or token_location is TokenLocation.IN_CLIENT_SESSION_HEADERS
         ):
             async with (
                 self._seconds_request_limiter,
