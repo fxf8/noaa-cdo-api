@@ -252,7 +252,7 @@ class NOAAClient:
             )
 
         if self.aiohttp_session is None:
-            if self._find_token_location() == TokenLocation.IN_ATTRIBUTE:
+            if self._find_token_location() is TokenLocation.IN_ATTRIBUTE:
                 self.aiohttp_session = aiohttp.ClientSession(
                     headers={"token": cast(str, self.token)},
                     connector=self.tcp_connector,
@@ -260,7 +260,7 @@ class NOAAClient:
 
                 return TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
 
-            if self._find_token_location() == TokenLocation.NOWHERE:
+            if self._find_token_location() is TokenLocation.NOWHERE:
                 self.aiohttp_session = aiohttp.ClientSession(
                     connector=self.tcp_connector
                 )
@@ -348,7 +348,7 @@ class NOAAClient:
         ):
             raise ValueError("Parameter 'limit' must be less than or equal to 1000")
 
-        if token_location == TokenLocation.NOWHERE and token_parameter is None:
+        if token_location is TokenLocation.NOWHERE and token_parameter is None:
             raise MissingTokenError(
                 "Neither client with token in header nor `token` attribute is provided"
             )
@@ -369,7 +369,7 @@ class NOAAClient:
                 return await response.json()
 
         if (
-            token_location == TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
+            token_location is TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
             or TokenLocation.IN_CLIENT_SESSION_HEADERS
         ):
             async with (
@@ -384,7 +384,7 @@ class NOAAClient:
                 response.raise_for_status()
                 return await response.json()
 
-        if token_location == TokenLocation.IN_ATTRIBUTE:
+        if token_location is TokenLocation.IN_ATTRIBUTE:
             async with (
                 self._seconds_request_limiter,
                 self._daily_request_limiter,
