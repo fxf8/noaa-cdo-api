@@ -10,6 +10,7 @@ from typing import Any, ClassVar, Self, cast
 
 import aiohttp
 import aiolimiter
+from yarl import URL
 
 import noaa_cdo_api.json_schemas as json_schemas
 import noaa_cdo_api.parameter_schemas as parameter_schemas
@@ -125,7 +126,7 @@ class NOAAClient:
 
     _most_recent_loop: asyncio.AbstractEventLoop | None
 
-    ENDPOINT: ClassVar[str] = "https://www.ncei.noaa.gov/cdo-web/api/v2"
+    ENDPOINT: ClassVar[URL] = URL("https://www.ncei.noaa.gov/cdo-web/api/v2")
     """
     Base URL for the NOAA CDO API v2.
     """
@@ -271,7 +272,7 @@ class NOAAClient:
 
     async def _make_request(
         self,
-        url: str,
+        url: URL,
         parameters: parameter_schemas.AnyParameter | None = None,
         token_parameter: str | None = None,
     ) -> Any:
@@ -431,7 +432,7 @@ class NOAAClient:
         return cast(
             json_schemas.DatasetIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/datasets/{id}", token_parameter=token_parameter
+                self.ENDPOINT / "datasets" / id, token_parameter=token_parameter
             ),
         )
 
@@ -490,7 +491,7 @@ class NOAAClient:
         return cast(
             json_schemas.DatasetsJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/datasets",
+                self.ENDPOINT / "datasets",
                 parameters={
                     "datatypeid": "&".join(datatypeid)
                     if isinstance(datatypeid, list)
@@ -542,7 +543,7 @@ class NOAAClient:
         return cast(
             json_schemas.DatacategoryIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/datacategories/{id}", token_parameter=token_parameter
+                self.ENDPOINT / "datacategories" / id, token_parameter=token_parameter
             ),
         )
 
@@ -599,7 +600,7 @@ class NOAAClient:
         return cast(
             json_schemas.DatacategoriesJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/datacategories",
+                self.ENDPOINT / "datacategories",
                 parameters={
                     "datasetid": "&".join(datasetid)
                     if isinstance(datasetid, list)
@@ -652,7 +653,7 @@ class NOAAClient:
         return cast(
             json_schemas.DatatypeIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/datatypes/{id}", token_parameter=token_parameter
+                self.ENDPOINT / "datatypes/" / id, token_parameter=token_parameter
             ),
         )
 
@@ -713,7 +714,7 @@ class NOAAClient:
         return cast(
             json_schemas.DatatypesJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/datatypes",
+                self.ENDPOINT / "datatypes",
                 parameters={
                     "datasetid": "&".join(datasetid)
                     if isinstance(datasetid, list)
@@ -770,7 +771,7 @@ class NOAAClient:
         return cast(
             json_schemas.LocationcategoryIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/locationcategories/{id}",
+                self.ENDPOINT / "locationcategories" / id,
                 token_parameter=token_parameter,
             ),
         )
@@ -828,7 +829,7 @@ class NOAAClient:
         return cast(
             json_schemas.LocationcategoriesJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/locationcategories",
+                self.ENDPOINT / "locationcategories",
                 parameters={
                     "datasetid": "&".join(datasetid)
                     if isinstance(datasetid, list)
@@ -879,7 +880,7 @@ class NOAAClient:
         return cast(
             json_schemas.LocationIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/locations/{id}", token_parameter=token_parameter
+                self.ENDPOINT / "locations" / id, token_parameter=token_parameter
             ),
         )
 
@@ -939,7 +940,7 @@ class NOAAClient:
         return cast(
             json_schemas.LocationsJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/locations",
+                self.ENDPOINT / "locations",
                 parameters={
                     "datasetid": "&".join(datasetid)
                     if isinstance(datasetid, list)
@@ -993,7 +994,7 @@ class NOAAClient:
         return cast(
             json_schemas.StationIDJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/stations/{id}", token_parameter=token_parameter
+                self.ENDPOINT / "stations" / id, token_parameter=token_parameter
             ),
         )
 
@@ -1057,7 +1058,7 @@ class NOAAClient:
         return cast(
             json_schemas.StationsJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/stations",
+                self.ENDPOINT / "stations",
                 parameters={
                     "datasetid": "&".join(datasetid)
                     if isinstance(datasetid, list)
@@ -1159,7 +1160,7 @@ class NOAAClient:
         return cast(
             json_schemas.DataJSON | json_schemas.RateLimitJSON,
             await self._make_request(
-                f"{self.ENDPOINT}/data",
+                self.ENDPOINT / "data",
                 parameters={
                     "datasetid": datasetid,
                     "startdate": startdate,

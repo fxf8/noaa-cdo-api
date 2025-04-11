@@ -646,6 +646,7 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
     { name = "setuptools" },
+    { name = "yarl" },
 ]
 
 [package.dev-dependencies]
@@ -666,6 +667,7 @@ requires-dist = [
     { name = "requests", specifier = ">=2.32.3" },
     { name = "rich", specifier = ">=14.0.0" },
     { name = "setuptools", specifier = ">=78.1.0" },
+    { name = "yarl", specifier = ">=1.18.3" },
 ]
 
 [package.metadata.requires-dev]
