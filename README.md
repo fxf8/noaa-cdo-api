@@ -35,21 +35,21 @@ Full API documentation with colored formatting is available at [https://fxf8.git
 
 ```python
 import asyncio
-from noaa_cdo_api import NOAAClient
+from noaa_cdo_api import NOAAClient, Extent
 
 async def main():
     # Best Practice: Use async context manager for automatic cleanup
     async with NOAAClient(token="YOUR_TOKEN_HERE") as client:
         # Query available datasets
         datasets = await client.get_datasets(limit=10)
-        
+
         # Query stations in a geographic region
         stations = await client.get_stations(
-            extent="42.0,-90.0,40.0,-88.0",  # north,west,south,east
+            extent=Extent(40.0, -80.0, 45.0, -75.0), # latitude_min, longitude_min, latitude_max, longitude_max
             datasetid="GHCND",
             limit=5
         )
-        
+
         # Get climate data with unit conversion
         data = await client.get_data(
             datasetid="GHCND",

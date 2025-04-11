@@ -6,7 +6,7 @@ import types
 import warnings
 from collections.abc import Mapping
 from enum import Flag, auto
-from typing import Any, ClassVar, Self, cast
+from typing import Any, ClassVar, NamedTuple, Self, cast
 
 import aiohttp
 import aiolimiter
@@ -25,6 +25,13 @@ class TokenLocation(Flag):
     IN_CLIENT_SESSION_HEADERS = auto()
     IN_ATTRIBUTE = auto()
     IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS = auto()
+
+
+class Extent(NamedTuple):
+    latitude_min: float
+    longitude_min: float
+    latitude_max: float
+    longitude_max: float
 
 
 class NOAAClient:
@@ -1006,7 +1013,7 @@ class NOAAClient:
         locationid: str | list[str] = "",
         datacategoryid: str | list[str] = "",
         datatypeid: str | list[str] = "",
-        extent: str = "",
+        extent: Extent | str = "",
         startdate: str = "0001-01-01",
         enddate: str = "9999-01-01",
         sortfield: parameter_schemas.Sortfield = "id",
@@ -1033,7 +1040,7 @@ class NOAAClient:
          - <span style="color:#9B59B6">locationid</span> (str | list[str], optional): Filter by location ID(s). Defaults to "".
          - <span style="color:#9B59B6">datacategoryid</span> (str | list[str], optional): Filter by data category ID(s). Defaults to "".
          - <span style="color:#9B59B6">datatypeid</span> (str | list[str], optional): Filter by data type ID(s). Defaults to "".
-         - <span style="color:#9B59B6">extent</span> (str, optional): Geospatial extent (bbox) filter in format "north,west,south,east". Defaults to "".
+         - <span style="color:#9B59B6">extent</span> (Extent | str, optional): Geospatial extent (bbox) filter in format "latitude_min,longitude_min,latitude_max,longitude_max" if string or `noaa.Extent`. Defaults to "".
          - <span style="color:#9B59B6">startdate</span> (str, optional): Beginning of date range in 'YYYY-MM-DD' format. Defaults to "0001-01-01".
          - <span style="color:#9B59B6">enddate</span> (str, optional): End of date range in 'YYYY-MM-DD' format. Defaults to "9999-01-01".
          - <span style="color:#9B59B6">sortfield</span> (parameter_schemas.Sortfield, optional): Field to sort results by. Defaults to "id".
@@ -1055,6 +1062,7 @@ class NOAAClient:
         stations within a specific region defined by coordinates. For example:
         "extent=42.0,-90.0,40.0,-88.0" would find stations within that rectangle.
         """  # noqa: E501
+
         return cast(
             json_schemas.StationsJSON | json_schemas.RateLimitJSON,
             await self._make_request(
@@ -1072,7 +1080,9 @@ class NOAAClient:
                     "datatypeid": "&".join(datatypeid)
                     if isinstance(datatypeid, list)
                     else datatypeid,
-                    "extent": extent,
+                    "extent": f"{extent.latitude_min},{extent.longitude_min},{extent.latitude_max},{extent.longitude_max}"  # noqa: E501
+                    if isinstance(extent, Extent)
+                    else extent,
                     "startdate": startdate,
                     "enddate": enddate,
                     "sortfield": sortfield,

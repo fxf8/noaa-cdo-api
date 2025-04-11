@@ -48,7 +48,7 @@ Notes:
  - `limit` and `offset` allow pagination (default `limit=25`, max `limit=1000`).
  - `units` determines unit conversion (`"standard"` or `"metric"`).
  - `includemetadata` is a boolean flag to include or exclude metadata from responses.
- - `extent` (in `StationsParameters`) defines a bounding box for geographic filtering.
+ - `extent` (in `StationsParameters`) defines a bounding box for geographic filtering. (format: "latitude_min,longitude_min,latitude_max,longitude_max")
 
 Advanced Usage:
 -------------
@@ -64,7 +64,7 @@ Advanced Usage:
 2. Geographic Filtering:
    ```python
    params: parameter_schemas.StationsParameters = {
-       "extent": "42.0,-90.0,40.0,-88.0",  # north,west,south,east
+       "extent": "40.0,-90.0,42.0,-88.0",  # latitude_min,longitude_min,latitude_max,longitude_max
        "datasetid": "GHCND"
    }
    ```

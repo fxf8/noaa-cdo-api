@@ -19,7 +19,7 @@ Example Usage:
 -------------
 ```python
 import asyncio
-from noaa_cdo_api import NOAAClient
+from noaa_cdo_api import NOAAClient, Extent
 
 async def main():
     # Best Practice: Use async context manager for automatic resource cleanup
@@ -29,7 +29,7 @@ async def main():
 
         # Query multiple stations in a geographic region
         stations = await client.get_stations(
-            extent="42.0,-90.0,40.0,-88.0",  # north,west,south,east
+            extent=Extent(40.0, -80.0, 45.0, -70.0),  # latitude_min, longitude_min, latitude_max, longitude_max
             datasetid="GHCND",
             limit=5
         )
@@ -132,12 +132,13 @@ import noaa_cdo_api.json_responses as json_responses
 import noaa_cdo_api.json_schemas as json_schemas
 import noaa_cdo_api.parameter_schemas as parameter_schemas
 
-from .noaa import NOAAClient
+from .noaa import Extent, NOAAClient
 
 # Assign the selected schema attributes to the json_responses module
 
 __all__ = [
     "NOAAClient",
+    "Extent",
     "json_schemas",
     "parameter_schemas",
     "json_responses",
