@@ -466,8 +466,8 @@ class NOAAClient:
         locations, date ranges, and more.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -500,13 +500,13 @@ class NOAAClient:
             await self._make_request(
                 self.ENDPOINT / "datasets",
                 parameters={
-                    "datatypeid": "&".join(datatypeid)
+                    "datatypeid": ",".join(datatypeid)
                     if isinstance(datatypeid, list)
                     else datatypeid,
-                    "locationid": "&".join(locationid)
+                    "locationid": ",".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "stationid": "&".join(stationid)
+                    "stationid": ",".join(stationid)
                     if isinstance(stationid, list)
                     else stationid,
                     "startdate": startdate,
@@ -576,8 +576,8 @@ class NOAAClient:
         are high-level classifications for the types of data available through the NOAA API.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -609,13 +609,13 @@ class NOAAClient:
             await self._make_request(
                 self.ENDPOINT / "datacategories",
                 parameters={
-                    "datasetid": "&".join(datasetid)
+                    "datasetid": ",".join(datasetid)
                     if isinstance(datasetid, list)
                     else datasetid,
-                    "locationid": "&".join(locationid)
+                    "locationid": ",".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "stationid": "&".join(stationid)
+                    "stationid": ",".join(stationid)
                     if isinstance(stationid, list)
                     else stationid,
                     "startdate": startdate,
@@ -688,8 +688,8 @@ class NOAAClient:
         such as temperature, precipitation, wind speed, etc.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -723,16 +723,16 @@ class NOAAClient:
             await self._make_request(
                 self.ENDPOINT / "datatypes",
                 parameters={
-                    "datasetid": "&".join(datasetid)
+                    "datasetid": ",".join(datasetid)
                     if isinstance(datasetid, list)
                     else datasetid,
-                    "locationid": "&".join(locationid)
+                    "locationid": ",".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "stationid": "&".join(stationid)
+                    "stationid": ",".join(stationid)
                     if isinstance(stationid, list)
                     else stationid,
-                    "datacategoryid": "&".join(datacategoryid)
+                    "datacategoryid": ",".join(datacategoryid)
                     if isinstance(datacategoryid, list)
                     else datacategoryid,
                     "startdate": startdate,
@@ -805,8 +805,8 @@ class NOAAClient:
         states, countries, or other territorial divisions.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -838,10 +838,10 @@ class NOAAClient:
             await self._make_request(
                 self.ENDPOINT / "locationcategories",
                 parameters={
-                    "datasetid": "&".join(datasetid)
+                    "datasetid": ",".join(datasetid)
                     if isinstance(datasetid, list)
                     else datasetid,
-                    "locationid": "&".join(locationid)
+                    "locationid": ",".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
                     "startdate": startdate,
@@ -914,8 +914,8 @@ class NOAAClient:
         countries, or other territorial divisions.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -949,13 +949,13 @@ class NOAAClient:
             await self._make_request(
                 self.ENDPOINT / "locations",
                 parameters={
-                    "datasetid": "&".join(datasetid)
+                    "datasetid": ",".join(datasetid)
                     if isinstance(datasetid, list)
                     else datasetid,
-                    "locationcategoryid": "&".join(locationcategoryid)
+                    "locationcategoryid": ",".join(locationcategoryid)
                     if isinstance(locationcategoryid, list)
                     else locationcategoryid,
-                    "datacategoryid": "&".join(datacategoryid)
+                    "datacategoryid": ",".join(datacategoryid)
                     if isinstance(datacategoryid, list)
                     else datacategoryid,
                     "startdate": startdate,
@@ -1030,8 +1030,8 @@ class NOAAClient:
         the most precise and localized data available.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -1068,16 +1068,16 @@ class NOAAClient:
             await self._make_request(
                 self.ENDPOINT / "stations",
                 parameters={
-                    "datasetid": "&".join(datasetid)
+                    "datasetid": ",".join(datasetid)
                     if isinstance(datasetid, list)
                     else datasetid,
-                    "locationid": "&".join(locationid)
+                    "locationid": ",".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "datacategoryid": "&".join(datacategoryid)
+                    "datacategoryid": ",".join(datacategoryid)
                     if isinstance(datacategoryid, list)
                     else datacategoryid,
-                    "datatypeid": "&".join(datatypeid)
+                    "datatypeid": ",".join(datatypeid)
                     if isinstance(datatypeid, list)
                     else datatypeid,
                     "extent": f"{extent.latitude_min},{extent.longitude_min},{extent.latitude_max},{extent.longitude_max}"  # noqa: E501
@@ -1124,8 +1124,8 @@ class NOAAClient:
         This is different from other endpoints where all filter parameters are optional.
 
         <span style="color:#E67E22; font-weight:bold">Parameter Formatting:</span>
-        List parameters are automatically formatted as ampersand-separated strings.
-        Providing a string or list of strings of ampersand-separated values is also supported.
+        List parameters are automatically formatted as comma-separated strings.
+        Providing a string or list of strings of comma-separated values is also supported.
 
         <span style="color:#2ECC71; font-weight:bold">Args:</span>
          - <span style="color:#9B59B6">token_parameter</span> (str | None, optional): Token parameter which takes precedence
@@ -1175,13 +1175,13 @@ class NOAAClient:
                     "datasetid": datasetid,
                     "startdate": startdate,
                     "enddate": enddate,
-                    "datatypeid": "&".join(datatypeid)
+                    "datatypeid": ",".join(datatypeid)
                     if isinstance(datatypeid, list)
                     else datatypeid,
-                    "locationid": "&".join(locationid)
+                    "locationid": ",".join(locationid)
                     if isinstance(locationid, list)
                     else locationid,
-                    "stationid": "&".join(stationid)
+                    "stationid": ",".join(stationid)
                     if isinstance(stationid, list)
                     else stationid,
                     "units": units,

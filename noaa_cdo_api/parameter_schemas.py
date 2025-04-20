@@ -27,7 +27,7 @@ The schemas ensure that the parameters match aiohttp's expectations for query st
 Key features:
 - Type safety for parameter values
 - Automatic conversion of parameters to proper URL encoding
-- Support for multi-value parameters using & separation
+- Support for multi-value parameters using comma separation
 - Validation of enum values (e.g., sortorder, units)
 
 Schemas:
@@ -42,7 +42,7 @@ Schemas:
 
 Notes:
 ------
- - Many parameters support filtering via singular values or chains separated by `&` (e.g., `"GHCND:USW00094728&GHCND:USC00042319"`).
+ - Many parameters support filtering via singular values or chains separated by `,` (e.g., `"GHCND:USW00094728,GHCND:USC00042319"`).
  - Dates must be formatted as `"YYYY-MM-DD"` or `"YYYY-MM-DDThh:mm:ss"`.
  - `sortfield` and `sortorder` control result sorting.
  - `limit` and `offset` allow pagination (default `limit=25`, max `limit=1000`).
@@ -55,9 +55,9 @@ Advanced Usage:
 1. Multi-value Parameters:
    ```python
    params: parameter_schemas.StationsParameters = {
-       "stationid": "GHCND:USW00094728&GHCND:USC00042319",
+       "stationid": "GHCND:USW00094728,GHCND:USC00042319",
        # OR as a joined list
-       "stationid": "&".join(["GHCND:USW00094728", "GHCND:USC00042319"])
+       "stationid": ",".join(["GHCND:USW00094728", "GHCND:USC00042319"])
    }
    ```
 
@@ -106,19 +106,19 @@ class DatasetsParameters(TypedDict, total=False):
     Parameters for querying the `/datasets` endpoint of the NOAA NCEI API v2.
     """  # noqa: E501
 
-    datatypeid: str  # Singular or chain seperated by &
+    datatypeid: str  # Singular or chain seperated by ','
     """
-    Filter by data type ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by data type ID(s). Can be a single value or multiple values separated by ','.
     """  # noqa: E501
 
-    locationid: str  # Singular or chain seperated by &
+    locationid: str  # Singular or chain seperated by ','
     """
-    Filter by location ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by location ID(s). Can be a single value or multiple values separated by ','.
     """  # noqa: E501
 
-    stationid: str  # Singular or chain seperated by &
+    stationid: str  # Singular or chain seperated by ','
     """
-    Filter by station ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by station ID(s). Can be a single value or multiple values separated by ','.
     """
 
     startdate: str  # YYYY-MM-DD
@@ -157,19 +157,19 @@ class DatacategoriesParameters(TypedDict, total=False):
     Parameters for querying the `/datacategories` endpoint of the NOAA NCEI API v2.
     """  # noqa: E501
 
-    datasetid: str  # Singular or chain seperated by &
+    datasetid: str  # Singular or chain seperated by ','
     """
-    Filter by dataset ID(s). Can be a single value or multiple values separated by '&'.
-    """
-
-    locationid: str  # Singular or chain seperated by &
-    """
-    Filter by location ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by dataset ID(s). Can be a single value or multiple values separated by ','.
     """
 
-    stationid: str  # Singular or chain seperated by &
+    locationid: str  # Singular or chain seperated by ','
     """
-    Filter by station ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by location ID(s). Can be a single value or multiple values separated by ','.
+    """
+
+    stationid: str  # Singular or chain seperated by ','
+    """
+    Filter by station ID(s). Can be a single value or multiple values separated by ','.
     """
 
     startdate: str  # YYYY-MM-DD
@@ -208,24 +208,24 @@ class DatatypesParameters(TypedDict, total=False):
     Parameters for querying the `/datatypes` endpoint of the NOAA NCEI API v2.
     """  # noqa: E501
 
-    datasetid: str  # Singular or chain separated by &
+    datasetid: str  # Singular or chain separated by ','
     """
-    Filter by dataset ID(s). Can be a single value or multiple values separated by '&'.
-    """
-
-    locationid: str  # Singular or chain separated by &
-    """
-    Filter by location ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by dataset ID(s). Can be a single value or multiple values separated by ','.
     """
 
-    stationid: str  # Singular or chain separated by &
+    locationid: str  # Singular or chain separated by ','
     """
-    Filter by station ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by location ID(s). Can be a single value or multiple values separated by ','.
     """
 
-    datacategoryid: str  # Singular or chain separated by &
+    stationid: str  # Singular or chain separated by ','
     """
-    Filter by data category ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by station ID(s). Can be a single value or multiple values separated by ','.
+    """
+
+    datacategoryid: str  # Singular or chain separated by ','
+    """
+    Filter by data category ID(s). Can be a single value or multiple values separated by ','.
     """  # noqa: E501
 
     startdate: str  # YYYY-MM-DD
@@ -264,9 +264,9 @@ class LocationcategoriesParameters(TypedDict, total=False):
     Parameters for querying the `/locationcategories` endpoint of the NOAA NCEI API v2.
     """  # noqa: E501
 
-    datasetid: str  # Singular or chain separated by &
+    datasetid: str  # Singular or chain separated by ','
     """
-    Filter by dataset ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by dataset ID(s). Can be a single value or multiple values separated by ','.
     """
 
     startdate: str  # YYYY-MM-DD
@@ -305,14 +305,14 @@ class LocationsParameters(TypedDict, total=False):
     Parameters for querying the `/locations` endpoint of the NOAA NCEI API v2.
     """  # noqa: E501
 
-    datasetid: str  # Singular or chain separated by &
+    datasetid: str  # Singular or chain separated by ','
     """
-    Filter by dataset ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by dataset ID(s). Can be a single value or multiple values separated by ','.
     """
 
-    locationcategoryid: str  # Singular or chain separated by &
+    locationcategoryid: str  # Singular or chain separated by ','
     """
-    Filter by location category ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by location category ID(s). Can be a single value or multiple values separated by ','.
     """  # noqa: E501
 
     datacategoryid: str  # Singular or array of data category IDs
@@ -356,14 +356,14 @@ class StationsParameters(TypedDict, total=False):
     Parameters for querying the `/stations` endpoint of the NOAA NCEI API v2.
     """  # noqa: E501
 
-    datasetid: str  # Singular or chain separated by &
+    datasetid: str  # Singular or chain separated by ','
     """
-    Filter by dataset ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by dataset ID(s). Can be a single value or multiple values separated by ','.
     """
 
-    locationid: str  # Singular or chain separated by &
+    locationid: str  # Singular or chain separated by ','
     """
-    Filter by location ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by location ID(s). Can be a single value or multiple values separated by ','.
     """
 
     datacategoryid: str  # Singular or array of data category IDs
@@ -371,9 +371,9 @@ class StationsParameters(TypedDict, total=False):
     Filter by data category ID(s). Can be a single value or an array of data category IDs.
     """  # noqa: E501
 
-    datatypeid: str  # Singular or chain separated by &
+    datatypeid: str  # Singular or chain separated by ','
     """
-    Filter by data type ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by data type ID(s). Can be a single value or multiple values separated by ','.
     """  # noqa: E501
 
     extent: str  # Geographical extent (latitude_min,longitude_min,latitude_max,longitude_max)  # noqa: E501
@@ -422,19 +422,19 @@ class DataParameters(TypedDict, total=False):
     Required. A valid dataset ID.
     """
 
-    datatypeid: str  # Singular or chain separated by &
+    datatypeid: str  # Singular or chain separated by ','
     """
-    Filter by data type ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by data type ID(s). Can be a single value or multiple values separated by ','.
     """  # noqa: E501
 
-    locationid: str  # Singular or chain separated by &
+    locationid: str  # Singular or chain separated by ','
     """
-    Filter by location ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by location ID(s). Can be a single value or multiple values separated by ','.
     """
 
-    stationid: str  # Singular or chain separated by &
+    stationid: str  # Singular or chain separated by ','
     """
-    Filter by station ID(s). Can be a single value or multiple values separated by '&'.
+    Filter by station ID(s). Can be a single value or multiple values separated by ','.
     """
 
     startdate: Required[

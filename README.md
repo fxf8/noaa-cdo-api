@@ -1,7 +1,7 @@
 # NOAA Climate Data Online API Client
 
-<!-- [![Python Version](https://img.shields.io/pypi/pyversions/noaa-api.svg)](https://pypi.org/project/noaa-api/) -->
-<!-- [![PyPI version](https://badge.fury.io/py/noaa-api.svg)](https://badge.fury.io/py/noaa-api) -->
+<!-- [![Python Version](https://img.shields.io/pypi/pyversions/noaa-cdo-api.svg)](https://pypi.org/project/noaa-cdo-api/) -->
+[![PyPI version](https://badge.fury.io/py/noaa-cdo-api.svg)](https://badge.fury.io/py/noaa-cdo-api)
 [![GitHub Actions](https://github.com/fxf8/noaa-cdo-api/actions/workflows/lint.yml/badge.svg)](https://github.com/fxf8/noaa-cdo-api/actions)
 [![License](https://img.shields.io/github/license/fxf8/noaa-cdo-api.svg)](https://github.com/fxf8/noaa-cdo-api/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-pdoc-blue)](https://fuexfollets.github.io/noaa-cdo-api)
