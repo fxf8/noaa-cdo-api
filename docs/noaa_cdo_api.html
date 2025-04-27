@@ -30,8 +30,6 @@
     <li><a href="#important-technical-notes">Important Technical Notes:</a></li>
     <li><a href="#performance-tips">Performance Tips:</a></li>
   </ul></li>
-  <li><a href="#ideal">✅ Ideal</a></li>
-  <li><a href="#bad-each-client-has-separate-rate-limits">❌ Bad: Each client has separate rate limits</a></li>
 </ul>
 
 
@@ -248,27 +246,26 @@ noaa_cdo_api    </h1>
 </code></pre>
 </div></li>
 
-<li><p>Rate Limiting
-```python</p>
+<li><p>Rate Limiting</p>
 
-<h1 id="ideal">✅ Ideal</h1>
+<div class="pdoc-code codehilite">
+<pre><span></span><code><span class="c1"># ✅ Ideal</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">parallel_with</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">NOAAClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="s2">&quot;TOKEN&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">get_datasets</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>  <span class="c1"># Rate limits respected</span>
 
-<p>async def parallel_with():
-    async with NOAAClient(token="TOKEN") as client:
-        tasks = [client.get_datasets() for _ in range(20)]
-        return await asyncio.gather(*tasks)  # Rate limits respected</p>
 
-<h1 id="bad-each-client-has-separate-rate-limits">❌ Bad: Each client has separate rate limits</h1>
-
-<p>async def parallel_separate():
-    tasks = []
-    for i in range(20):
-        client = NOAAClient(token="TOKEN")  # Each has separate limiter
-        tasks.append(client.get_datasets())
-    return await asyncio.gather(*tasks)  # May exceed rate limits</p></li>
+<span class="c1"># ❌ Bad: Each client has separate rate limits</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">parallel_separate</span><span class="p">():</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">NOAAClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="s2">&quot;TOKEN&quot;</span><span class="p">)</span>  <span class="c1"># Each has separate limiter</span>
+        <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">get_datasets</span><span class="p">())</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>  <span class="c1"># May exceed rate limits</span>
+</code></pre>
+</div></li>
 </ol>
-
-<p>```</p>
 
 <h2 id="performance-tips">Performance Tips:</h2>
 
@@ -413,7 +410,7 @@ noaa_cdo_api    </h1>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">            tasks.append(client.get_datasets())</span>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">        return await asyncio.gather(*tasks)  # May exceed rate limits</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">```</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">    ```</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">Performance Tips:</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">----------------</span>

@@ -102,7 +102,7 @@ Important Technical Notes:
             tasks.append(client.get_datasets())
         return await asyncio.gather(*tasks)  # May exceed rate limits
 
-```
+    ```
 
 Performance Tips:
 ----------------
