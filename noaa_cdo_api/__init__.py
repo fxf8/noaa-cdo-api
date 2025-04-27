@@ -85,22 +85,24 @@ Important Technical Notes:
    # Resources are automatically cleaned up
    ```
 
-3. Rate Limiting:
-   ```python
-   # ❌ BAD: Parallel requests without shared rate limiter
-   async def parallel_bad():
-       tasks = []
-       for i in range(20):
-           client = NOAAClient(token="TOKEN")  # Each has separate limiter
-           tasks.append(client.get_datasets())
-       return await asyncio.gather(*tasks)  # May exceed rate limits
+3. Rate Limiting
+    ```python
+    # ✅ Ideal
+    async def parallel_with():
+        async with NOAAClient(token="TOKEN") as client:
+            tasks = [client.get_datasets() for _ in range(20)]
+            return await asyncio.gather(*tasks)  # Rate limits respected
 
-   # ✅ GOOD: Share client for parallel requests
-   async def parallel_good():
-       async with NOAAClient(token="TOKEN") as client:
-           tasks = [client.get_datasets() for _ in range(20)]
-           return await asyncio.gather(*tasks)  # Rate limits respected
-   ```
+
+    # Works too since returns are asynchronous
+    async def parallel_separate():
+        tasks = []
+        for i in range(20):
+            client = NOAAClient(token="TOKEN")  # Each has separate limiter
+            tasks.append(client.get_datasets())
+        return await asyncio.gather(*tasks)  # May exceed limits
+
+    ```
 
 Performance Tips:
 ----------------
