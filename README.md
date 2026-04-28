@@ -4,7 +4,7 @@
 [![PyPI version](https://badge.fury.io/py/noaa-cdo-api.svg)](https://badge.fury.io/py/noaa-cdo-api)
 [![GitHub Actions](https://github.com/fxf8/noaa-cdo-api/actions/workflows/lint.yml/badge.svg)](https://github.com/fxf8/noaa-cdo-api/actions)
 [![License](https://img.shields.io/github/license/fxf8/noaa-cdo-api.svg)](https://github.com/fxf8/noaa-cdo-api/blob/main/LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-pdoc-blue)](https://fuexfollets.github.io/noaa-cdo-api)
+[![Documentation](https://img.shields.io/badge/docs-pdoc-blue)](https://fxf8.github.io/noaa-cdo-api)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 <!-- [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) -->
@@ -177,5 +177,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Getting Help
 
 - [Open an issue](https://github.com/fxf8/noaa-cdo-api/issues)
-- [Read the docs](https://fuexfollets.github.io/noaa-cdo-api)
+- [Read the docs](https://fxf8.github.io/noaa-cdo-api)
 - [NOAA CDO API Documentation](https://www.ncdc.noaa.gov/cdo-web/webservices/v2)
