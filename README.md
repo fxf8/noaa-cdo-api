@@ -21,6 +21,22 @@ An asynchronous Python client for the NOAA National Centers for Environmental In
 - 🛡️ **Resource Management**: Proper async context management
 - 📊 **Complete Coverage**: All documented NOAA CDO v2 endpoints supported
 
+## Why this library
+
+Working with NOAA's CDO API in Python usually means one of three things. Here's how they compare:
+
+| | `noaa-cdo-api` | Other CDO Python wrappers | Roll your own (`aiohttp`/`requests`) |
+|---|---|---|---|
+| Async / concurrent requests | ✅ `aiohttp`-native | Usually ❌ (sync-only) | Depends |
+| Rate limiting (5/sec, 10k/day) built in | ✅ enforced automatically | ❌ caller manages | ❌ caller manages |
+| Typed responses (`TypedDict` per endpoint) | ✅ full editor autocomplete | ❌ `dict[str, Any]` / DataFrame | ❌ |
+| Ships `py.typed` marker | ✅ | Rarely | N/A |
+| Connection pooling | ✅ (aiohttp `TCPConnector`) | Partial | You wire it |
+| Loop-aware session reuse | ✅ (auto rebuild on loop change) | N/A | Manual |
+| All v2 endpoints covered | ✅ | Varies | N/A |
+
+**The unique value: async + rate-limit-aware + typed in one package.** You can `asyncio.gather()` a hundred requests without worrying about blacklisting, and your IDE can autocomplete `response["results"][0]["value"]` all the way down.
+
 ## Installation
 
 ```bash
@@ -115,6 +131,42 @@ async def parallel_separate():
     return await asyncio.gather(*tasks)  # May exceed rate limits
 
 ```
+
+## Design Decisions
+
+Three questions shaped the architecture. The tradeoffs are called out honestly so you can decide if this library's opinions match yours.
+
+### Why async, and why bake in rate limiting?
+
+Climate data pulls are I/O-bound and often bulk (many stations × many years). Doing them sequentially wastes real time — but naive concurrency hits NOAA's rate limits fast (5 req/sec, 10,000 per day), and repeated violations can get a token blacklisted.
+
+The library uses two `aiolimiter.AsyncLimiter` instances — one per-second, one per-day — combined via `async with` on every request. Result:
+
+- `await asyncio.gather(*many_requests)` is safe; the limiter enforces spacing transparently
+- Both limits are respected simultaneously without user code
+- Rate limiting is a *property of the client*, not a discipline the caller has to remember
+
+**Tradeoff:** limits are enforced *per client instance*. Sharing one client across a task group is the correct pattern; spinning up a new client per request defeats the purpose. This is documented in the Rate Limiting section above.
+
+### Why `TypedDict` for every response?
+
+Most Python API wrappers return `dict[str, Any]` (or a DataFrame that erases the schema). Both throw away everything the API contract tells us — field names, value types, which fields are optional.
+
+Every endpoint here returns a `TypedDict` matching the CDO response shape (`DatasetsJSON`, `StationsJSON`, `DataJSON`, ...). In a Pyright/mypy-aware editor:
+
+- Autocomplete works down to individual response fields
+- Typos in field access are caught at edit time, not at runtime on a 3 AM cron job
+- Refactoring across a codebase is safe
+
+**Tradeoff:** NOAA returns a different shape on rate-limit-exceeded responses, so return types are `SuccessJSON | RateLimitJSON` unions. Callers narrow with `isinstance` or a key check before touching fields. The plan for a future release is to raise `RateLimitError` instead, so the happy path returns a single concrete type.
+
+### Why loop-aware session reuse?
+
+`aiohttp.ClientSession` is bound to the event loop that created it — reusing one across loops fails in confusing ways. Realistic scenarios where that happens: pytest with `asyncio_mode`, notebook re-runs, embedding in a larger app that owns its own loop.
+
+The client tracks which loop owns its `TCPConnector` and `ClientSession` in a private `_session_loop` attribute set at session creation. When a request arrives on a different loop, the connector and session are rebuilt automatically. Critically, this is done **without reading any aiohttp private attributes** — earlier revisions of the code peeked at `session._loop`, which is not part of aiohttp's public API and would silently break on upgrades. The current implementation only uses `asyncio.get_running_loop()` and object identity.
+
+**Tradeoff:** one identity comparison per request, and a bit of internal state. Worth it for correctness in the "reused across contexts" case.
 
 ## Tips
 
