@@ -87,6 +87,7 @@ class NOAAClient:
         "_seconds_request_limiter",
         "_daily_request_limiter",
         "_most_recent_loop",
+        "_session_loop",
     )
 
     token: str | None
@@ -133,6 +134,12 @@ class NOAAClient:
 
     _most_recent_loop: asyncio.AbstractEventLoop | None
 
+    _session_loop: asyncio.AbstractEventLoop | None
+    """
+    Event loop that owns the currently-cached `tcp_connector` and `aiohttp_session`.
+    Used to detect and rebuild connections when requests move to a different loop.
+    """
+
     ENDPOINT: ClassVar[URL] = URL("https://www.ncei.noaa.gov/cdo-web/api/v2")
     """
     Base URL for the NOAA CDO API v2.
@@ -176,6 +183,7 @@ class NOAAClient:
         )
 
         self._most_recent_loop = None
+        self._session_loop = None
 
     def _find_token_location(self) -> TokenLocation:
         if self.aiohttp_session is None:
@@ -245,11 +253,16 @@ class NOAAClient:
         if the event loop has changed, ensuring proper resource management across
         different async contexts.
         """  # noqa: E501
-        if self.tcp_connector is not None and self.tcp_connector._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
-            self.tcp_connector = None
+        current_loop = asyncio.get_running_loop()
 
-        if self.aiohttp_session is not None and self.aiohttp_session._loop.is_closed():  # pyright: ignore[reportPrivateUsage]
+        if (
+            not self.is_client_provided
+            and self._session_loop is not None
+            and self._session_loop is not current_loop
+        ):
+            self.tcp_connector = None
             self.aiohttp_session = None
+            self._session_loop = None
 
         if self.is_client_provided and self.aiohttp_session is None:
             return self._find_token_location()
@@ -265,6 +278,7 @@ class NOAAClient:
                     headers={"token": cast(str, self.token)},
                     connector=self.tcp_connector,
                 )
+                self._session_loop = current_loop
 
                 return TokenLocation.IN_ATTRIBUTES_AND_CLIENT_SESSION_HEADERS
 
@@ -272,6 +286,7 @@ class NOAAClient:
                 self.aiohttp_session = aiohttp.ClientSession(
                     connector=self.tcp_connector
                 )
+                self._session_loop = current_loop
 
                 return TokenLocation.NOWHERE
 
@@ -1220,3 +1235,5 @@ class NOAAClient:
         if self.tcp_connector is not None:
             await self.tcp_connector.close()
             self.tcp_connector = None
+
+        self._session_loop = None
