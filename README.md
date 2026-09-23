@@ -90,7 +90,7 @@ client = NOAAClient(token="TOKEN")
 try:
     await client.get_datasets()
 finally:
-    client.close()  # Might miss resources (note: close does not need to be awaited)
+    await client.close()
 
 # ✅ Better: Use async context manager
 async with NOAAClient(token="TOKEN") as client:

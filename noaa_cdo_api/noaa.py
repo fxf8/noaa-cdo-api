@@ -200,7 +200,7 @@ class NOAAClient:
         traceback: types.TracebackType | None,
     ) -> None:
         if not self.is_client_provided:
-            self.close()
+            await self.close()
 
     async def provide_aiohttp_client_session(
         self, asyncio_client: aiohttp.ClientSession
@@ -1195,37 +1195,28 @@ class NOAAClient:
             ),
         )
 
-    def close(self) -> None:
+    async def close(self) -> None:
         """
         <span style="color:#4E97D8; font-weight:bold">Close the aiohttp session and TCP connector.</span>
 
-        This method properly cleans up resources used by the client. It should be called
-        when you're done using the client to ensure proper cleanup of network connections
-        and resources.
+        This coroutine properly cleans up resources used by the client. It should be
+        awaited when you're done using the client to ensure proper cleanup of network
+        connections and resources.
 
         <span style="color:#E67E22; font-weight:bold">Resource Management:</span>
-        - Always call this method when you're finished with the client
+        - Always `await` this method when you're finished with the client
         - Alternatively, use the client as an async context manager with the `async with` statement,
           which will automatically close resources on exit
         - If you provided your own aiohttp session with `provide_aiohttp_client_session()`,
           this method will not close that session
-
-        <span style="color:#E67E22; font-weight:bold">Implementation Note:</span>
-        This is a synchronous method that doesn't properly close the aiohttp session, which
-        should be closed using `await session.close()`. For proper async cleanup, use
-        the client as an async context manager instead.
         """  # noqa: E501
 
-        if isinstance(self.aiohttp_session, aiohttp.ClientSession):
-            try:
-                loop = asyncio.get_event_loop()
-                _ = loop.create_task(self.aiohttp_session.close())
+        if not self.is_client_provided and isinstance(
+            self.aiohttp_session, aiohttp.ClientSession
+        ):
+            await self.aiohttp_session.close()
+            self.aiohttp_session = None
 
-            except RuntimeError:
-                asyncio.run(self.aiohttp_session.close())
-
-    def __del__(self):
-        """
-        Destructor that ensures the aiohttp session is closed when the object is garbage collected.
-        """  # noqa: E501
-        self.close()
+        if self.tcp_connector is not None:
+            await self.tcp_connector.close()
+            self.tcp_connector = None
