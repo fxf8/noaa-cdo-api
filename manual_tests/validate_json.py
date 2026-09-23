@@ -23,7 +23,7 @@ def value_matches_type(data: Any, typeddict_class: type) -> bool:
     """  # noqa: E501
 
     type_origin: type | None = get_origin(typeddict_class)
-    type_args: tuple[type, ...] | None = get_args(typeddict_class)
+    type_args: tuple[type, ...] = get_args(typeddict_class)
 
     if type_origin is UnionType:
         return any(value_matches_type(data, type_arg) for type_arg in type_args)
@@ -46,7 +46,7 @@ def value_matches_type(data: Any, typeddict_class: type) -> bool:
         or isinstance(type_origin, type)
         and issubclass(type_origin, Mapping)
     ):
-        if not issubclass(data, Mapping):
+        if not isinstance(data, Mapping):
             return False
 
         if len(type_args) != 2:
